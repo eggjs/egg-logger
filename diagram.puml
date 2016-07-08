@@ -1,0 +1,37 @@
+@startuml
+
+title egg-logger
+
+package Logger <<Node>> {
+  package Egg <<Node>> {
+    class EggLogger
+    class EggErrorLogger
+    class EggCustomLogger
+    class ConsoleLogger
+  }
+
+  class Logger {
+    +Array transports
+  }
+
+  EggLogger <|-- EggErrorLogger: Inheritance
+  EggLogger <|-- EggCustomLogger: Inheritance
+  Logger <|-- EggLogger: Inheritance
+  Logger <|-- ConsoleLogger: Inheritance
+}
+
+
+package Transport <<Node>> {
+  class Transport
+  class FileTransport
+  class ConsoleTransport
+
+  Transport <|-up- FileTransport: Inheritance
+  Transport <|-up- ConsoleTransport: Inheritance
+}
+
+ConsoleTransport <|-- ConsoleLogger: use
+ConsoleTransport <|-- EggLogger: use
+FileTransport <|-- EggLogger: use
+
+@enduml
