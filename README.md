@@ -26,8 +26,8 @@ Egg logger.
 
 Including two base class, `Logger` and `Transport`:
 
-- Transport: TBD
-- Logger: TBD
+- Transport: Save log to file, stdout/stderr and network.
+- Logger: A logger can contains multi transports.
 
 ---
 
