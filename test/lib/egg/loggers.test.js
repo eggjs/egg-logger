@@ -23,6 +23,10 @@ describe('test/egg/loggers.test.js', () => {
           agentLogName: 'egg-agent.log',
           errorLogName: 'common-error.log',
           buffer: false,
+          coreLogger: {
+            level: 'WARN',
+            consoleLevel: 'WARN',
+          },
         },
         customLogger: {
           aLogger: {
@@ -74,13 +78,22 @@ describe('test/egg/loggers.test.js', () => {
       content.should.containEql('logger info foo');
     });
 
-    it('should app.coreLogger log to coreLogName', function*() {
+    it('should app.coreLogger warn log to coreLogName', function*() {
+      loggers.coreLogger.warn('coreLogger warn foo');
+
+      yield sleep(10);
+
+      const content = fs.readFileSync(path.join(tmp, 'egg-web.log'), 'utf8');
+      content.should.containEql('coreLogger warn foo');
+    });
+
+    it('should support coreLogger level=WARN', function*() {
       loggers.coreLogger.info('coreLogger info foo');
 
       yield sleep(10);
 
       const content = fs.readFileSync(path.join(tmp, 'egg-web.log'), 'utf8');
-      content.should.containEql('coreLogger info foo');
+      content.should.not.containEql('coreLogger info foo');
     });
 
     it('should aLogger log to a.log', function*() {
@@ -130,6 +143,10 @@ describe('test/egg/loggers.test.js', () => {
           errorLogName: 'common-error.log',
           buffer: false,
           eol: '\r',
+          coreLogger: {
+            level: 'WARN',
+            consoleLevel: 'WARN',
+          },
         },
       });
     });
@@ -138,7 +155,7 @@ describe('test/egg/loggers.test.js', () => {
     });
 
     it('loggers.logger alias to loggers.coreLogger', () => {
-      loggers.logger.should.equal(loggers.coreLogger);
+      loggers.logger.options.file.should.equal(loggers.coreLogger.options.file);
     });
 
     it('should agent.coreLogger log to agentLogName', function*() {
@@ -151,6 +168,12 @@ describe('test/egg/loggers.test.js', () => {
       content.should.match(/foo\r$/);
     });
 
+    it('should support coreLogger level=WARN', function*() {
+      loggers.coreLogger.info('coreLogger info foo');
+      yield sleep(10);
+      const content = fs.readFileSync(path.join(tmp, 'egg-agent.log'), 'utf8');
+      content.should.not.containEql('coreLogger info foo');
+    });
   });
 
   describe('console', () => {
