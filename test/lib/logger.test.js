@@ -173,7 +173,7 @@ describe('test/lib/logger.test.js', () => {
     }));
     logger.info('foo1');
 
-    yield sleep(10);
+    yield sleep(100);
 
     fs.readFileSync(file1, 'utf8').should.eql('foo1\n');
     fs.readFileSync(file2, 'utf8').should.eql('foo1\n');
@@ -182,7 +182,7 @@ describe('test/lib/logger.test.js', () => {
     logger.get('file3').disable();
     logger.info('foo2');
 
-    yield sleep(10);
+    yield sleep(100);
 
     fs.readFileSync(file1, 'utf8').should.eql('foo1\nfoo2\n');
     fs.readFileSync(file2, 'utf8').should.eql('foo1\nfoo2\n');
