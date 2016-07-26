@@ -73,6 +73,46 @@ describe('test/lib/formatter.test.js', () => {
     content.should.containEql('nodejs.MySomeError: foo (eggjs.org)\n');
   });
 
+  it('should format error with properties', function*() {
+    const logger = new Logger();
+    logger.set('file', transport);
+    const err = new Error('foo');
+    err.code = 'MySome';
+    err.host = 'eggjs.org';
+    err.addition = {
+      userId: 12345,
+      message: 'mock error\n\n',
+      sub: {
+        foo: {},
+      },
+    };
+    err.errors = [{
+      code: 'missing_field',
+      field: 'name',
+      message: 'required',
+    }, {
+      code: 'invalid',
+      field: 'age',
+      message: 'should be an integer',
+    }];
+    err.content = '123\n123';
+    err.buf = new Buffer(1000).fill(0);
+    err.regex = /^hello!+$/;
+    err.userId = 100;
+    logger.error(err);
+
+    yield sleep(10);
+
+    const content = fs.readFileSync(filepath, 'utf8');
+    content.should.containEql('nodejs.MySomeError: foo (eggjs.org)\n');
+    content.should.containEql('addition: { userId: 12345, message: \'mock error\\n\\n\', sub: { foo: {} } }');
+    content.should.containEql('errors: [ { code: \'missing_field\', field: \'name\', message: \'required\' }, { code: \'invalid\', field: \'age\', message: \'should be an integer\' } ]');
+    content.should.containEql('content: \'123\\n123\'');
+    content.should.containEql('buf: <Buffer 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ... >');
+    content.should.containEql('regex: /^hello!+$/');
+    content.should.containEql('userId: 100');
+  });
+
   it('should format error with options.formatter', function*() {
     const logger = new Logger();
     const transport = new FileTransport({

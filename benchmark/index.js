@@ -78,15 +78,15 @@ suite
 })
 .run({ async: false });
 
-// node version: v4.4.7, date: Fri Jul 08 2016 23:52:31 GMT+0800 (CST)
-//   Starting...
-//   8 tests completed.
+// node version: v4.4.7, date: Tue Jul 26 2016 00:27:29 GMT+0800 (CST)
+// Starting...
+// 8 tests completed.
 //
-//   logger.error(err)                     x  75,716 ops/sec ±6.78% (68 runs sampled)
-//   logger.info(message)                  x 146,234 ops/sec ±5.14% (76 runs sampled)
-//   logger.write(message)                 x 321,949 ops/sec ±8.95% (69 runs sampled)
-//   contextLogger.info(message)           x  96,073 ops/sec ±11.27% (64 runs sampled)
-//   logger.error(err) with JSON           x  32,696 ops/sec ±11.21% (70 runs sampled)
-//   logger.info(message) with JSON        x  53,863 ops/sec ±9.74% (64 runs sampled)
-//   logger.write(message) with JSON       x 196,964 ops/sec ±4.60% (80 runs sampled)
-//   contextLogger.info(message) with JSON x  55,410 ops/sec ±5.81% (78 runs sampled)
+// logger.error(err)                     x  29,936 ops/sec ±4.01% (75 runs sampled)
+// logger.info(message)                  x 163,694 ops/sec ±4.10% (76 runs sampled)
+// logger.write(message)                 x 390,052 ops/sec ±4.74% (76 runs sampled)
+// contextLogger.info(message)           x 136,986 ops/sec ±4.74% (78 runs sampled)
+// logger.error(err) with JSON           x  13,327 ops/sec ±2.43% (75 runs sampled)
+// logger.info(message) with JSON        x  61,547 ops/sec ±11.50% (70 runs sampled)
+// logger.write(message) with JSON       x 180,179 ops/sec ±8.81% (67 runs sampled)
+// contextLogger.info(message) with JSON x  54,134 ops/sec ±3.59% (76 runs sampled)
