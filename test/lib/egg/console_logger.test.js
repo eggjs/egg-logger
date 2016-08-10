@@ -1,7 +1,6 @@
 'use strict';
 
 const path = require('path');
-const fs = require('fs');
 const coffee = require('coffee');
 const mm = require('mm');
 const rimraf = require('rimraf');
@@ -43,21 +42,6 @@ describe('test/egg/console_logger.test.js', () => {
     .expect('stdout', /WARN \d+ warn foo/)
     .expect('stderr', /ERROR \d+ error foo/)
     .end(done);
-  });
-
-  it('error log file print error level log only', done => {
-    const errorFile = path.join(tmp, 'error.log');
-    const options = {
-      errorFile,
-    };
-
-    coffee.fork(consoleLoggerFile, [ JSON.stringify(options) ])
-    .end(function() {
-      const content = fs.readFileSync(errorFile, 'utf8');
-      content.should.containEql('error foo');
-      content.should.not.containEql('warn foo');
-      done();
-    });
   });
 
   it('can set level on NODE_ENV = production', done => {
