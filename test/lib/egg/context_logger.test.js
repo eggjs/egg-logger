@@ -32,6 +32,9 @@ describe('test/lib/egg/context_logger.test.js', () => {
       this.clogger.warn('warn foo');
 
       yield new Promise(resolve => setTimeout(resolve, 10));
+      this.clogger.write('[foo] hi raw log here');
+
+      yield new Promise(resolve => setTimeout(resolve, 10));
       this.body = 'done';
     });
     app.logger = new Logger({
@@ -96,6 +99,17 @@ describe('test/lib/egg/context_logger.test.js', () => {
       const body = fs.readFileSync(filepath, 'utf8');
       const m = body.match(/\/\d*ms/g);
       (parseInt(m[1].substring(1)) > parseInt(m[0].substring(1))).should.equal(true);
+      done();
+    });
+  });
+
+  it('should pipe write to raw logger', done => {
+    request(app.callback())
+    .get('/starttime')
+    .expect('done', err => {
+      should.not.exists(err);
+      fs.readFileSync(filepath, 'utf8')
+        .should.match(/\n\[foo\] hi raw log here\n/);
       done();
     });
   });
