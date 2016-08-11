@@ -1,4 +1,9 @@
 
+1.2.0 / 2016-08-11
+==================
+
+  * feat: remove fileTransport from consoleLogger (#6)
+
 1.1.1 / 2016-08-10
 ==================
 
