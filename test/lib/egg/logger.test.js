@@ -6,6 +6,7 @@ const path = require('path');
 const coffee = require('coffee');
 const rimraf = require('rimraf');
 const levels = require('../../../index');
+const Logger = require('../../../index').EggLogger;
 
 describe('test/egg/logger.test.js', () => {
   const loggerFile = path.join(__dirname, '../../fixtures/egg_logger.js');
@@ -29,6 +30,35 @@ describe('test/egg/logger.test.js', () => {
         .should.match(/"message":"error foo"/);
       done();
     });
+  });
+
+  it('should un-redirect specific level to logger', done => {
+    const file1 = path.join(__dirname, '../../fixtures/tmp/file1.log');
+    const file2 = path.join(__dirname, '../../fixtures/tmp/file2.log');
+    const logger1 = new Logger({
+      file: file1,
+      buffer: false,
+    });
+    const logger2 = new Logger({
+      file: file2,
+      buffer: false,
+    });
+
+    logger1.redirect('warn', logger2);
+    logger1.redirect('error', logger2);
+    logger1.unredirect('error');
+    logger1.warn('foo');
+    logger1.error('bar');
+
+    setTimeout(() => {
+      const content1 = fs.readFileSync(file1, 'utf8');
+      const content2 = fs.readFileSync(file2, 'utf8');
+      content1.should.not.match(/foo/);
+      content1.should.match(/bar/);
+      content2.should.match(/foo/);
+      content2.should.not.match(/bar/);
+      done();
+    }, 100);
   });
 
   describe('level', () => {
