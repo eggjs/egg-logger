@@ -33,7 +33,7 @@ describe('test/egg/error_logger.test.js', () => {
     });
   });
 
-  it('should lgo error level only', done => {
+  it('should log error level only', done => {
     const options = {
       file: filepath,
       flushInterval: 10,
