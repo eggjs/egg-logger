@@ -1,4 +1,10 @@
 
+1.3.0 / 2016-09-21
+==================
+
+  * feat: add .unredirect() for logger (#9)
+  * use Infinity to improve performance and semantics (#7)
+
 1.2.0 / 2016-08-11
 ==================
 
