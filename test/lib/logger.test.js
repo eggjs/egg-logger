@@ -157,6 +157,21 @@ describe('test/lib/logger.test.js', () => {
     content.should.match(/^\d* info\nwrite\n$/);
   });
 
+  it('should write default support util.format', function*() {
+    const logger = new Logger();
+    logger.set('file', new FileTransport({
+      file: filepath,
+      level: levels.INFO,
+      formatter: meta => `${meta.pid} ${meta.message}`,
+    }));
+    logger.write('write %j', { foo: 'bar' });
+
+    yield sleep(10);
+
+    const content = fs.readFileSync(filepath, 'utf8');
+    content.should.match(/^write {"foo":"bar"}\n$/);
+  });
+
   it('should log into multi transports', function*() {
     const file1 = path.join(tmp, 'a1.log');
     const file2 = path.join(tmp, 'a2.log');
