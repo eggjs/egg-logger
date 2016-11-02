@@ -60,7 +60,7 @@ describe('test/lib/egg/context_logger.test.js', () => {
     .expect('done', err => {
       should.not.exists(err);
       fs.readFileSync(filepath, 'utf8')
-        .should.match(/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3} INFO \d+ \[-\/127.0.0.1\/-\/0ms GET \/\] info foo\n/);
+        .should.match(/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3} INFO \d+ \[-\/127.0.0.1\/-\/0ms GET \/] info foo\n/);
       done();
     });
   });
@@ -75,7 +75,7 @@ describe('test/lib/egg/context_logger.test.js', () => {
     .expect('done', err => {
       should.not.exists(err);
       fs.readFileSync(filepath, 'utf8')
-        .should.match(/123123\/127.0.0.1\/aabbccdd\/0ms GET \/\] info foo\n/);
+        .should.match(/123123\/127.0.0.1\/aabbccdd\/0ms GET \/] info foo\n/);
       done();
     });
   });
@@ -86,7 +86,7 @@ describe('test/lib/egg/context_logger.test.js', () => {
     .expect('done', err => {
       should.not.exists(err);
       fs.readFileSync(filepath, 'utf8')
-        .should.match(/\[-\/127.0.0.1\/-\/\d*ms GET \/starttime\] info foo\n/);
+        .should.match(/\[-\/127.0.0.1\/-\/\d*ms GET \/starttime] info foo\n/);
       done();
     });
   });
@@ -109,7 +109,7 @@ describe('test/lib/egg/context_logger.test.js', () => {
     .expect('done', err => {
       should.not.exists(err);
       fs.readFileSync(filepath, 'utf8')
-        .should.match(/\n\[foo\] hi raw log here\n/);
+        .should.match(/\n\[foo] hi raw log here\n/);
       done();
     });
   });
