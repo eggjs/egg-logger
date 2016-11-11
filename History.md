@@ -1,4 +1,10 @@
 
+1.4.1 / 2016-11-11
+==================
+
+  * refactor: use .close instead of .end (#12)
+  * fix: print to stderr when stream closed (#11)
+
 1.4.0 / 2016-11-02
 ==================
 
