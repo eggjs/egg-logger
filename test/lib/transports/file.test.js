@@ -5,6 +5,7 @@ const path = require('path');
 const rimraf = require('rimraf');
 const iconv = require('iconv-lite');
 const sleep = require('co-sleep');
+const mm = require('mm');
 const FileTransport = require('../../../index').FileTransport;
 const Logger = require('../../../index').Logger;
 const levels = require('../../../index');
@@ -198,15 +199,18 @@ describe('test/transports/file.test.js', () => {
   });
 
   it('should log throw error after logger end', () => {
+    let msg;
+    mm(console, 'error', err => {
+      msg = err;
+    });
     const transport = new FileTransport({
       file: path.join(tmp, 'a.log'),
       level: 'ERROR',
       encoding: 'gbk',
     });
     transport.end();
-    (() => {
-      transport.log('info', 'foo');
-    }).should.throw(/log stream had been closed/);
+    transport.log('info', 'foo');
+    msg.should.match(/test\/fixtures\/tmp\/a.log log stream had been closed/);
   });
 
   it('should enable/disable transport', function*() {
