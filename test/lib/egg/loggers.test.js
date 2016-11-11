@@ -4,7 +4,7 @@ const should = require('should');
 const fs = require('fs');
 const path = require('path');
 const rimraf = require('rimraf');
-const sleep = require('co-sleep');
+const sleep = require('ko-sleep');
 const coffee = require('coffee');
 const Loggers = require('../../../index').EggLoggers;
 

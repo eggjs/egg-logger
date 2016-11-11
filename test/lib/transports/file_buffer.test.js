@@ -3,7 +3,7 @@
 const fs = require('fs');
 const path = require('path');
 const rimraf = require('rimraf');
-const sleep = require('co-sleep');
+const sleep = require('ko-sleep');
 const FileBufferTransport = require('../../../index').FileBufferTransport;
 const Logger = require('../../../index').Logger;
 
@@ -34,14 +34,13 @@ describe('test/transports/file_buffer.test.js', () => {
     content.should.eql('info foo\n');
   });
 
-  it('should close timer after logger end', () => {
-    const logger = new Logger();
+  it('should close timer after logger close', () => {
     const transport = new FileBufferTransport({
       file: path.join(tmp, 'a.log'),
       level: 'INFO',
     });
-    logger.set('file', transport);
-    logger.end();
+    transport.end();
     (transport._timer === null).should.equal(true);
   });
+
 });

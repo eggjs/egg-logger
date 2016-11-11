@@ -81,7 +81,7 @@ logger.error(new Error('print to errorLogger')); // equal to `errorLogger.error`
 ### Reload
 
 ```js
-logger.reload(); // will end the exists write stream and create a new one.
+logger.reload(); // will close the exists write stream and create a new one.
 ```
 
 ### Custom Transport

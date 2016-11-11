@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const rimraf = require('rimraf');
 const iconv = require('iconv-lite');
-const sleep = require('co-sleep');
+const sleep = require('ko-sleep');
 const mm = require('mm');
 const FileTransport = require('../../../index').FileTransport;
 const Logger = require('../../../index').Logger;
@@ -188,17 +188,17 @@ describe('test/transports/file.test.js', () => {
     iconv.decode(content, 'gbk').should.eql('中文\n');
   });
 
-  it('should support end twice', () => {
+  it('should support close twice', () => {
     const transport = new FileTransport({
       file: path.join(tmp, 'a.log'),
       level: 'ERROR',
       encoding: 'gbk',
     });
-    transport.end();
-    transport.end();
+    transport.close();
+    transport.close();
   });
 
-  it('should log throw error after logger end', () => {
+  it('should log throw error after logger close', () => {
     let msg;
     mm(console, 'error', err => {
       msg = err;

@@ -96,7 +96,7 @@ describe('test/lib/transports/transport.test.js', () => {
       encoding: 'utf8',
       eol: os.EOL,
     });
-    transport.end();
+    transport.close();
   });
 
   it('should overide FileBufferTransport default params', () => {
@@ -117,7 +117,7 @@ describe('test/lib/transports/transport.test.js', () => {
       encoding: 'gbk',
       eol: os.EOL,
     });
-    transport.end();
+    transport.close();
   });
 
   it('should throw error when file is null', () => {
