@@ -3,7 +3,7 @@
 const fs = require('fs');
 const path = require('path');
 const rimraf = require('rimraf');
-const sleep = require('co-sleep');
+const sleep = require('ko-sleep');
 const FileBufferTransport = require('../../../index').FileBufferTransport;
 const Logger = require('../../../index').Logger;
 
