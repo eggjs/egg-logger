@@ -34,14 +34,14 @@ describe('test/transports/file_buffer.test.js', () => {
     content.should.eql('info foo\n');
   });
 
-  it('should close timer after logger end', () => {
+  it('should close timer after logger close', () => {
     const logger = new Logger();
     const transport = new FileBufferTransport({
       file: path.join(tmp, 'a.log'),
       level: 'INFO',
     });
     logger.set('file', transport);
-    logger.end();
+    logger.close();
     (transport._timer === null).should.equal(true);
   });
 });
