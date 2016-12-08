@@ -11,6 +11,7 @@ function write(msg) {
 function writeFormat(msg) {
   // support util.format
   if (arguments.length > 1) msg = util.format.apply(util, arguments);
+  return msg;
 }
 
 const suite = new Benchmark.Suite();
