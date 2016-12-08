@@ -91,6 +91,7 @@ describe('test/lib/transports/transport.test.js', () => {
       file: filepath,
       level: levels.INFO,
       flushInterval: 1000,
+      maxBufferLength: 1000,
       formatter: null,
       json: false,
       encoding: 'utf8',
@@ -103,6 +104,7 @@ describe('test/lib/transports/transport.test.js', () => {
     const transport = new FileBufferTransport({
       file: filepath,
       flushInterval: 1,
+      maxBufferLength: 10,
       level: 'ERROR',
       formatter: meta => meta,
       json: true,
@@ -111,10 +113,34 @@ describe('test/lib/transports/transport.test.js', () => {
     transport.options.should.eql({
       file: filepath,
       flushInterval: 1,
+      maxBufferLength: 10,
       level: levels.ERROR,
       formatter: meta => meta,
       json: true,
       encoding: 'gbk',
+      eol: os.EOL,
+    });
+    transport.close();
+  });
+
+  it('should auto convert utf-8 to utf8', () => {
+    const transport = new FileBufferTransport({
+      file: filepath,
+      flushInterval: 1,
+      maxBufferLength: 10,
+      level: 'ERROR',
+      formatter: meta => meta,
+      json: true,
+      encoding: 'utf-8',
+    });
+    transport.options.should.eql({
+      file: filepath,
+      flushInterval: 1,
+      maxBufferLength: 10,
+      level: levels.ERROR,
+      formatter: meta => meta,
+      json: true,
+      encoding: 'utf8',
       eol: os.EOL,
     });
     transport.close();

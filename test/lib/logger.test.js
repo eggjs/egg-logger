@@ -4,9 +4,11 @@ const fs = require('fs');
 const path = require('path');
 const rimraf = require('rimraf');
 const sleep = require('ko-sleep');
-const FileTransport = require('../../index').FileTransport;
-const Logger = require('../../index').Logger;
-const levels = require('../../index');
+const iconv = require('iconv-lite');
+const FileTransport = require('../..').FileTransport;
+const FileBufferTransport = require('../..').FileBufferTransport;
+const Logger = require('../..').Logger;
+const levels = require('../..');
 
 describe('test/lib/logger.test.js', () => {
   const tmp = path.join(__dirname, '../fixtures/tmp');
@@ -34,6 +36,54 @@ describe('test/lib/logger.test.js', () => {
     content.should.containEql('info foo');
     content.should.not.containEql('disable foo');
     content.should.containEql('enable foo');
+  });
+
+  it('should work with gbk encoding', function*() {
+    const logger = new Logger();
+    logger.set('file', new FileTransport({
+      file: filepath,
+      level: levels.INFO,
+      encoding: 'gbk',
+    }));
+    logger.info('info foo 中文');
+    yield sleep(10);
+    const content = fs.readFileSync(filepath);
+    iconv.decode(content, 'gbk').should.equal('info foo 中文\n');
+  });
+
+  it('should flush after buffer length > maxBufferLength on FileBufferTransport', function*() {
+    const logger = new Logger();
+    logger.set('file', new FileBufferTransport({
+      file: filepath,
+      level: levels.INFO,
+      maxBufferLength: 2,
+    }));
+    logger.info('info foo1');
+    logger.info('info foo2');
+    logger.info('info foo3');
+    logger.info('info foo4');
+    yield sleep(10);
+    const content = fs.readFileSync(filepath, 'utf8');
+    content.should.equal('info foo1\ninfo foo2\ninfo foo3\n');
+    logger.close();
+  });
+
+  it('should flush gbk log after buffer length > maxBufferLength on FileBufferTransport', function*() {
+    const logger = new Logger();
+    logger.set('file', new FileBufferTransport({
+      file: filepath,
+      level: levels.INFO,
+      maxBufferLength: 2,
+      encoding: 'gbk',
+    }));
+    logger.info('info foo1 中文');
+    logger.info('info foo2');
+    logger.info('info foo3');
+    logger.info('info foo4');
+    yield sleep(10);
+    const content = fs.readFileSync(filepath);
+    iconv.decode(content, 'gbk').should.equal('info foo1 中文\ninfo foo2\ninfo foo3\n');
+    logger.close();
   });
 
   it('should enable/disable ignore not exists transport', function*() {
