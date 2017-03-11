@@ -204,7 +204,7 @@ describe('test/lib/formatter.test.js', () => {
     json.level.should.eql('INFO');
     json.message.should.eql('foo');
     json.date.should.match(/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3}/);
-    json.pid.should.match(/\d*/);
+    String(json.pid).should.match(/\d*/);
     json.hostname.should.eql(os.hostname());
     // json.raw.should.equal(false);
   });
