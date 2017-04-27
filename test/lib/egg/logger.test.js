@@ -5,6 +5,7 @@ const fs = require('fs');
 const path = require('path');
 const coffee = require('coffee');
 const rimraf = require('rimraf');
+const assert = require('assert');
 const levels = require('../../../index');
 const Logger = require('../../../index').EggLogger;
 
@@ -321,6 +322,45 @@ describe('test/egg/logger.test.js', () => {
       .expect('stderr', '')
       .end(done);
     });
+  });
 
+  it('should set level and consoleLevel', function* () {
+    const loggerFile = path.join(__dirname, '../../fixtures/egg_logger_dynamically.js');
+    const jsonFile = filepath.replace(/\.log$/, '.json.log');
+    const options = {
+      file: filepath,
+      jsonFile,
+    };
+    yield coffee.fork(loggerFile, [ JSON.stringify(options) ])
+    .debug()
+    .expect('stdout', /INFO \d+ info foo/)
+    .expect('stdout', /WARN \d+ warn foo/)
+    .expect('stdout', /INFO \d+ info foo after level changed/)
+    .expect('stdout', /WARN \d+ warn foo after level changed/)
+    .expect('stdout', /logger level WARN/)
+    .notExpect('stdout', /INFO \d+ info foo after consoleLevel changed/)
+    .expect('stdout', /WARN \d+ warn foo after consoleLevel changed/)
+    .expect('stdout', /logger consoleLevel WARN/)
+    .end();
+
+    let content = fs.readFileSync(filepath, 'utf8');
+    assert(/INFO \d+ info foo/.test(content));
+    assert(/WARN \d+ warn foo/.test(content));
+    assert(!/INFO \d+ info foo after level changed/.test(content));
+    assert(/WARN \d+ warn foo after level changed/.test(content));
+    assert(/logger level WARN/.test(content));
+    assert(!/INFO \d+ info foo after consoleLevel changed/.test(content));
+    assert(/WARN \d+ warn foo after consoleLevel changed/.test(content));
+    assert(/logger consoleLevel WARN/.test(content));
+
+    content = fs.readFileSync(jsonFile, 'utf8');
+    assert(/"message":"info foo"/.test(content));
+    assert(/"message":"warn foo"/.test(content));
+    assert(!/"message":"info foo after level changed"/.test(content));
+    assert(/"message":"warn foo after level changed"/.test(content));
+    assert(/"message":"logger level WARN"/.test(content));
+    assert(!/"message":"info foo after consoleLevel changed"/.test(content));
+    assert(/"message":"warn foo after consoleLevel changed"/.test(content));
+    assert(/"message":"logger level WARN"/.test(content));
   });
 });
