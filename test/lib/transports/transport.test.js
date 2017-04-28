@@ -4,6 +4,7 @@ const os = require('os');
 const path = require('path');
 const rimraf = require('rimraf');
 const mm = require('mm');
+const assert = require('assert');
 const Transport = require('../../../index').Transport;
 const FileTransport = require('../../../index').FileTransport;
 const FileBufferTransport = require('../../../index').FileBufferTransport;
@@ -49,6 +50,22 @@ describe('test/lib/transports/transport.test.js', () => {
       encoding: 'gbk',
       eol: os.EOL,
     });
+  });
+
+  it('should set/get level', () => {
+    const transport = new Transport({
+      file: filepath,
+      level: 'INFO',
+    });
+    assert(transport.options.level === levels.INFO);
+
+    transport.level = 'WARN';
+    assert(transport.options.level === levels.WARN);
+    assert(transport.level === levels.WARN);
+
+    transport.level = levels.ERROR;
+    assert(transport.options.level === levels.ERROR);
+    assert(transport.level === levels.ERROR);
   });
 
   it('FileTransport default params', () => {
