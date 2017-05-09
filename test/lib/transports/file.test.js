@@ -9,6 +9,8 @@ const mm = require('mm');
 const FileTransport = require('../../../index').FileTransport;
 const Logger = require('../../../index').Logger;
 const levels = require('../../../index');
+const spy = require('spy');
+const assert = require('assert');
 
 describe('test/transports/file.test.js', () => {
 
@@ -232,5 +234,20 @@ describe('test/transports/file.test.js', () => {
 
     const content = fs.readFileSync(path.join(tmp, 'a.log'), 'utf8');
     content.should.eql('foo1\nfoo3\n');
+  });
+
+  it('should wait drain', function* () {
+    const logger = new Logger();
+    const transport = new FileTransport({
+      file: path.join(tmp, 'a.log'),
+      level: levels.INFO,
+    });
+    spy(transport, 'flush');
+    logger.set('file', transport);
+    for (let i = 0; i < 100000; i++) {
+      logger.info('foo' + i);
+    }
+    yield sleep(20);
+    assert(transport.flush.callCount === 2);
   });
 });
