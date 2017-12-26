@@ -5,6 +5,7 @@ const path = require('path');
 const rimraf = require('rimraf');
 const sleep = require('ko-sleep');
 const mm = require('mm');
+const util = require('util');
 const assert = require('assert');
 const FileBufferTransport = require('../../../index').FileBufferTransport;
 const Logger = require('../../../index').Logger;
@@ -46,9 +47,10 @@ describe('test/transports/file_buffer.test.js', () => {
   });
 
   it('should reload stream when get error', function* () {
+    const logfile = path.join(tmp, 'a.log');
     const logger = new Logger();
     const transport = new FileBufferTransport({
-      file: path.join(tmp, 'a.log'),
+      file: logfile,
       level: 'INFO',
     });
     logger.set('file', transport);
@@ -62,6 +64,11 @@ describe('test/transports/file_buffer.test.js', () => {
       const cb = arguments[arguments.length - 1];
       cb(new Error('write error'));
     });
+    mm(console, 'error', function() {
+      const message = util.format.apply(util, arguments);
+      const reg = new RegExp(`ERROR \\d+ \\[egg-logger] \\[${logfile.replace(/\//, '\\\/')}\] Error: write error`);
+      assert(message.match(reg));
+    });
     logger.info('info foo');
     logger.info('info foo');
     yield sleep(1500);
@@ -72,7 +79,7 @@ describe('test/transports/file_buffer.test.js', () => {
     logger.info('info foo');
     yield sleep(1500);
 
-    const content = fs.readFileSync(path.join(tmp, 'a.log'), 'utf8');
+    const content = fs.readFileSync(logfile, 'utf8');
     assert(content === 'info foo\ninfo foo\ninfo foo\n');
   });
 
