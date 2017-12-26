@@ -4,6 +4,8 @@ const fs = require('fs');
 const path = require('path');
 const rimraf = require('rimraf');
 const sleep = require('ko-sleep');
+const mm = require('mm');
+const assert = require('assert');
 const FileBufferTransport = require('../../../index').FileBufferTransport;
 const Logger = require('../../../index').Logger;
 
@@ -41,6 +43,37 @@ describe('test/transports/file_buffer.test.js', () => {
     });
     transport.end();
     (transport._timer === null).should.equal(true);
+  });
+
+  it.only('should reload stream when get error', function* () {
+    const logger = new Logger();
+    const transport = new FileBufferTransport({
+      file: path.join(tmp, 'a.log'),
+      level: 'INFO',
+    });
+    logger.set('file', transport);
+
+    // write and wait flush
+    logger.info('info foo');
+    yield sleep(1500);
+
+    // write error
+    mm(fs, 'write', (...args) => {
+      console.log(11111);
+      const cb = args[args.length - 1];
+      cb(new Error('write error'));
+    });
+    logger.info('info foo');
+    yield sleep(1500);
+    mm.restore();
+
+    // should be flush again
+    logger.info('info foo');
+    logger.info('info foo');
+    yield sleep(1500);
+
+    const content = fs.readFileSync(path.join(tmp, 'a.log'), 'utf8');
+    assert(content === 'info foo\ninfo foo\ninfo foo\n');
   });
 
 });
