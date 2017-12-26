@@ -45,7 +45,7 @@ describe('test/transports/file_buffer.test.js', () => {
     (transport._timer === null).should.equal(true);
   });
 
-  it.only('should reload stream when get error', function* () {
+  it('should reload stream when get error', function* () {
     const logger = new Logger();
     const transport = new FileBufferTransport({
       file: path.join(tmp, 'a.log'),
@@ -59,10 +59,10 @@ describe('test/transports/file_buffer.test.js', () => {
 
     // write error
     mm(fs, 'write', (...args) => {
-      console.log(11111);
       const cb = args[args.length - 1];
       cb(new Error('write error'));
     });
+    logger.info('info foo');
     logger.info('info foo');
     yield sleep(1500);
     mm.restore();
