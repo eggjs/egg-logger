@@ -58,8 +58,8 @@ describe('test/transports/file_buffer.test.js', () => {
     yield sleep(1500);
 
     // write error
-    mm(fs, 'write', (...args) => {
-      const cb = args[args.length - 1];
+    mm(fs, 'write', function() {
+      const cb = arguments[arguments.length - 1];
       cb(new Error('write error'));
     });
     logger.info('info foo');
