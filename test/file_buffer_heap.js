@@ -3,8 +3,8 @@
 const fs = require('fs');
 const heapdump = require('heapdump');
 const sleep = require('mz-modules/sleep');
-const Logger = require('./index').Logger;
-const FileBufferTransport = require('./index').FileBufferTransport;
+const Logger = require('../index').Logger;
+const FileBufferTransport = require('../index').FileBufferTransport;
 
 const logger = new Logger();
 const transport = new FileBufferTransport({
@@ -19,7 +19,7 @@ async function run() {
   const start = Date.now();
 
   const write = fs.write;
-  fs.write = function write(...args) {
+  fs.write = function fsWrite(...args) {
     writeCount++;
     if (writeCount !== 3) return write.apply(fs, args);
     const cb = args[args.length - 1];
@@ -30,6 +30,11 @@ async function run() {
     await sleep(1);
   }
 
+  // reload will create a new stream, it will release referer of old stream and gc
+  // logger.reload()
+
+  logger.close();
+  await sleep(1000);
 }
 
 run()
