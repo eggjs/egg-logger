@@ -1,4 +1,10 @@
 
+1.6.1 / 2017-12-27
+==================
+
+**fixes**
+  * [[`f0bf7d9`](http://github.com/eggjs/egg-logger/commit/f0bf7d97e269da3ff29f2a6f811f1b48558fbcab)] - fix(transport): should reload write stream when stream get error (#21) (Haoliang Gao <<sakura9515@gmail.com>>)
+
 1.6.0 / 2017-04-28
 ==================
 
