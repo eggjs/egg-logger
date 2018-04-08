@@ -1,4 +1,10 @@
 
+1.6.2 / 2018-04-08
+==================
+
+**fixes**
+  * [[`4669bbe`](http://github.com/eggjs/egg-logger/commit/4669bbeadded1901320285de0725b3b77da5d52d)] - fix: inspect use breakLength: Infinity (#23) (Yiyu He <<dead_horse@qq.com>>)
+
 1.6.1 / 2017-12-27
 ==================
 
