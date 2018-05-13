@@ -141,7 +141,7 @@ export class EggLoggers extends Map {
   set(name: string, logger: Logger);
 }
 
-export interface TransportOption {
+export interface TransportOptions {
   level?: LoggerLevel;
   formatter?: any;
   json?: boolean;
@@ -149,20 +149,20 @@ export interface TransportOption {
   eol?: string;
 }
 
-export interface FileTransportOption extends TransportOption {
+export interface FileTransportOptions extends TransportOptions {
   file: string;
 }
 
-export interface FileBufferTransportOption extends FileTransportOption {
+export interface FileBufferTransportOptions extends FileTransportOptions {
   flushInterval?: number;
   maxBufferLength?: number;
 }
 
-export interface ConsoleTransportOption extends TransportOption {
+export interface ConsoleTransportOptions extends TransportOptions {
   stderrLevel?: string;
 }
 
-export class Transport<T extends TransportOption = TransportOption> {
+export class Transport<T extends TransportOptions = TransportOptions> {
   constructor(options: T);
   readonly enabled: boolean;
   level: LoggerLevel;
@@ -173,8 +173,8 @@ export class Transport<T extends TransportOption = TransportOption> {
   close(): void;
   end(): void;
 }
-export class FileTransport extends Transport<FileTransportOption> {}
-export class FileBufferTransport extends Transport<FileBufferTransportOption> {
+export class FileTransport extends Transport<FileTransportOptions> {}
+export class FileBufferTransport extends Transport<FileBufferTransportOptions> {
   flush(): void;
 }
-export class ConsoleTransport extends Transport<ConsoleTransportOption> {}
+export class ConsoleTransport extends Transport<ConsoleTransportOptions> {}
