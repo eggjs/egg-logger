@@ -139,6 +139,8 @@ export class EggLoggers extends Map {
    * @param {Logger} logger - Logger instance
    */
   set(name: string, logger: Logger);
+
+  [key: string]: Logger;
 }
 
 export interface TransportOptions {
