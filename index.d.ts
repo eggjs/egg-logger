@@ -48,7 +48,7 @@ export class Logger<T extends LoggerOptions = LoggerOptions> {
    * @param {Array} args - log arguments
    * @param {Object} meta - log meta
    */
-  log(level: string, args: any[], meta: object): void;
+  log(level: LoggerLevel, args: any[], meta: object): void;
 
   /**
    * write raw log to all transports
@@ -61,13 +61,13 @@ export class Logger<T extends LoggerOptions = LoggerOptions> {
    * @param {String} level - log level
    * @param {Logger} logger - target logger instance
    */
-  redirect(level: string, logger: Logger): void;
+  redirect(level: LoggerLevel, logger: Logger): void;
 
   /**
    * Un-redirect specify level log
    * @param {String} level - log level
    */
-  unredirect(level: string): void;
+  unredirect(level: LoggerLevel): void;
 
   /**
    * Reload all transports
@@ -170,7 +170,7 @@ export class Transport<T extends TransportOptions = TransportOptions> {
   level: LoggerLevel;
   enable(): void;
   shouldLog(level: LoggerLevel): boolean;
-  log(level, args: any[], meta: object): void;
+  log(level: LoggerLevel, args: any[], meta: object): void;
   reload(): void;
   close(): void;
   end(): void;
