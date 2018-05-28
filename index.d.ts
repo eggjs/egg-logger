@@ -140,7 +140,7 @@ export class EggLoggers extends Map {
    */
   set(name: string, logger: Logger);
 
-  [key: string]: Logger;
+  [key: string]: any;
 }
 
 export interface TransportOptions {
