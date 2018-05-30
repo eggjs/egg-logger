@@ -1,15 +1,16 @@
 import { Context } from 'egg';
 
-export namespace levels {
-  export const ALL: number;
-  export const DEBUG: number;
-  export const INFO: number;
-  export const WARN: number;
-  export const ERROR: number;
-  export const NONE: number;
+interface ILoggerLevel {
+  ALL: number;
+  DEBUG: number;
+  INFO: number;
+  WARN: number;
+  ERROR: number;
+  NONE: number;
 }
 
-export type LoggerLevel = keyof typeof levels;
+export const levels: ILoggerLevel;
+export type LoggerLevel = keyof ILoggerLevel;
 
 export interface LoggerOptions {
   level?: LoggerLevel;
