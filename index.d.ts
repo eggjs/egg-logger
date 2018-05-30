@@ -1,5 +1,3 @@
-import { Context } from 'egg';
-
 interface ILoggerLevel {
   ALL: number;
   DEBUG: number;
@@ -96,7 +94,7 @@ export class EggConsoleLogger extends Logger {}
 export class EggCustomLogger extends Logger {}
 
 export class EggContextLogger {
-  constructor(ctx: Context, logger: Logger);
+  constructor(ctx: any, logger: Logger);
   readonly paddingMessage: string;
   write(msg: string): void;
   error(msg: any, ...args: any[]): void;
