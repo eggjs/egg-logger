@@ -262,6 +262,7 @@ describe('test/transports/file.test.js', () => {
       assert(message.match(reg));
     });
     logger.info('info foo');
+    yield sleep(1);
     logger.info('info foo');
     yield sleep(1);
     logger.info('info foo');
