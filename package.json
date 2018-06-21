@@ -12,6 +12,7 @@
     "utility": "^1.11.0"
   },
   "devDependencies": {
+    "@types/node": "^10.3.4",
     "autod": "^2.7.1",
     "beautify-benchmark": "^0.2.4",
     "benchmark": "^2.1.3",
