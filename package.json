@@ -5,6 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "chalk": "^1.1.3",
+    "circular-json": "^0.5.4",
     "debug": "^2.6.2",
     "depd": "^1.1.0",
     "iconv-lite": "^0.4.15",
