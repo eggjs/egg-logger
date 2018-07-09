@@ -1,4 +1,10 @@
 
+1.7.1 / 2018-07-09
+==================
+
+**fixes**
+  * [[`b80560b`](http://github.com/eggjs/egg-logger/commit/b80560b1906ff667db24345029ac8951622ebe59)] - fix: use circular-json to format error properties (#26) (Yiyu He <<dead_horse@qq.com>>)
+
 1.7.0 / 2018-06-21
 ==================
 
