@@ -1,4 +1,10 @@
 
+1.7.0 / 2018-06-21
+==================
+
+**features**
+  * [[`faf458c`](http://github.com/eggjs/egg-logger/commit/faf458c044b7b49e8aa6cf1d2030111ac58f31ad)] - feat(typings): add typings for egg logger (#24) (Axes <<whxaxes@qq.com>>)
+
 1.6.2 / 2018-04-08
 ==================
 
