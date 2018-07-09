@@ -97,25 +97,26 @@ describe('test/lib/formatter.test.js', () => {
     }];
     err.content = '123\n123';
     err.buf = new Buffer(1000).fill(0);
+    err.shortBuf = new Buffer(30).fill(101);
     err.regex = /^hello!+$/;
     err.userId = 100;
+    err.longText = new Array(20000).join('1');
+    err.isTrue = true;
     logger.error(err);
 
     yield sleep(10);
 
     const content = fs.readFileSync(filepath, 'utf8');
     content.should.containEql('nodejs.MySomeError: foo (eggjs.org)\n');
-    content.should.containEql('addition: { userId: 12345, message: \'mock error\\n\\n\', sub: { foo: {} } }');
-    content.should.containEql('content: \'123\\n123\'');
-    content.should.containEql('buf: <Buffer 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ... >');
-    content.should.containEql('regex: /^hello!+$/');
+    content.should.containEql('addition: {"userId":12345,"message":"mock error\\n\\n","sub":{"foo":{}}}');
+    content.should.containEql('content: "123\\n123"');
+    content.should.containEql('buf: "<Buffer 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ...(1000) >"');
+    content.should.containEql('shortBuf: "<Buffer 65 65 65 65 65 65 65 65 65 65 65 65 65 65 65 65 65 65 65 65 65 65 65 65 65 65 65 65 65 65>"');
+    content.should.containEql('regex: "/^hello!+$/"');
     content.should.containEql('userId: 100');
-    // node 4 don't support inspectOptions.breakLength
-    if (parseInt(process.version.slice(1)) <= 4) {
-      content.should.containEql('errors: [ { code: \'missing_field\', field: \'name\', message: \'required\' },\n  { code: \'invalid\',\n    field: \'age\',\n    message: \'should be an integer\' } ]');
-    } else {
-      content.should.containEql('errors: [ { code: \'missing_field\', field: \'name\', message: \'required\' }, { code: \'invalid\', field: \'age\', message: \'should be an integer\' } ]');
-    }
+    content.should.containEql('errors: [{"code":"missing_field","field":"name","message":"required"},{"code":"invalid","field":"age","message":"should be an integer"}]');
+    content.should.containEql('...(19999)');
+    content.should.containEql('isTrue: true');
   });
 
   it('should format error with options.formatter', function*() {
