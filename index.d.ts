@@ -1,14 +1,11 @@
-interface ILoggerLevel {
-  ALL: number;
-  DEBUG: number;
-  INFO: number;
-  WARN: number;
-  ERROR: number;
-  NONE: number;
+export const enum LoggerLevel {
+  all = 'ALL',
+  debug = 'DEBUG',
+  error = 'ERROR',
+  info = 'INFO',
+  none = 'NONE',
+  warn = 'WARN',
 }
-
-export const levels: ILoggerLevel;
-export type LoggerLevel = keyof ILoggerLevel;
 
 export interface LoggerOptions {
   level?: LoggerLevel;

@@ -23,11 +23,11 @@ describe('test/lib/ts.test.js', () => {
       execArgv: [ '--require', require.resolve('ts-node/register/type-check') ],
     })
       .end(() => {
-        const content = fs.readFileSync(filepath, 'utf8');
+        const content = fs.readFileSync(filepath, 'utf8').replace(/\r\n/g, '\n');
         content.should.match(/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3} INFO \d+ info foo\n/);
         content.should.match(/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3} WARN \d+ warn foo\n/);
         content.should.match(/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3} ERROR \d+ error foo\n/);
-        content.should.match(/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3} INFO \d+ LoggerLevel ALL,DEBUG,INFO,WARN,ERROR,NONE/);
+        content.should.match(/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3} INFO \d+ LoggerLevel ALL,DEBUG,ERROR,INFO,NONE,WARN/);
         done();
       });
   });
