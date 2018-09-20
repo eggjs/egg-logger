@@ -224,6 +224,7 @@ describe('test/lib/formatter.test.js', () => {
       pid: '50864',
       message: 'error',
     });
+    /* eslint-disable-next-line no-control-regex */
     ret.should.match(/^\u001b\[31m/);
   });
 
@@ -236,6 +237,7 @@ describe('test/lib/formatter.test.js', () => {
       pid: '50864',
       message: 'warn',
     });
+    /* eslint-disable-next-line no-control-regex */
     ret.should.match(/^\u001b\[33m/);
   });
 

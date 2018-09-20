@@ -24,13 +24,13 @@ describe('test/egg/logger.test.js', () => {
       level: levels.ERROR,
     };
     coffee.fork(loggerFile, [ JSON.stringify(options) ])
-    .end(() => {
-      fs.readFileSync(filepath, 'utf8')
-        .should.match(/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3} ERROR \d+ error foo\n/);
-      fs.readFileSync(filepath.replace(/\.log$/, '.json.log'), 'utf8')
-        .should.match(/"message":"error foo"/);
-      done();
-    });
+      .end(() => {
+        fs.readFileSync(filepath, 'utf8')
+          .should.match(/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3} ERROR \d+ error foo\n/);
+        fs.readFileSync(filepath.replace(/\.log$/, '.json.log'), 'utf8')
+          .should.match(/"message":"error foo"/);
+        done();
+      });
   });
 
   it('should un-redirect specific level to logger', done => {
@@ -70,11 +70,11 @@ describe('test/egg/logger.test.js', () => {
         level: levels.ERROR,
       };
       coffee.fork(loggerFile, [ JSON.stringify(options) ])
-      .end(() => {
-        fs.readFileSync(filepath, 'utf8')
-          .should.match(/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3} ERROR \d+ error foo\n/);
-        done();
-      });
+        .end(() => {
+          fs.readFileSync(filepath, 'utf8')
+            .should.match(/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3} ERROR \d+ error foo\n/);
+          done();
+        });
     });
 
     it('can set level = levels.ERROR', done => {
@@ -83,14 +83,14 @@ describe('test/egg/logger.test.js', () => {
         level: levels.ERROR,
       };
       coffee.fork(loggerFile, [ JSON.stringify(options) ])
-      .end(function() {
-        const content = fs.readFileSync(filepath, 'utf8');
-        content.should.not.match(/DEBUG \d+ debug foo/);
-        content.should.not.match(/INFO \d+ info foo/);
-        content.should.not.match(/WARN \d+ warn foo/);
-        content.should.match(/ERROR \d+ error foo/);
-        done();
-      });
+        .end(function() {
+          const content = fs.readFileSync(filepath, 'utf8');
+          content.should.not.match(/DEBUG \d+ debug foo/);
+          content.should.not.match(/INFO \d+ info foo/);
+          content.should.not.match(/WARN \d+ warn foo/);
+          content.should.match(/ERROR \d+ error foo/);
+          done();
+        });
     });
 
     it('default level is info', done => {
@@ -98,14 +98,14 @@ describe('test/egg/logger.test.js', () => {
         file: filepath,
       };
       coffee.fork(loggerFile, [ JSON.stringify(options) ])
-      .end(function() {
-        const content = fs.readFileSync(filepath, 'utf8');
-        content.should.not.match(/DEBUG \d+ debug foo/);
-        content.should.match(/INFO \d+ info foo/);
-        content.should.match(/WARN \d+ warn foo/);
-        content.should.match(/ERROR \d+ error foo/);
-        done();
-      });
+        .end(function() {
+          const content = fs.readFileSync(filepath, 'utf8');
+          content.should.not.match(/DEBUG \d+ debug foo/);
+          content.should.match(/INFO \d+ info foo/);
+          content.should.match(/WARN \d+ warn foo/);
+          content.should.match(/ERROR \d+ error foo/);
+          done();
+        });
     });
 
     it('should log all level when level = debug', done => {
@@ -114,14 +114,14 @@ describe('test/egg/logger.test.js', () => {
         level: 'debug',
       };
       coffee.fork(loggerFile, [ JSON.stringify(options) ])
-      .end(function() {
-        const content = fs.readFileSync(filepath, 'utf8');
-        content.should.match(/DEBUG \d+ debug foo/);
-        content.should.match(/INFO \d+ info foo/);
-        content.should.match(/WARN \d+ warn foo/);
-        content.should.match(/ERROR \d+ error foo/);
-        done();
-      });
+        .end(function() {
+          const content = fs.readFileSync(filepath, 'utf8');
+          content.should.match(/DEBUG \d+ debug foo/);
+          content.should.match(/INFO \d+ info foo/);
+          content.should.match(/WARN \d+ warn foo/);
+          content.should.match(/ERROR \d+ error foo/);
+          done();
+        });
     });
 
     it('should log info, warn and error when level = info', done => {
@@ -130,14 +130,14 @@ describe('test/egg/logger.test.js', () => {
         level: 'info',
       };
       coffee.fork(loggerFile, [ JSON.stringify(options) ])
-      .end(function() {
-        const content = fs.readFileSync(filepath, 'utf8');
-        content.should.not.match(/DEBUG \d+ debug foo/);
-        content.should.match(/INFO \d+ info foo/);
-        content.should.match(/WARN \d+ warn foo/);
-        content.should.match(/ERROR \d+ error foo/);
-        done();
-      });
+        .end(function() {
+          const content = fs.readFileSync(filepath, 'utf8');
+          content.should.not.match(/DEBUG \d+ debug foo/);
+          content.should.match(/INFO \d+ info foo/);
+          content.should.match(/WARN \d+ warn foo/);
+          content.should.match(/ERROR \d+ error foo/);
+          done();
+        });
     });
 
     it('should log warn and error when level = warn', done => {
@@ -146,14 +146,14 @@ describe('test/egg/logger.test.js', () => {
         level: 'warn',
       };
       coffee.fork(loggerFile, [ JSON.stringify(options) ])
-      .end(function() {
-        const content = fs.readFileSync(filepath, 'utf8');
-        content.should.not.match(/DEBUG \d+ debug foo/);
-        content.should.not.match(/INFO \d+ info foo/);
-        content.should.match(/WARN \d+ warn foo/);
-        content.should.match(/ERROR \d+ error foo/);
-        done();
-      });
+        .end(function() {
+          const content = fs.readFileSync(filepath, 'utf8');
+          content.should.not.match(/DEBUG \d+ debug foo/);
+          content.should.not.match(/INFO \d+ info foo/);
+          content.should.match(/WARN \d+ warn foo/);
+          content.should.match(/ERROR \d+ error foo/);
+          done();
+        });
     });
 
     it('should log error only when level = error', done => {
@@ -162,14 +162,14 @@ describe('test/egg/logger.test.js', () => {
         level: 'error',
       };
       coffee.fork(loggerFile, [ JSON.stringify(options) ])
-      .end(function() {
-        const content = fs.readFileSync(filepath, 'utf8');
-        content.should.not.match(/DEBUG \d+ debug foo/);
-        content.should.not.match(/INFO \d+ info foo/);
-        content.should.not.match(/WARN \d+ warn foo/);
-        content.should.match(/ERROR \d+ error foo/);
-        done();
-      });
+        .end(function() {
+          const content = fs.readFileSync(filepath, 'utf8');
+          content.should.not.match(/DEBUG \d+ debug foo/);
+          content.should.not.match(/INFO \d+ info foo/);
+          content.should.not.match(/WARN \d+ warn foo/);
+          content.should.match(/ERROR \d+ error foo/);
+          done();
+        });
     });
 
     it('should log nothing when level = none', done => {
@@ -178,15 +178,15 @@ describe('test/egg/logger.test.js', () => {
         level: 'none',
       };
       coffee.fork(loggerFile, [ JSON.stringify(options) ])
-      .end(function() {
-        const content = fs.readFileSync(filepath, 'utf8');
-        content.should.not.match(/DEBUG \d+ debug foo/);
-        content.should.not.match(/INFO \d+ info foo/);
-        content.should.not.match(/WARN \d+ warn foo/);
-        content.should.not.match(/ERROR \d+ error foo/);
-        content.should.not.match(/write foo/);
-        done();
-      });
+        .end(function() {
+          const content = fs.readFileSync(filepath, 'utf8');
+          content.should.not.match(/DEBUG \d+ debug foo/);
+          content.should.not.match(/INFO \d+ info foo/);
+          content.should.not.match(/WARN \d+ warn foo/);
+          content.should.not.match(/ERROR \d+ error foo/);
+          content.should.not.match(/write foo/);
+          done();
+        });
     });
 
     it('should support level = NONE', done => {
@@ -195,14 +195,14 @@ describe('test/egg/logger.test.js', () => {
         level: 'NONE',
       };
       coffee.fork(loggerFile, [ JSON.stringify(options) ])
-      .end(function() {
-        const content = fs.readFileSync(filepath, 'utf8');
-        content.should.not.match(/DEBUG \d+ debug foo/);
-        content.should.not.match(/INFO \d+ info foo/);
-        content.should.not.match(/WARN \d+ warn foo/);
-        content.should.not.match(/ERROR \d+ error foo/);
-        done();
-      });
+        .end(function() {
+          const content = fs.readFileSync(filepath, 'utf8');
+          content.should.not.match(/DEBUG \d+ debug foo/);
+          content.should.not.match(/INFO \d+ info foo/);
+          content.should.not.match(/WARN \d+ warn foo/);
+          content.should.not.match(/ERROR \d+ error foo/);
+          done();
+        });
     });
   });
 
@@ -215,8 +215,8 @@ describe('test/egg/logger.test.js', () => {
         consoleLevel: levels.ERROR,
       };
       coffee.fork(loggerFile, [ JSON.stringify(options) ])
-      .expect('stderr', /\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3} ERROR \d+ error foo\n/)
-      .end(done);
+        .expect('stderr', /\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3} ERROR \d+ error foo\n/)
+        .end(done);
     });
 
     it('can set consoleLevel = levels.ERROR', done => {
@@ -226,9 +226,9 @@ describe('test/egg/logger.test.js', () => {
         consoleLevel: levels.ERROR,
       };
       coffee.fork(loggerFile, [ JSON.stringify(options) ])
-      .expect('stdout', 'write foo\n')
-      .expect('stderr', /ERROR \d+ error foo/)
-      .end(done);
+        .expect('stdout', 'write foo\n')
+        .expect('stderr', /ERROR \d+ error foo/)
+        .end(done);
     });
 
     it('consoleLevel default is NONE', done => {
@@ -237,9 +237,9 @@ describe('test/egg/logger.test.js', () => {
         level: 'NONE',
       };
       coffee.fork(loggerFile, [ JSON.stringify(options) ])
-      .expect('stdout', '')
-      .expect('stderr', '')
-      .end(done);
+        .expect('stdout', '')
+        .expect('stderr', '')
+        .end(done);
     });
 
     it('should log all when consoleLevel = info', done => {
@@ -249,12 +249,12 @@ describe('test/egg/logger.test.js', () => {
         consoleLevel: 'debug',
       };
       coffee.fork(loggerFile, [ JSON.stringify(options) ])
-      .expect('stdout', /DEBUG \d+ debug foo/)
-      .expect('stdout', /INFO \d+ info foo/)
-      .expect('stdout', /WARN \d+ warn foo/)
-      .notExpect('stdout', /ERROR \d+ error foo/)
-      .expect('stderr', /ERROR \d+ error foo/)
-      .end(done);
+        .expect('stdout', /DEBUG \d+ debug foo/)
+        .expect('stdout', /INFO \d+ info foo/)
+        .expect('stdout', /WARN \d+ warn foo/)
+        .notExpect('stdout', /ERROR \d+ error foo/)
+        .expect('stderr', /ERROR \d+ error foo/)
+        .end(done);
     });
 
     it('should log info, warn and error when consoleLevel = info', done => {
@@ -264,12 +264,12 @@ describe('test/egg/logger.test.js', () => {
         consoleLevel: 'info',
       };
       coffee.fork(loggerFile, [ JSON.stringify(options) ])
-      .notExpect('stdout', /DEBUG \d+ debug foo/)
-      .expect('stdout', /INFO \d+ info foo/)
-      .expect('stdout', /WARN \d+ warn foo/)
-      .notExpect('stdout', /ERROR \d+ error foo/)
-      .expect('stderr', /ERROR \d+ error foo/)
-      .end(done);
+        .notExpect('stdout', /DEBUG \d+ debug foo/)
+        .expect('stdout', /INFO \d+ info foo/)
+        .expect('stdout', /WARN \d+ warn foo/)
+        .notExpect('stdout', /ERROR \d+ error foo/)
+        .expect('stderr', /ERROR \d+ error foo/)
+        .end(done);
     });
 
     it('should log warn and error when consoleLevel = warn', done => {
@@ -279,12 +279,12 @@ describe('test/egg/logger.test.js', () => {
         consoleLevel: 'warn',
       };
       coffee.fork(loggerFile, [ JSON.stringify(options) ])
-      .notExpect('stdout', /DEBUG \d+ debug foo/)
-      .notExpect('stdout', /INFO \d+ info foo/)
-      .expect('stdout', /WARN \d+ warn foo/)
-      .notExpect('stdout', /ERROR \d+ error foo/)
-      .expect('stderr', /ERROR \d+ error foo/)
-      .end(done);
+        .notExpect('stdout', /DEBUG \d+ debug foo/)
+        .notExpect('stdout', /INFO \d+ info foo/)
+        .expect('stdout', /WARN \d+ warn foo/)
+        .notExpect('stdout', /ERROR \d+ error foo/)
+        .expect('stderr', /ERROR \d+ error foo/)
+        .end(done);
     });
 
     it('should log error when level = error', done => {
@@ -294,9 +294,9 @@ describe('test/egg/logger.test.js', () => {
         consoleLevel: 'error',
       };
       coffee.fork(loggerFile, [ JSON.stringify(options) ])
-      .expect('stdout', 'write foo\n')
-      .expect('stderr', /ERROR \d+ error foo/)
-      .end(done);
+        .expect('stdout', 'write foo\n')
+        .expect('stderr', /ERROR \d+ error foo/)
+        .end(done);
     });
 
     it('should log nothing when consoleLevel = none', done => {
@@ -306,9 +306,9 @@ describe('test/egg/logger.test.js', () => {
         consoleLevel: 'NONE',
       };
       coffee.fork(loggerFile, [ JSON.stringify(options) ])
-      .expect('stdout', '')
-      .expect('stderr', '')
-      .end(done);
+        .expect('stdout', '')
+        .expect('stderr', '')
+        .end(done);
     });
 
     it('can set consoleLevel = none', done => {
@@ -318,9 +318,9 @@ describe('test/egg/logger.test.js', () => {
         consoleLevel: 'none',
       };
       coffee.fork(loggerFile, [ JSON.stringify(options) ])
-      .expect('stdout', '')
-      .expect('stderr', '')
-      .end(done);
+        .expect('stdout', '')
+        .expect('stderr', '')
+        .end(done);
     });
   });
 
@@ -332,16 +332,16 @@ describe('test/egg/logger.test.js', () => {
       jsonFile,
     };
     yield coffee.fork(loggerFile, [ JSON.stringify(options) ])
-    .debug()
-    .expect('stdout', /INFO \d+ info foo/)
-    .expect('stdout', /WARN \d+ warn foo/)
-    .expect('stdout', /INFO \d+ info foo after level changed/)
-    .expect('stdout', /WARN \d+ warn foo after level changed/)
-    .expect('stdout', /logger level WARN/)
-    .notExpect('stdout', /INFO \d+ info foo after consoleLevel changed/)
-    .expect('stdout', /WARN \d+ warn foo after consoleLevel changed/)
-    .expect('stdout', /logger consoleLevel WARN/)
-    .end();
+      .debug()
+      .expect('stdout', /INFO \d+ info foo/)
+      .expect('stdout', /WARN \d+ warn foo/)
+      .expect('stdout', /INFO \d+ info foo after level changed/)
+      .expect('stdout', /WARN \d+ warn foo after level changed/)
+      .expect('stdout', /logger level WARN/)
+      .notExpect('stdout', /INFO \d+ info foo after consoleLevel changed/)
+      .expect('stdout', /WARN \d+ warn foo after consoleLevel changed/)
+      .expect('stdout', /logger consoleLevel WARN/)
+      .end();
 
     let content = fs.readFileSync(filepath, 'utf8');
     assert(/INFO \d+ info foo/.test(content));

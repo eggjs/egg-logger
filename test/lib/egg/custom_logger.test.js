@@ -20,11 +20,11 @@ describe('test/egg/custom_logger.test.js', () => {
       level: 'WARN',
     };
     coffee.fork(loggerFile, [ JSON.stringify(options) ])
-    .end(() => {
-      fs.readFileSync(filepath, 'utf8')
-        .should.match(/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3} ERROR \d+ error foo\n/);
-      done();
-    });
+      .end(() => {
+        fs.readFileSync(filepath, 'utf8')
+          .should.match(/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3} ERROR \d+ error foo\n/);
+        done();
+      });
   });
 
 });

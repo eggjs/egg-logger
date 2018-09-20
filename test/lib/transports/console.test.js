@@ -22,10 +22,10 @@ describe('test/transports/console.test.js', () => {
       level: 'WARN',
     };
     coffee.fork(logger, [ JSON.stringify(options) ])
-    .notExpect('stdout', /warn foo\n/)
-    .notExpect('stdout', /error foo\n/)
-    .expect('stderr', 'error foo\n')
-    .end(done);
+      .notExpect('stdout', /warn foo\n/)
+      .notExpect('stdout', /error foo\n/)
+      .expect('stderr', 'error foo\n')
+      .end(done);
   });
 
   it('should print warn log to stderr', done => {
@@ -35,9 +35,9 @@ describe('test/transports/console.test.js', () => {
       stderrLevel: 'WARN',
     };
     coffee.fork(logger, [ JSON.stringify(options) ])
-    .expect('stdout', 'write foo\n')
-    .expect('stderr', 'warn foo\nerror foo\n')
-    .end(done);
+      .expect('stdout', 'write foo\n')
+      .expect('stderr', 'warn foo\nerror foo\n')
+      .end(done);
   });
 
   it('should not print log to stderr when stderrLevel = NONE', done => {
@@ -47,8 +47,8 @@ describe('test/transports/console.test.js', () => {
       stderrLevel: 'NONE',
     };
     coffee.fork(logger, [ JSON.stringify(options) ])
-    .notExpect('stderr', /write foo/)
-    .end(done);
+      .notExpect('stderr', /write foo/)
+      .end(done);
   });
 
   it('should set level to levels.ERROR const', done => {
@@ -57,9 +57,9 @@ describe('test/transports/console.test.js', () => {
       level: levels.ERROR,
     };
     coffee.fork(logger, [ JSON.stringify(options) ])
-    .expect('stdout', 'write foo\n')
-    .expect('stderr', 'error foo\n')
-    .end(done);
+      .expect('stdout', 'write foo\n')
+      .expect('stderr', 'error foo\n')
+      .end(done);
   });
 
   it('console level should be NONE', done => {
@@ -68,9 +68,9 @@ describe('test/transports/console.test.js', () => {
       flushInterval: 10,
     };
     coffee.fork(logger, [ JSON.stringify(options) ])
-    .expect('stdout', '')
-    .expect('stderr', '')
-    .end(done);
+      .expect('stdout', '')
+      .expect('stderr', '')
+      .end(done);
   });
 
   it('should print all log when level = debug', done => {
@@ -80,12 +80,12 @@ describe('test/transports/console.test.js', () => {
       flushInterval: 10,
     };
     coffee.fork(logger, [ JSON.stringify(options) ])
-    .expect('stdout', /debug foo\n/)
-    .expect('stdout', /info foo\n/)
-    .expect('stdout', /warn foo\n/)
-    .notExpect('stdout', /error foo\n/)
-    .expect('stderr', 'error foo\n')
-    .end(done);
+      .expect('stdout', /debug foo\n/)
+      .expect('stdout', /info foo\n/)
+      .expect('stdout', /warn foo\n/)
+      .notExpect('stdout', /error foo\n/)
+      .expect('stderr', 'error foo\n')
+      .end(done);
   });
 
   it('should print info log when level = info', done => {
@@ -95,12 +95,12 @@ describe('test/transports/console.test.js', () => {
       flushInterval: 10,
     };
     coffee.fork(logger, [ JSON.stringify(options) ])
-    .notExpect('stdout', /debug foo\n/)
-    .expect('stdout', /info foo\n/)
-    .expect('stdout', /warn foo\n/)
-    .notExpect('stdout', /error foo\n/)
-    .expect('stderr', 'error foo\n')
-    .end(done);
+      .notExpect('stdout', /debug foo\n/)
+      .expect('stdout', /info foo\n/)
+      .expect('stdout', /warn foo\n/)
+      .notExpect('stdout', /error foo\n/)
+      .expect('stderr', 'error foo\n')
+      .end(done);
   });
 
   it('should print warn log when level = warn', done => {
@@ -110,12 +110,12 @@ describe('test/transports/console.test.js', () => {
       flushInterval: 10,
     };
     coffee.fork(logger, [ JSON.stringify(options) ])
-    .notExpect('stdout', /debug foo\n/)
-    .notExpect('stdout', /info foo\n/)
-    .expect('stdout', /warn foo\n/)
-    .notExpect('stdout', /error foo\n/)
-    .expect('stderr', 'error foo\n')
-    .end(done);
+      .notExpect('stdout', /debug foo\n/)
+      .notExpect('stdout', /info foo\n/)
+      .expect('stdout', /warn foo\n/)
+      .notExpect('stdout', /error foo\n/)
+      .expect('stderr', 'error foo\n')
+      .end(done);
   });
 
   it('should print error log when level = error', done => {
@@ -125,9 +125,9 @@ describe('test/transports/console.test.js', () => {
       flushInterval: 10,
     };
     coffee.fork(logger, [ JSON.stringify(options) ])
-    .expect('stdout', 'write foo\n')
-    .expect('stderr', 'error foo\n')
-    .end(done);
+      .expect('stdout', 'write foo\n')
+      .expect('stderr', 'error foo\n')
+      .end(done);
   });
 
   it('should not print any log to stdout/stderr when level = NONE', done => {
@@ -137,9 +137,9 @@ describe('test/transports/console.test.js', () => {
       flushInterval: 10,
     };
     coffee.fork(logger, [ JSON.stringify(options) ])
-    .expect('stdout', '')
-    .expect('stderr', '')
-    .end(done);
+      .expect('stdout', '')
+      .expect('stderr', '')
+      .end(done);
   });
 
   it('should treat none to NONE', done => {
@@ -149,9 +149,9 @@ describe('test/transports/console.test.js', () => {
       flushInterval: 10,
     };
     coffee.fork(logger, [ JSON.stringify(options) ])
-    .expect('stdout', '')
-    .expect('stderr', '')
-    .end(done);
+      .expect('stdout', '')
+      .expect('stderr', '')
+      .end(done);
   });
 
 });

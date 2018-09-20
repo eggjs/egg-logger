@@ -39,16 +39,16 @@ describe('test/egg/error_logger.test.js', () => {
       flushInterval: 10,
     };
     coffee.fork(errorLoggerFile, [ JSON.stringify(options) ])
-    .expect('stdout', '')
-    .expect('stderr', /ERROR \d+ error foo/)
-    .end(function(err) {
-      should.not.exists(err);
+      .expect('stdout', '')
+      .expect('stderr', /ERROR \d+ error foo/)
+      .end(function(err) {
+        should.not.exists(err);
 
-      const content = fs.readFileSync(filepath, 'utf8');
-      content.should.not.match(/WARN \d+ warn foo/);
-      content.should.match(/ERROR \d+ error foo/);
-      done();
-    });
+        const content = fs.readFileSync(filepath, 'utf8');
+        content.should.not.match(/WARN \d+ warn foo/);
+        content.should.match(/ERROR \d+ error foo/);
+        done();
+      });
   });
 
   it('can\'t set level and consoleLevel', done => {
@@ -58,16 +58,16 @@ describe('test/egg/error_logger.test.js', () => {
       consoleLevel: 'WARN',
     };
     coffee.fork(errorLoggerFile, [ JSON.stringify(options) ])
-    .expect('stdout', '')
-    .expect('stderr', /ERROR \d+ error foo/)
-    .end(err => {
-      should.not.exists(err);
+      .expect('stdout', '')
+      .expect('stderr', /ERROR \d+ error foo/)
+      .end(err => {
+        should.not.exists(err);
 
-      const content = fs.readFileSync(filepath, 'utf8');
-      content.should.not.match(/WARN \d+ warn foo/);
-      content.should.match(/ERROR \d+ error foo/);
-      done();
-    });
+        const content = fs.readFileSync(filepath, 'utf8');
+        content.should.not.match(/WARN \d+ warn foo/);
+        content.should.match(/ERROR \d+ error foo/);
+        done();
+      });
   });
 
   it('can set NONE level', done => {
@@ -77,13 +77,13 @@ describe('test/egg/error_logger.test.js', () => {
       consoleLevel: 'NONE',
     };
     coffee.fork(errorLoggerFile, [ JSON.stringify(options) ])
-    .expect('stdout', '')
-    .expect('stderr', '')
-    .end(err => {
-      should.not.exists(err);
+      .expect('stdout', '')
+      .expect('stderr', '')
+      .end(err => {
+        should.not.exists(err);
 
-      fs.readFileSync(filepath, 'utf8').should.eql('');
-      done();
-    });
+        fs.readFileSync(filepath, 'utf8').should.eql('');
+        done();
+      });
   });
 });
