@@ -180,9 +180,9 @@ describe('test/egg/loggers.test.js', () => {
     it('should disable console log', done => {
       const loggerFile = path.join(__dirname, '../../fixtures/egg_loggers.js');
       coffee.fork(loggerFile)
-      .expect('stdout', /info foo/)
-      .notExpect('stdout', /info foo after disable/)
-      .end(done);
+        .expect('stdout', /info foo/)
+        .notExpect('stdout', /info foo after disable/)
+        .end(done);
     });
   });
 });

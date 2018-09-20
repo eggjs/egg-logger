@@ -56,14 +56,14 @@ describe('test/lib/egg/context_logger.test.js', () => {
 
   it('should write ctx log to log file', done => {
     request(app.callback())
-    .get('/')
-    .expect('done', err => {
-      should.not.exists(err);
-      fs.readFileSync(filepath, 'utf8')
+      .get('/')
+      .expect('done', err => {
+        should.not.exists(err);
+        fs.readFileSync(filepath, 'utf8')
         // eslint-disable-next-line no-useless-escape
-        .should.match(/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3} INFO \d+ \[-\/127.0.0.1\/-\/0ms GET \/\] info foo\n/);
-      done();
-    });
+          .should.match(/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3} INFO \d+ \[-\/127.0.0.1\/-\/0ms GET \/\] info foo\n/);
+        done();
+      });
   });
 
   it('should contains userId/logonId/traceId on ctx log', done => {
@@ -72,48 +72,48 @@ describe('test/lib/egg/context_logger.test.js', () => {
       traceId: 'aabbccdd',
     });
     request(app.callback())
-    .get('/')
-    .expect('done', err => {
-      should.not.exists(err);
-      fs.readFileSync(filepath, 'utf8')
+      .get('/')
+      .expect('done', err => {
+        should.not.exists(err);
+        fs.readFileSync(filepath, 'utf8')
         // eslint-disable-next-line no-useless-escape
-        .should.match(/123123\/127.0.0.1\/aabbccdd\/0ms GET \/\] info foo\n/);
-      done();
-    });
+          .should.match(/123123\/127.0.0.1\/aabbccdd\/0ms GET \/\] info foo\n/);
+        done();
+      });
   });
 
   it('should auto log request spent time', done => {
     request(app.callback())
-    .get('/starttime')
-    .expect('done', err => {
-      should.not.exists(err);
-      fs.readFileSync(filepath, 'utf8')
+      .get('/starttime')
+      .expect('done', err => {
+        should.not.exists(err);
+        fs.readFileSync(filepath, 'utf8')
         // eslint-disable-next-line no-useless-escape
-        .should.match(/\[-\/127.0.0.1\/-\/\d*ms GET \/starttime\] info foo\n/);
-      done();
-    });
+          .should.match(/\[-\/127.0.0.1\/-\/\d*ms GET \/starttime\] info foo\n/);
+        done();
+      });
   });
 
   it('can log multi ctx log', done => {
     request(app.callback())
-    .get('/starttime')
-    .expect('done', err => {
-      should.not.exists(err);
-      const body = fs.readFileSync(filepath, 'utf8');
-      const m = body.match(/\/\d*ms/g);
-      (parseInt(m[1].substring(1)) > parseInt(m[0].substring(1))).should.equal(true);
-      done();
-    });
+      .get('/starttime')
+      .expect('done', err => {
+        should.not.exists(err);
+        const body = fs.readFileSync(filepath, 'utf8');
+        const m = body.match(/\/\d*ms/g);
+        (parseInt(m[1].substring(1)) > parseInt(m[0].substring(1))).should.equal(true);
+        done();
+      });
   });
 
   it('should pipe write to raw logger', done => {
     request(app.callback())
-    .get('/starttime')
-    .expect('done', err => {
-      should.not.exists(err);
-      // eslint-disable-next-line no-useless-escape
-      fs.readFileSync(filepath, 'utf8').should.match(/\n\[foo\] hi raw log here\n/);
-      done();
-    });
+      .get('/starttime')
+      .expect('done', err => {
+        should.not.exists(err);
+        // eslint-disable-next-line no-useless-escape
+        fs.readFileSync(filepath, 'utf8').should.match(/\n\[foo\] hi raw log here\n/);
+        done();
+      });
   });
 });
