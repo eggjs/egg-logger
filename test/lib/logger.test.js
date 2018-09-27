@@ -64,7 +64,7 @@ describe('test/lib/logger.test.js', () => {
     logger.info('info foo4');
     yield sleep(10);
     const content = fs.readFileSync(filepath, 'utf8');
-    content.should.equal('info foo1\ninfo foo2\ninfo foo3\n');
+    content.should.equal('info foo1\ninfo foo2\ninfo foo3\ninfo foo4\n');
     logger.close();
   });
 
@@ -82,7 +82,7 @@ describe('test/lib/logger.test.js', () => {
     logger.info('info foo4');
     yield sleep(10);
     const content = fs.readFileSync(filepath);
-    iconv.decode(content, 'gbk').should.equal('info foo1 中文\ninfo foo2\ninfo foo3\n');
+    iconv.decode(content, 'gbk').should.equal('info foo1 中文\ninfo foo2\ninfo foo3\ninfo foo4\n');
     logger.close();
   });
 
