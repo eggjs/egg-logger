@@ -56,7 +56,7 @@
     "lib"
   ],
   "ci": {
-    "version": "4, 6, 8, 10",
+    "version": "6, 8, 10",
     "license": true
   },
   "license": "MIT"
