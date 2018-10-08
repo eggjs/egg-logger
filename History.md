@@ -1,4 +1,13 @@
 
+2.0.0 / 2018-10-08
+==================
+
+**fixes**
+  * [[`0296646`](http://github.com/eggjs/egg-logger/commit/0296646f1dd9f39925ed7e353cc22879ac851a1f)] - fix: don't write when stream is not writable (#30) (Yiyu He <<dead_horse@qq.com>>)
+
+**others**
+  * [[`07f3635`](http://github.com/eggjs/egg-logger/commit/07f3635dc05574a926a222b48e4b6d5ec97453e0)] - deps: pin circular-json@0.5.5, update dependencies (#29) (Yiyu He <<dead_horse@qq.com>>)
+
 1.7.1 / 2018-07-09
 ==================
 
