@@ -1,4 +1,11 @@
 
+2.0.1 / 2018-10-09
+==================
+
+**others**
+  * [[`7a33960`](http://github.com/eggjs/egg-logger/commit/7a33960e9a87de5d693d4628f2f3a7a8de649a33)] - chore: change commemts in english (dead-horse <<dead_horse@qq.com>>)
+  * [[`44bd5fa`](http://github.com/eggjs/egg-logger/commit/44bd5fa72fb482dc57f57e2d46150bfa3d72c3cb)] - chore(typings): add LoggerOptions['allowDebugAtProd']: boolean (#28) (waiting <<waiting@xiaozhong.biz>>)
+
 2.0.0 / 2018-10-08
 ==================
 
