@@ -14,6 +14,7 @@ export interface LoggerOptions {
   level?: LoggerLevel;
   encoding?: string;
   consoleLevel?: LoggerLevel;
+  allowDebugAtProd?: boolean;
 }
 
 export interface EggLoggerOptions extends LoggerOptions {
