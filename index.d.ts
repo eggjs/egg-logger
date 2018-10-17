@@ -120,7 +120,7 @@ export interface EggLoggersOptions {
   eol?: string;
 }
 
-export class EggLoggers extends Map {
+export class EggLoggers extends Map<string, Logger> {
   constructor(options: EggLoggersOptions);
 
   /**
@@ -138,7 +138,7 @@ export class EggLoggers extends Map {
    * @param {String} name - logger name
    * @param {Logger} logger - Logger instance
    */
-  set(name: string, logger: Logger);
+  set(name: string, logger: Logger): this;
 
   [key: string]: any;
 }
