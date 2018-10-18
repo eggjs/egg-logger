@@ -1,4 +1,10 @@
 
+2.0.2 / 2018-10-18
+==================
+
+**fixes**
+  * [[`1f5684f`](http://github.com/eggjs/egg-logger/commit/1f5684f54a87464748f3acf6699d6fe31e9f4014)] - fix: implicit-any error for EggLoggers#set (#31) (Andy <<anhans@microsoft.com>>)
+
 2.0.1 / 2018-10-09
 ==================
 
