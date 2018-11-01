@@ -27,7 +27,7 @@ Egg logger.
 Including two base class, `Logger` and `Transport`:
 
 - Transport: Save log to file, stdout/stderr and network.
-- Logger: A logger can contains multi transports.
+- Logger: A logger can contain multi transports.
 
 ---
 
@@ -81,7 +81,7 @@ logger.error(new Error('print to errorLogger')); // equal to `errorLogger.error`
 ### Reload
 
 ```js
-logger.reload(); // will close the exists write stream and create a new one.
+logger.reload(); // will close the existing write stream and create a new one.
 ```
 
 ### Custom Transport
