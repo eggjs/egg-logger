@@ -5,7 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "chalk": "^2.4.1",
-    "circular-json-for-egg": "1.0.0",
+    "circular-json-for-egg": "^1.0.0",
     "debug": "^2.6.9",
     "depd": "^1.1.2",
     "iconv-lite": "^0.4.24",
