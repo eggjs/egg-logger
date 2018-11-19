@@ -1,4 +1,10 @@
 
+2.0.3 / 2018-11-19
+==================
+
+**others**
+  * [[`6941e1e`](http://github.com/eggjs/egg-logger/commit/6941e1eb0723c907031ea573b08b90e730a99b7c)] - deps: use circular-json-for-egg to remove deprecate message (#33) (Yiyu He <<dead_horse@qq.com>>)
+
 2.0.2 / 2018-10-18
 ==================
 
