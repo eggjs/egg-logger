@@ -60,8 +60,9 @@ export class Logger<T extends LoggerOptions = LoggerOptions> {
    * Redirect specify level log to the other logger
    * @param {String} level - log level
    * @param {Logger} logger - target logger instance
+   * @param {Boolean} [doubleWrite] - whether write to both loggers
    */
-  redirect(level: LoggerLevel, logger: Logger): void;
+  redirect(level: LoggerLevel, logger: Logger, doubleWrite: boolean): void;
 
   /**
    * Un-redirect specify level log
