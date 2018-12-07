@@ -78,7 +78,7 @@ logger.redirect('error', errorLogger);
 logger.error(new Error('print to errorLogger')); // equal to `errorLogger.error`
 ```
 
-Write to both logger:
+Write to both loggers:
 
 ```js
 logger.redirect('error', errorLogger, true);

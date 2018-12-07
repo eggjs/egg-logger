@@ -41,10 +41,11 @@
   "author": "fengmk2 <fengmk2@gmail.com> (https://fengmk2.com)",
   "scripts": {
     "autod": "autod",
-    "lint": "eslint lib test *.js",
-    "test": "npm run lint && egg-bin test",
+    "lint": "eslint .",
+    "test": "npm run lint -- --fix && egg-bin pkgfiles && npm run test-local",
+    "test-local": "egg-bin test",
     "cov": "egg-bin cov",
-    "ci": "npm run lint && npm run cov"
+    "ci": "npm run lint && egg-bin pkgfiles --check && npm run cov"
   },
   "typings": "index.d.ts",
   "engines": {
