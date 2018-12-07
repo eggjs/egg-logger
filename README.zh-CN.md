@@ -79,6 +79,12 @@ logger.redirect('error', errorLogger);
 logger.error(new Error('print to errorLogger')); // 等价于调用 errorLogger.error
 ```
 
+也支持日志双写
+
+```js
+logger.redirect('error', errorLogger, { duplicate: true });
+```
+
 ### 重新加载文件
 
 ```js

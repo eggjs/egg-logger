@@ -60,8 +60,10 @@ export class Logger<T extends LoggerOptions = LoggerOptions> {
    * Redirect specify level log to the other logger
    * @param {String} level - log level
    * @param {Logger} logger - target logger instance
+   * @param {Object} [options] - opts
+   * @param {Boolean} [options.duplicate] - whether write to both loggers
    */
-  redirect(level: LoggerLevel, logger: Logger): void;
+  redirect(level: LoggerLevel, logger: Logger, options?: { duplicate?: boolean }): void;
 
   /**
    * Un-redirect specify level log

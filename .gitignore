@@ -3,3 +3,4 @@ coverage
 .logs
 tmp
 *.log
+.nyc_output

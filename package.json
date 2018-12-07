@@ -7,7 +7,7 @@
     "chalk": "^2.4.1",
     "circular-json-for-egg": "^1.0.0",
     "debug": "^2.6.9",
-    "depd": "^1.1.2",
+    "depd": "^2.0.0",
     "iconv-lite": "^0.4.24",
     "mkdirp": "^0.5.1",
     "utility": "^1.15.0"
@@ -19,10 +19,10 @@
     "benchmark": "^2.1.4",
     "coffee": "^5.1.0",
     "egg-bin": "^1.11.1",
-    "egg-ci": "^1.8.0",
-    "eslint": "^5.6.0",
+    "egg-ci": "^1.10.0",
+    "eslint": "^5.9.0",
     "eslint-config-egg": "^7.1.0",
-    "heapdump": "^0.3.9",
+    "heapdump": "^0.3.12",
     "ko-sleep": "^1.0.3",
     "koa": "^1.6.2",
     "mm": "^2.4.1",
@@ -41,10 +41,11 @@
   "author": "fengmk2 <fengmk2@gmail.com> (https://fengmk2.com)",
   "scripts": {
     "autod": "autod",
-    "lint": "eslint lib test *.js",
-    "test": "npm run lint && egg-bin test",
+    "lint": "eslint .",
+    "test": "npm run lint -- --fix && egg-bin pkgfiles && npm run test-local",
+    "test-local": "egg-bin test",
     "cov": "egg-bin cov",
-    "ci": "npm run lint && npm run cov"
+    "ci": "npm run lint && egg-bin pkgfiles --check && npm run cov"
   },
   "typings": "index.d.ts",
   "engines": {

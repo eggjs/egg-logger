@@ -13,33 +13,33 @@ map.set('e', 5);
 const suite = new Benchmark.Suite();
 
 suite
-.add('map.has().get()', () => {
-  if (map.has('a')) {
-    return map.get('a');
-  }
-})
-.add('map.has()', () => {
-  if (map.has('a')) {
-    return;
-  }
-})
-.add('map.get()', () => {
-  const val = map.get('a');
-  if (val) {
-    return val;
-  }
-})
-.on('cycle', event => {
-  benchmarks.add(event.target);
-})
-.on('start', () => {
-  console.log('\n  node version: %s, date: %s\n  Starting...', process.version, Date());
-})
-.on('complete', () => {
-  benchmarks.log();
-  process.exit(0);
-})
-.run({ async: false });
+  .add('map.has().get()', () => {
+    if (map.has('a')) {
+      return map.get('a');
+    }
+  })
+  .add('map.has()', () => {
+    if (map.has('a')) {
+      return;
+    }
+  })
+  .add('map.get()', () => {
+    const val = map.get('a');
+    if (val) {
+      return val;
+    }
+  })
+  .on('cycle', event => {
+    benchmarks.add(event.target);
+  })
+  .on('start', () => {
+    console.log('\n  node version: %s, date: %s\n  Starting...', process.version, Date());
+  })
+  .on('complete', () => {
+    benchmarks.log();
+    process.exit(0);
+  })
+  .run({ async: false });
 
 // node version: v4.4.7, date: Fri Jul 08 2016 23:53:40 GMT+0800 (CST)
 //   Starting...

@@ -17,27 +17,27 @@ logger.info('info start');
 const suite = new Benchmark.Suite();
 
 suite
-.add('without arguments', () => {
-  logger.info('info without arguments and message is litte bit long ........ hahah');
-})
-.add('with arguments', () => {
-  logger.info('info %s %s %s %s %d %s', 'a', 'bbbb', 'ccccc', 'ddddd', 123123, 'this is long string mmmmmmm');
-})
-.add('with json', () => {
-  logger.info('info this is json %j', { a: 'a', b: 'bbbb', c: 'ccccc', d: 'ddddd', e: 123123, f: 'this is long string mmmmmmm' });
-})
+  .add('without arguments', () => {
+    logger.info('info without arguments and message is litte bit long ........ hahah');
+  })
+  .add('with arguments', () => {
+    logger.info('info %s %s %s %s %d %s', 'a', 'bbbb', 'ccccc', 'ddddd', 123123, 'this is long string mmmmmmm');
+  })
+  .add('with json', () => {
+    logger.info('info this is json %j', { a: 'a', b: 'bbbb', c: 'ccccc', d: 'ddddd', e: 123123, f: 'this is long string mmmmmmm' });
+  })
 
-.on('cycle', event => {
-  benchmarks.add(event.target);
-})
-.on('start', () => {
-  console.log('\n  node version: %s, date: %s\n  Starting...', process.version, Date());
-})
-.on('complete', () => {
-  benchmarks.log();
-  setTimeout(() => process.exit(0), 5000);
-})
-.run({ async: false });
+  .on('cycle', event => {
+    benchmarks.add(event.target);
+  })
+  .on('start', () => {
+    console.log('\n  node version: %s, date: %s\n  Starting...', process.version, Date());
+  })
+  .on('complete', () => {
+    benchmarks.log();
+    setTimeout(() => process.exit(0), 5000);
+  })
+  .run({ async: false });
 
 // node version: v7.2.1, date: Thu Dec 08 2016 14:00:19 GMT+0800 (CST)
 //   Starting...

@@ -14,6 +14,10 @@ describe('test/lib/logger.test.js', () => {
   const tmp = path.join(__dirname, '../fixtures/tmp');
   const filepath = path.join(tmp, 'a.log');
 
+  beforeEach(() => {
+    rimraf.sync(path.dirname(filepath));
+  });
+
   afterEach(() => {
     rimraf.sync(path.dirname(filepath));
   });
@@ -126,18 +130,20 @@ describe('test/lib/logger.test.js', () => {
       level: levels.INFO,
     }));
     logger1.redirect('warn', logger2);
-    logger1.redirect('error', logger2);
-    // 如果 level 已经重定向则忽略
+    // double write
+    logger1.redirect('error', logger2, { duplicate: true });
+    // will ignore if special level had redirect
     logger1.redirect('error', logger3);
     logger1.info('info self');
-    // 会写入 logger2
+    // write to logger2
     logger1.warn('warn logger2');
+    // write to both
     logger1.error('error logger2');
 
     yield sleep(10);
 
     const content1 = fs.readFileSync(file1, 'utf8');
-    content1.should.eql('info self\n');
+    content1.should.eql('info self\nerror logger2\n');
 
     const content2 = fs.readFileSync(file2, 'utf8');
     content2.should.eql('warn logger2\nerror logger2\n');
