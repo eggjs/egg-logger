@@ -81,7 +81,7 @@ logger.error(new Error('print to errorLogger')); // equal to `errorLogger.error`
 Write to both loggers:
 
 ```js
-logger.redirect('error', errorLogger, { doubleWirte: true });
+logger.redirect('error', errorLogger, { duplicate: true });
 ```
 
 ### Reload
