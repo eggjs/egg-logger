@@ -131,7 +131,7 @@ describe('test/lib/logger.test.js', () => {
     }));
     logger1.redirect('warn', logger2);
     // double write
-    logger1.redirect('error', logger2, true);
+    logger1.redirect('error', logger2, { doubleWrite: true });
     // will ignore if special level had redirect
     logger1.redirect('error', logger3);
     logger1.info('info self');

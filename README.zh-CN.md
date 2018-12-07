@@ -82,7 +82,7 @@ logger.error(new Error('print to errorLogger')); // 等价于调用 errorLogger.
 也支持日志双写
 
 ```js
-logger.redirect('error', errorLogger, true);
+logger.redirect('error', errorLogger, { doubleWirte: true });
 ```
 
 ### 重新加载文件
