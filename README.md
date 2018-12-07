@@ -22,7 +22,7 @@
 
 Egg logger.
 
-![](diagram.png)
+![diagram](diagram.png)
 
 Including two base class, `Logger` and `Transport`:
 
@@ -76,6 +76,12 @@ Redirect error log to other logger.
 ```js
 logger.redirect('error', errorLogger);
 logger.error(new Error('print to errorLogger')); // equal to `errorLogger.error`
+```
+
+Write to both logger:
+
+```js
+logger.redirect('error', errorLogger, true);
 ```
 
 ### Reload
