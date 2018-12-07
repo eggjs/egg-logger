@@ -51,36 +51,36 @@ const suite = new Benchmark.Suite();
 
 suite
 
-.add('bufferFormat without arguments', () => {
-  bufferFormat('info', [ 'info without arguments and message is litte bit long ........ hahah' ], null, { encoding: 'utf8', eol: '\n' });
-})
-.add('stringFormat without arguments', () => {
-  stringFormat('info', [ 'info without arguments and message is litte bit long ........ hahah' ], null, { encoding: 'utf8', eol: '\n' });
-})
-.add('bufferFormat with arguments', () => {
-  bufferFormat('info', [ 'info %s %s %s %s %d %s', 'a', 'bbbb', 'ccccc', 'ddddd', 123123, 'this is long string mmmmmmm' ], null, { encoding: 'utf8', eol: '\n' });
-})
-.add('stringFormat with arguments', () => {
-  stringFormat('info', [ 'info %s %s %s %s %d %s', 'a', 'bbbb', 'ccccc', 'ddddd', 123123, 'this is long string mmmmmmm' ], null, { encoding: 'utf8', eol: '\n' });
-})
-.add('bufferFormat with json', () => {
-  bufferFormat('info', [ 'this is json %j', { a: 'a', b: 'bbbb', c: 'ccccc', d: 'ddddd', e: 123123, f: 'this is long string mmmmmmm' }], null, { encoding: 'utf8', eol: '\n' });
-})
-.add('stringFormat with json', () => {
-  stringFormat('info', [ 'this is json %j', { a: 'a', b: 'bbbb', c: 'ccccc', d: 'ddddd', e: 123123, f: 'this is long string mmmmmmm' }], null, { encoding: 'utf8', eol: '\n' });
-})
+  .add('bufferFormat without arguments', () => {
+    bufferFormat('info', [ 'info without arguments and message is litte bit long ........ hahah' ], null, { encoding: 'utf8', eol: '\n' });
+  })
+  .add('stringFormat without arguments', () => {
+    stringFormat('info', [ 'info without arguments and message is litte bit long ........ hahah' ], null, { encoding: 'utf8', eol: '\n' });
+  })
+  .add('bufferFormat with arguments', () => {
+    bufferFormat('info', [ 'info %s %s %s %s %d %s', 'a', 'bbbb', 'ccccc', 'ddddd', 123123, 'this is long string mmmmmmm' ], null, { encoding: 'utf8', eol: '\n' });
+  })
+  .add('stringFormat with arguments', () => {
+    stringFormat('info', [ 'info %s %s %s %s %d %s', 'a', 'bbbb', 'ccccc', 'ddddd', 123123, 'this is long string mmmmmmm' ], null, { encoding: 'utf8', eol: '\n' });
+  })
+  .add('bufferFormat with json', () => {
+    bufferFormat('info', [ 'this is json %j', { a: 'a', b: 'bbbb', c: 'ccccc', d: 'ddddd', e: 123123, f: 'this is long string mmmmmmm' }], null, { encoding: 'utf8', eol: '\n' });
+  })
+  .add('stringFormat with json', () => {
+    stringFormat('info', [ 'this is json %j', { a: 'a', b: 'bbbb', c: 'ccccc', d: 'ddddd', e: 123123, f: 'this is long string mmmmmmm' }], null, { encoding: 'utf8', eol: '\n' });
+  })
 
-.on('cycle', event => {
-  benchmarks.add(event.target);
-})
-.on('start', () => {
-  console.log('\n  node version: %s, date: %s\n  Starting...', process.version, Date());
-})
-.on('complete', () => {
-  benchmarks.log();
+  .on('cycle', event => {
+    benchmarks.add(event.target);
+  })
+  .on('start', () => {
+    console.log('\n  node version: %s, date: %s\n  Starting...', process.version, Date());
+  })
+  .on('complete', () => {
+    benchmarks.log();
   // process.exit(0);
-})
-.run({ async: false });
+  })
+  .run({ async: false });
 
 // <Buffer 74 68 69 73 20 69 73 20 62 75 66 66 65 72 46 6f 72 6d 61 74 2c 20 68 69 20 7b 22 66 6f 6f 22 3a 22 62 61 72 22 7d 0a>
 //   this is stringFormat, hi {"foo":"bar"}

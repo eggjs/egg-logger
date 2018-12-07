@@ -17,26 +17,26 @@ function writeFormat(msg) {
 const suite = new Benchmark.Suite();
 
 suite
-.add('write(msg)', () => {
-  write('hello');
-})
-.add('writeFormat(msg)', () => {
-  writeFormat('hello');
-})
-.add('writeFormat(msg, args)', () => {
-  writeFormat('hello %s', 'world');
-})
-.on('cycle', event => {
-  benchmarks.add(event.target);
-})
-.on('start', () => {
-  console.log('\n  node version: %s, date: %s\n  Starting...', process.version, Date());
-})
-.on('complete', () => {
-  benchmarks.log();
-  process.exit(0);
-})
-.run({ async: false });
+  .add('write(msg)', () => {
+    write('hello');
+  })
+  .add('writeFormat(msg)', () => {
+    writeFormat('hello');
+  })
+  .add('writeFormat(msg, args)', () => {
+    writeFormat('hello %s', 'world');
+  })
+  .on('cycle', event => {
+    benchmarks.add(event.target);
+  })
+  .on('start', () => {
+    console.log('\n  node version: %s, date: %s\n  Starting...', process.version, Date());
+  })
+  .on('complete', () => {
+    benchmarks.log();
+    process.exit(0);
+  })
+  .run({ async: false });
 
 // node version: v4.4.7, date: Wed Nov 02 2016 12:19:33 GMT+0800 (CST)
 // Starting...

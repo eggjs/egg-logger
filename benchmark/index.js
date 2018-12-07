@@ -40,43 +40,43 @@ err.code = 'MOCK';
 const suite = new Benchmark.Suite();
 
 suite
-.add('logger.error(err)', () => {
-  loggerWithoutJSON.error(err);
-})
-.add('logger.info(message)', () => {
-  loggerWithoutJSON.info('hello, %s', 'world');
-})
-.add('logger.write(message)', () => {
-  loggerWithoutJSON.write('hello, world');
-})
-.add('contextLogger.info(message)', () => {
-  contextLogger.info('hello, %s', 'world');
-})
-.add('logger.error(err) with JSON', () => {
-  loggerWithJSON.error(err);
-})
-.add('logger.info(message) with JSON', () => {
-  loggerWithJSON.info('hello, %s', 'world');
-})
-.add('logger.write(message) with JSON', () => {
-  loggerWithJSON.write('hello, world');
-})
-.add('contextLogger.info(message) with JSON', () => {
-  contextLoggerWithJSON.info('hello, %s', 'world');
-})
-.on('cycle', event => {
-  benchmarks.add(event.target);
-})
-.on('start', () => {
-  loggerWithJSON.disable('console');
-  loggerWithoutJSON.disable('console');
-  console.log('\n  node version: %s, date: %s\n  Starting...', process.version, Date());
-})
-.on('complete', () => {
-  benchmarks.log();
-  process.exit(0);
-})
-.run({ async: false });
+  .add('logger.error(err)', () => {
+    loggerWithoutJSON.error(err);
+  })
+  .add('logger.info(message)', () => {
+    loggerWithoutJSON.info('hello, %s', 'world');
+  })
+  .add('logger.write(message)', () => {
+    loggerWithoutJSON.write('hello, world');
+  })
+  .add('contextLogger.info(message)', () => {
+    contextLogger.info('hello, %s', 'world');
+  })
+  .add('logger.error(err) with JSON', () => {
+    loggerWithJSON.error(err);
+  })
+  .add('logger.info(message) with JSON', () => {
+    loggerWithJSON.info('hello, %s', 'world');
+  })
+  .add('logger.write(message) with JSON', () => {
+    loggerWithJSON.write('hello, world');
+  })
+  .add('contextLogger.info(message) with JSON', () => {
+    contextLoggerWithJSON.info('hello, %s', 'world');
+  })
+  .on('cycle', event => {
+    benchmarks.add(event.target);
+  })
+  .on('start', () => {
+    loggerWithJSON.disable('console');
+    loggerWithoutJSON.disable('console');
+    console.log('\n  node version: %s, date: %s\n  Starting...', process.version, Date());
+  })
+  .on('complete', () => {
+    benchmarks.log();
+    process.exit(0);
+  })
+  .run({ async: false });
 
 // node version: v4.4.7, date: Tue Jul 26 2016 00:27:29 GMT+0800 (CST)
 // Starting...
