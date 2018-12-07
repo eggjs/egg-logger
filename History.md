@@ -1,4 +1,10 @@
 
+2.1.0 / 2018-12-07
+==================
+
+**features**
+  * [[`e43f70c`](http://github.com/eggjs/egg-logger/commit/e43f70ce6f8b894a110e17384d445edcd44fcff5)] - feat: redirect support `options.duplicate` (#35) (TZ | 天猪 <<atian25@qq.com>>)
+
 2.0.3 / 2018-11-19
 ==================
 
