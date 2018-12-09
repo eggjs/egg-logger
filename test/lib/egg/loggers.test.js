@@ -34,6 +34,7 @@ describe('test/egg/loggers.test.js', () => {
           },
           bLogger: {
             file: path.join(tmp, 'b.log'),
+            duplicate: true,
           },
           cLogger: {
             file: path.join(tmp, 'c.log'),
@@ -67,6 +68,9 @@ describe('test/egg/loggers.test.js', () => {
       content.should.containEql('coreLogger error foo1');
       content.should.containEql('aLogger error foo1');
       content.should.containEql('bLogger error foo1');
+
+      const bContent = fs.readFileSync(path.join(tmp, 'b.log'), 'utf8');
+      bContent.should.containEql('bLogger error foo1');
     });
 
     it('should app.logger log to appLogName', function*() {
