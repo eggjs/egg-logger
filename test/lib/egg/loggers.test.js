@@ -34,7 +34,7 @@ describe('test/egg/loggers.test.js', () => {
           },
           bLogger: {
             file: path.join(tmp, 'b.log'),
-            duplicate: true,
+            retainOnRedirect: true,
           },
           cLogger: {
             file: path.join(tmp, 'c.log'),
