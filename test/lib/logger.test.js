@@ -130,10 +130,42 @@ describe('test/lib/logger.test.js', () => {
       level: levels.INFO,
     }));
     logger1.redirect('warn', logger2);
-    // double write
-    logger1.redirect('error', logger2, { duplicate: true });
+    logger1.redirect('error', logger2);
     // will ignore if special level had redirect
     logger1.redirect('error', logger3);
+    logger1.info('info self');
+    // write to logger2
+    logger1.warn('warn logger2');
+    logger1.error('error logger2');
+
+    yield sleep(10);
+
+    const content1 = fs.readFileSync(file1, 'utf8');
+    content1.should.eql('info self\n');
+
+    const content2 = fs.readFileSync(file2, 'utf8');
+    content2.should.eql('warn logger2\nerror logger2\n');
+
+    const content3 = fs.readFileSync(file3, 'utf8');
+    content3.should.eql('');
+  });
+
+  it('should redirect to specify logger with duplicate', function* () {
+    const file1 = path.join(tmp, 'a1.log');
+    const file2 = path.join(tmp, 'a2.log');
+    const logger1 = new Logger();
+    logger1.set('file', new FileTransport({
+      file: file1,
+      level: levels.INFO,
+    }));
+    const logger2 = new Logger();
+    logger2.set('file', new FileTransport({
+      file: file2,
+      level: levels.INFO,
+    }));
+    logger1.redirect('warn', logger2);
+    // retain write to origin logger
+    logger1.redirect('error', logger2, { duplicate: true });
     logger1.info('info self');
     // write to logger2
     logger1.warn('warn logger2');
@@ -147,9 +179,6 @@ describe('test/lib/logger.test.js', () => {
 
     const content2 = fs.readFileSync(file2, 'utf8');
     content2.should.eql('warn logger2\nerror logger2\n');
-
-    const content3 = fs.readFileSync(file3, 'utf8');
-    content3.should.eql('');
   });
 
   it('should end all transports', () => {
