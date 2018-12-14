@@ -69,6 +69,15 @@ logger.enable('file');
 logger.info('info'); // output 'info' string
 ```
 
+### Duplicate
+
+Duplicate error log to other logger.
+
+```js
+logger.duplicate('error', errorLogger);
+logger.error(new Error('print to errorLogger')); // will additional call `errorLogger.error`
+```
+
 ### Redirect
 
 Redirect error log to other logger.
@@ -76,12 +85,6 @@ Redirect error log to other logger.
 ```js
 logger.redirect('error', errorLogger);
 logger.error(new Error('print to errorLogger')); // equal to `errorLogger.error`
-```
-
-Write to both loggers:
-
-```js
-logger.redirect('error', errorLogger, { duplicate: true });
 ```
 
 ### Reload

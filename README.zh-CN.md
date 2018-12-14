@@ -70,6 +70,15 @@ logger.enable('file');
 logger.info('info'); // 开启后会输出
 ```
 
+### 汇集日志
+
+可以把日志复制一份到指定的日志对象
+
+```js
+logger.duplicate('error', errorLogger);
+logger.error(new Error('print to errorLogger')); // 会多调用一次 `errorLogger.error`
+```
+
 ### 重定向日志
 
 可以将日志重定向到指定的日志对象
@@ -77,12 +86,6 @@ logger.info('info'); // 开启后会输出
 ```js
 logger.redirect('error', errorLogger);
 logger.error(new Error('print to errorLogger')); // 等价于调用 errorLogger.error
-```
-
-也支持日志双写
-
-```js
-logger.redirect('error', errorLogger, { duplicate: true });
 ```
 
 ### 重新加载文件
