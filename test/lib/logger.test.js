@@ -134,6 +134,10 @@ describe('test/lib/logger.test.js', () => {
     logger1.redirect('error', logger2);
     // will ignore if special level had redirect
     logger1.redirect('error', logger3);
+    // will un-redirect
+    logger1.redirect('info', logger3);
+    logger1.unredirect('info', logger3);
+
     logger1.info('info self');
     // write to logger2
     logger1.warn('warn logger2');
@@ -175,6 +179,11 @@ describe('test/lib/logger.test.js', () => {
     logger1.duplicate('error', logger2);
     // will ignore if special level had redirect
     logger1.duplicate('error', logger3);
+
+    // will un-duplicate
+    logger1.duplicate('info', logger3);
+    logger1.unduplicate('info', logger3);
+
     logger1.info('info self');
     // write to logger2
     logger1.warn('warn logger2');
