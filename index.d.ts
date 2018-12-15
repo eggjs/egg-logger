@@ -132,7 +132,7 @@ export interface EggLoggersOptions {
   errorLogName: string;
   eol?: string;
   // whether write error logger to common-error.log, `null` / `duplicate` / `redirect`
-  concentrateError?: string;
+  concentrateError?: 'duplicate' | 'redirect' | null;
 }
 
 export class EggLoggers extends Map<string, Logger> {
