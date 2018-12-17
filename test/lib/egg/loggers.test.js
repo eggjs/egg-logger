@@ -51,7 +51,7 @@ describe('test/egg/loggers.test.js', () => {
           },
           eLogger: {
             file: eLog,
-            concentrateError: null,
+            concentrateError: 'ignore',
           },
         },
       });
@@ -100,7 +100,7 @@ describe('test/egg/loggers.test.js', () => {
 
       assert(loggers.cLogger.options.concentrateError === 'duplicate');
       assert(loggers.dLogger.options.concentrateError === 'redirect');
-      assert(loggers.eLogger.options.concentrateError === null);
+      assert(loggers.eLogger.options.concentrateError === 'ignore');
     });
 
     it('should app.logger log to appLogName', function*() {

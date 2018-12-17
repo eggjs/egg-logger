@@ -131,8 +131,8 @@ export interface EggLoggersOptions {
   agentLogName: string;
   errorLogName: string;
   eol?: string;
-  // whether write error logger to common-error.log, `null` / `duplicate` / `redirect`
-  concentrateError?: 'duplicate' | 'redirect' | null;
+  // whether write error logger to common-error.log, `duplicate` / `redirect` / `ignore`, default to `duplicate`
+  concentrateError?: 'duplicate' | 'redirect' | 'ignore';
 }
 
 export class EggLoggers extends Map<string, Logger> {

@@ -80,11 +80,10 @@ logger.error(new Error('print to errorLogger')); // will additional call `errorL
 
 ### Redirect
 
-Redirect error log to other logger.
+Redirect special level log to other logger.
 
 ```js
-logger.redirect('error', errorLogger);
-logger.error(new Error('print to errorLogger')); // equal to `errorLogger.error`
+logger.redirect('debug', debugLogger); // all debug logs will delegate to debugLogger
 ```
 
 ### Reload

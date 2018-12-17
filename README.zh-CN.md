@@ -84,8 +84,7 @@ logger.error(new Error('print to errorLogger')); // 会多调用一次 `errorLog
 可以将日志重定向到指定的日志对象
 
 ```js
-logger.redirect('error', errorLogger);
-logger.error(new Error('print to errorLogger')); // 等价于调用 errorLogger.error
+logger.redirect('debug', debugLogger); // 该 Logger 的调试日志将被 debugLogger 接管，输出过去。
 ```
 
 ### 重新加载文件
