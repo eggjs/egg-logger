@@ -83,7 +83,7 @@ logger.error(new Error('print to errorLogger')); // will additional call `errorL
 Redirect special level log to other logger.
 
 ```js
-logger.redirect('debug', debugLogger); // all debug logs will delegate to debugLogger
+oneLogger.redirect('debug', debugLogger); // all debug level logs of `oneLogger` will delegate to debugLogger
 ```
 
 ### Reload
