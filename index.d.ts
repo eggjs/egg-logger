@@ -60,16 +60,27 @@ export class Logger<T extends LoggerOptions = LoggerOptions> {
    * Redirect specify level log to the other logger
    * @param {String} level - log level
    * @param {Logger} logger - target logger instance
-   * @param {Object} [options] - opts
-   * @param {Boolean} [options.duplicate] - whether write to both loggers
    */
-  redirect(level: LoggerLevel, logger: Logger, options?: { duplicate?: boolean }): void;
+  redirect(level: LoggerLevel, logger: Logger): void;
 
   /**
    * Un-redirect specify level log
    * @param {String} level - log level
    */
   unredirect(level: LoggerLevel): void;
+
+  /**
+   * Duplicate specify level log to the other logger
+   * @param {String} level - log level
+   * @param {Logger} logger - target logger instance
+   */
+  duplicate(level: LoggerLevel, logger: Logger): void;
+
+  /**
+   * Un-duplicate specify level log
+   * @param {String} level - log level
+   */
+  unduplicate(level: LoggerLevel): void;
 
   /**
    * Reload all transports
@@ -120,6 +131,8 @@ export interface EggLoggersOptions {
   agentLogName: string;
   errorLogName: string;
   eol?: string;
+  // whether write error logger to common-error.log, `duplicate` / `redirect` / `ignore`, default to `duplicate`
+  concentrateError?: 'duplicate' | 'redirect' | 'ignore';
 }
 
 export class EggLoggers extends Map<string, Logger> {

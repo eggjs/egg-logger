@@ -69,19 +69,21 @@ logger.enable('file');
 logger.info('info'); // output 'info' string
 ```
 
-### Redirect
+### Duplicate
 
-Redirect error log to other logger.
+Duplicate error log to other logger.
 
 ```js
-logger.redirect('error', errorLogger);
-logger.error(new Error('print to errorLogger')); // equal to `errorLogger.error`
+logger.duplicate('error', errorLogger);
+logger.error(new Error('print to errorLogger')); // will additional call `errorLogger.error`
 ```
 
-Write to both loggers:
+### Redirect
+
+Redirect special level log to other logger.
 
 ```js
-logger.redirect('error', errorLogger, { duplicate: true });
+oneLogger.redirect('debug', debugLogger); // all debug level logs of `oneLogger` will delegate to debugLogger
 ```
 
 ### Reload
