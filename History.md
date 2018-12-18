@@ -1,4 +1,10 @@
 
+2.2.0 / 2018-12-17
+==================
+
+**features**
+  * [[`d578857`](http://github.com/eggjs/egg-logger/commit/d57885737c4311f17a76713abcd5459523ff92a4)] - feat: support concentrateError and set default to duplicate (#38) (TZ | 天猪 <<atian25@qq.com>>)
+
 2.1.0 / 2018-12-07
 ==================
 

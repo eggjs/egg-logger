@@ -1,6 +1,7 @@
 'use strict';
 
 const should = require('should');
+const assert = require('assert');
 const fs = require('fs');
 const path = require('path');
 const rimraf = require('rimraf');
@@ -10,6 +11,11 @@ const Loggers = require('../../../index').EggLoggers;
 
 describe('test/egg/loggers.test.js', () => {
   const tmp = path.join(__dirname, '../../fixtures/tmp');
+  const aLog = path.join(tmp, 'a.log');
+  const bLog = path.join(tmp, 'b.log');
+  const cLog = path.join(tmp, 'c.log');
+  const dLog = path.join(tmp, 'd.log');
+  const eLog = path.join(tmp, 'e.log');
 
   describe('application', () => {
     let loggers;
@@ -30,14 +36,22 @@ describe('test/egg/loggers.test.js', () => {
         },
         customLogger: {
           aLogger: {
-            file: path.join(tmp, 'a.log'),
+            file: aLog,
           },
           bLogger: {
-            file: path.join(tmp, 'b.log'),
+            file: bLog,
           },
           cLogger: {
-            file: path.join(tmp, 'c.log'),
+            file: cLog,
             eol: '',
+          },
+          dLogger: {
+            file: dLog,
+            concentrateError: 'redirect',
+          },
+          eLogger: {
+            file: eLog,
+            concentrateError: 'ignore',
           },
         },
       });
@@ -54,19 +68,39 @@ describe('test/egg/loggers.test.js', () => {
       should.exists(loggers.bLogger);
     });
 
-    it('all logger.error will redirect to errorLogger', function*() {
-      loggers.logger.error('logger error foo1');
-      loggers.coreLogger.error('coreLogger error foo1');
-      loggers.aLogger.error('aLogger error foo1');
-      loggers.bLogger.error('bLogger error foo1');
+    it('all logger.error will duplicate to errorLogger', function* () {
+      loggers.logger.error('this is logger error foo1');
+      loggers.coreLogger.error('this is coreLogger error foo1');
+      loggers.aLogger.error('this is aLogger error foo1');
+      loggers.bLogger.error('this is bLogger error foo1');
+      loggers.dLogger.error('this is dLogger error foo1');
+      loggers.eLogger.error('this is eLogger error foo1');
 
       yield sleep(10);
 
       const content = fs.readFileSync(path.join(tmp, 'common-error.log'), 'utf8');
-      content.should.containEql('logger error foo1');
-      content.should.containEql('coreLogger error foo1');
-      content.should.containEql('aLogger error foo1');
-      content.should.containEql('bLogger error foo1');
+      assert(content.includes('this is logger error foo1'));
+      assert(content.includes('this is coreLogger error foo1'));
+      assert(content.includes('this is aLogger error foo1'));
+      assert(content.includes('this is bLogger error foo1'));
+
+      // should duplicate
+      assert(fs.readFileSync(path.join(tmp, 'app-web.log'), 'utf-8').includes('this is logger error foo1'));
+      assert(fs.readFileSync(path.join(tmp, 'egg-web.log'), 'utf-8').includes('this is coreLogger error foo1'));
+      assert(fs.readFileSync(aLog, 'utf-8').includes('this is aLogger error foo1'));
+      assert(fs.readFileSync(bLog, 'utf-8').includes('this is bLogger error foo1'));
+
+      // should redirect
+      assert(content.includes('this is dLogger error foo1'));
+      assert(fs.readFileSync(dLog, 'utf-8') === '');
+
+      // should only write to self
+      assert(!content.includes('this is eLogger error foo1'));
+      assert(fs.readFileSync(eLog, 'utf-8').includes('this is eLogger error foo1'));
+
+      assert(loggers.cLogger.options.concentrateError === 'duplicate');
+      assert(loggers.dLogger.options.concentrateError === 'redirect');
+      assert(loggers.eLogger.options.concentrateError === 'ignore');
     });
 
     it('should app.logger log to appLogName', function*() {
