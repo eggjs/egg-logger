@@ -26,7 +26,7 @@ export interface EggLoggerOptions extends LoggerOptions {
   eol?: string;
 }
 
-export class Logger<T extends LoggerOptions = LoggerOptions> {
+export class Logger<T extends LoggerOptions = LoggerOptions> extends Map<string, Transport> {
   constructor(options: T);
 
   /**
@@ -180,7 +180,7 @@ export interface ConsoleTransportOptions extends TransportOptions {
 }
 
 export class Transport<T extends TransportOptions = TransportOptions> {
-  constructor(options: T);
+  constructor(options?: T);
   readonly enabled: boolean;
   level: LoggerLevel;
   enable(): void;
