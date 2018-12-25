@@ -22,7 +22,7 @@ describe('test/lib/ts.test.js', () => {
     };
 
     coffee.fork(loggerFile, [ JSON.stringify(options) ], {
-      env: { ...process.env, TS_NODE_PROJECT: path.resolve(__dirname, '../fixtures/tsconfig.json') },
+      env: Object.assign({}, process.env, { TS_NODE_PROJECT: path.resolve(__dirname, '../fixtures/tsconfig.json') }),
       execArgv: [ '--require', require.resolve('ts-node/register/type-check') ],
     })
       // .debug()
