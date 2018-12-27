@@ -4,3 +4,4 @@ coverage
 tmp
 *.log
 .nyc_output
+.idea
