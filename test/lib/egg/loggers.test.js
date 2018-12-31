@@ -16,6 +16,7 @@ describe('test/egg/loggers.test.js', () => {
   const cLog = path.join(tmp, 'c.log');
   const dLog = path.join(tmp, 'd.log');
   const eLog = path.join(tmp, 'e.log');
+  const fLog = 'f.log';
 
   describe('application', () => {
     let loggers;
@@ -52,6 +53,9 @@ describe('test/egg/loggers.test.js', () => {
           eLogger: {
             file: eLog,
             concentrateError: 'ignore',
+          },
+          fLogger: {
+            file: fLog,
           },
         },
       });
@@ -156,6 +160,15 @@ describe('test/egg/loggers.test.js', () => {
 
       const content = fs.readFileSync(path.join(tmp, 'c.log'), 'utf8');
       content.should.not.containEql('\n');
+    });
+
+    it('should fLogger log to f.log with relative config', function*() {
+      loggers.fLogger.info('fLogger info foo');
+
+      yield sleep(10);
+
+      const content = fs.readFileSync(path.join(tmp, 'f.log'), 'utf8');
+      content.should.containEql('fLogger info foo');
     });
 
     it('reload all logger', done => {
