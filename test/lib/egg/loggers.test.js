@@ -4,8 +4,7 @@ const should = require('should');
 const assert = require('assert');
 const fs = require('fs');
 const path = require('path');
-const rimraf = require('rimraf');
-const sleep = require('ko-sleep');
+const { sleep, rimraf } = require('mz-modules');
 const coffee = require('coffee');
 const Loggers = require('../../../index').EggLoggers;
 
@@ -18,9 +17,8 @@ describe('test/egg/loggers.test.js', () => {
   const eLog = path.join(tmp, 'e.log');
   const fLog = 'f.log';
 
-  afterEach(() => {
-    rimraf.sync(tmp);
-  });
+  before(() => rimraf(tmp));
+  after(() => rimraf(tmp));
 
   describe('application', () => {
     let loggers;
