@@ -1,4 +1,10 @@
 
+2.3.1 / 2019-01-03
+==================
+
+  * fix: should not duplicate to console (#43)
+  * chore: modify engine version (#42)
+
 2.3.0 / 2019-01-01
 ==================
 
