@@ -231,5 +231,16 @@ describe('test/egg/loggers.test.js', () => {
         .notExpect('stdout', /info foo after disable/)
         .end(done);
     });
+
+    it('should not duplicate to console', done => {
+      const loggerFile = path.join(__dirname, '../../fixtures/egg_loggers_console_duplicate.js');
+      coffee.fork(loggerFile)
+        .end((err, res) => {
+          if (err) return done(err);
+          assert(res.stderr.match(/built-in error/g).length === 1);
+          assert(res.stderr.match(/custom error/g).length === 1);
+          done();
+        });
+    });
   });
 });
