@@ -17,7 +17,7 @@ const loggers = new Loggers({
   customLogger: {
     aLogger: {
       consoleLevel: 'INFO',
-      file: 'a.log',
+      file: 'console_duplicate.log',
     },
   },
 });

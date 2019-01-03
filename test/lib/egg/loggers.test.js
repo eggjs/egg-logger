@@ -18,6 +18,10 @@ describe('test/egg/loggers.test.js', () => {
   const eLog = path.join(tmp, 'e.log');
   const fLog = 'f.log';
 
+  afterEach(() => {
+    rimraf.sync(tmp);
+  });
+
   describe('application', () => {
     let loggers;
     before(() => {
@@ -59,9 +63,6 @@ describe('test/egg/loggers.test.js', () => {
           },
         },
       });
-    });
-    after(() => {
-      rimraf.sync(tmp);
     });
 
     it('loggers can create multi logger instance', () => {
@@ -196,9 +197,6 @@ describe('test/egg/loggers.test.js', () => {
           },
         },
       });
-    });
-    after(() => {
-      rimraf.sync(tmp);
     });
 
     it('loggers.logger alias to loggers.coreLogger', () => {
