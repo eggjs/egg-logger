@@ -71,14 +71,22 @@ export class Logger<T extends LoggerOptions = LoggerOptions> extends Map<string,
 
   /**
    * Duplicate specify level log to the other logger
+   *
+   * **Deprecated, don't use it**
+   *
    * @param {String} level - log level
    * @param {Logger} logger - target logger instance
+   * @deprecated
    */
   duplicate(level: LoggerLevel, logger: Logger): void;
 
   /**
    * Un-duplicate specify level log
+   *
+   * **Deprecated, don't use it**
+   *
    * @param {String} level - log level
+   * @deprecated
    */
   unduplicate(level: LoggerLevel): void;
 
