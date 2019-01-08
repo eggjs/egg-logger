@@ -72,10 +72,10 @@ logger.info('info'); // 开启后会输出
 
 ### 汇集日志
 
-可以把日志复制一份到指定的日志对象
+可以把日志复制一份到指定的日志对象，支持可选的 `options.excludes` 来排除对应的 tranport
 
 ```js
-logger.duplicate('error', errorLogger);
+logger.duplicate('error', errorLogger, { excludes: [ 'console' ] });
 logger.error(new Error('print to errorLogger')); // 会多调用一次 `errorLogger.error`
 ```
 

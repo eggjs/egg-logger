@@ -73,8 +73,9 @@ export class Logger<T extends LoggerOptions = LoggerOptions> extends Map<string,
    * Duplicate specify level log to the other logger
    * @param {String} level - log level
    * @param {Logger} logger - target logger instance
+   * @param {Object} [options] - { excludes: [] }
    */
-  duplicate(level: LoggerLevel, logger: Logger): void;
+  duplicate(level: LoggerLevel, logger: Logger, options?: { excludes?: string[] }): void;
 
   /**
    * Un-duplicate specify level log

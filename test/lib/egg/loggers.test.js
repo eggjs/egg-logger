@@ -79,6 +79,9 @@ describe('test/egg/loggers.test.js', () => {
       loggers.dLogger.error('this is dLogger error foo1');
       loggers.eLogger.error('this is eLogger error foo1');
 
+      loggers.aLogger.info('this is aLogger info foo1');
+      loggers.dLogger.info('this is dLogger info foo1');
+
       yield sleep(10);
 
       const content = fs.readFileSync(path.join(tmp, 'common-error.log'), 'utf8');
@@ -86,6 +89,10 @@ describe('test/egg/loggers.test.js', () => {
       assert(content.includes('this is coreLogger error foo1'));
       assert(content.includes('this is aLogger error foo1'));
       assert(content.includes('this is bLogger error foo1'));
+
+      // should not duplicate info
+      assert(!content.includes('this is aLogger info foo1'));
+      assert(fs.readFileSync(aLog, 'utf-8').includes('this is aLogger info foo1'));
 
       // should duplicate
       assert(fs.readFileSync(path.join(tmp, 'app-web.log'), 'utf-8').includes('this is logger error foo1'));
@@ -95,7 +102,8 @@ describe('test/egg/loggers.test.js', () => {
 
       // should redirect
       assert(content.includes('this is dLogger error foo1'));
-      assert(fs.readFileSync(dLog, 'utf-8') === '');
+      assert(!content.includes('this is dLogger info foo1'));
+      assert(fs.readFileSync(dLog, 'utf-8').includes('this is dLogger info foo1'));
 
       // should only write to self
       assert(!content.includes('this is eLogger error foo1'));
@@ -231,10 +239,12 @@ describe('test/egg/loggers.test.js', () => {
     it('should not duplicate to console', done => {
       const loggerFile = path.join(__dirname, '../../fixtures/egg_loggers_console_duplicate.js');
       coffee.fork(loggerFile)
+        // .debug()
         .end((err, res) => {
           if (err) return done(err);
           assert(res.stderr.match(/built-in error/g).length === 1);
           assert(res.stderr.match(/custom error/g).length === 1);
+          assert(!res.stderr.match(/custom info/));
           done();
         });
     });
