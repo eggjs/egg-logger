@@ -23,7 +23,7 @@ describe('test/lib/logger.test.js', () => {
     rimraf.sync(path.dirname(filepath));
   });
 
-  it('should not print log after transport was disable', function*() {
+  it('should not print log after transport was disabled', function*() {
     const logger = new Logger();
     logger.set('file', new FileTransport({
       file: filepath,
