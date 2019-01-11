@@ -17,14 +17,14 @@ describe('test/lib/egg/context_logger.test.js', () => {
 
   before(() => {
     app = koa();
-    app.use(function*(next) {
+    app.use(function* (next) {
       if (this.path === '/starttime') {
         this.starttime = Date.now();
       }
       this.clogger = new ContextLogger(this, this.app.logger);
       yield next;
     });
-    app.use(function*() {
+    app.use(function* () {
       yield new Promise(resolve => setTimeout(resolve, 10));
       this.clogger.info('info foo');
 
@@ -61,7 +61,8 @@ describe('test/lib/egg/context_logger.test.js', () => {
         should.not.exists(err);
         fs.readFileSync(filepath, 'utf8')
         // eslint-disable-next-line no-useless-escape
-          .should.match(/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3} INFO \d+ \[-\/127.0.0.1\/-\/0ms GET \/\] info foo\n/);
+          .should
+          .match(/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3} INFO \d+ \[-\/127.0.0.1\/-\/0ms GET \/\] info foo\n/);
         done();
       });
   });
@@ -77,7 +78,8 @@ describe('test/lib/egg/context_logger.test.js', () => {
         should.not.exists(err);
         fs.readFileSync(filepath, 'utf8')
         // eslint-disable-next-line no-useless-escape
-          .should.match(/123123\/127.0.0.1\/aabbccdd\/0ms GET \/\] info foo\n/);
+          .should
+          .match(/123123\/127.0.0.1\/aabbccdd\/0ms GET \/\] info foo\n/);
         done();
       });
   });
@@ -89,7 +91,8 @@ describe('test/lib/egg/context_logger.test.js', () => {
         should.not.exists(err);
         fs.readFileSync(filepath, 'utf8')
         // eslint-disable-next-line no-useless-escape
-          .should.match(/\[-\/127.0.0.1\/-\/\d*ms GET \/starttime\] info foo\n/);
+          .should
+          .match(/\[-\/127.0.0.1\/-\/\d*ms GET \/starttime\] info foo\n/);
         done();
       });
   });
@@ -101,7 +104,7 @@ describe('test/lib/egg/context_logger.test.js', () => {
         should.not.exists(err);
         const body = fs.readFileSync(filepath, 'utf8');
         const m = body.match(/\/\d*ms/g);
-        (parseInt(m[1].substring(1)) > parseInt(m[0].substring(1))).should.equal(true);
+        (parseInt(m[ 1 ].substring(1)) > parseInt(m[ 0 ].substring(1))).should.equal(true);
         done();
       });
   });
@@ -112,7 +115,31 @@ describe('test/lib/egg/context_logger.test.js', () => {
       .expect('done', err => {
         should.not.exists(err);
         // eslint-disable-next-line no-useless-escape
-        fs.readFileSync(filepath, 'utf8').should.match(/\n\[foo\] hi raw log here\n/);
+        fs.readFileSync(filepath, 'utf8')
+          .should
+          .match(/\n\[foo\] hi raw log here\n/);
+        done();
+      });
+  });
+
+  it('should allow customize log formatter', done => {
+    app.logger = new Logger({
+      file: filepath,
+      level: 'INFO',
+      consoleLevel: 'NONE',
+      flushInterval: 10,
+      formatter: () => 'customized log',
+    });
+
+    request(app.callback())
+      .get('/starttime')
+      .expect('done', err => {
+        should.not.exists(err);
+
+        fs.readFileSync(filepath, 'utf8')
+          .should
+          .match(/customized log/);
+
         done();
       });
   });
