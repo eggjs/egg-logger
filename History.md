@@ -1,4 +1,19 @@
 
+2.3.1 / 2019-01-03
+==================
+
+  * fix: should not duplicate to console (#43)
+  * chore: modify engine version (#42)
+
+2.3.0 / 2019-01-01
+==================
+
+**features**
+  * [[`22cf355`](http://github.com/eggjs/egg-logger/commit/22cf355d7ae976c8502745a8e8d73748af885637)] - feat: file path support relative path (#41) (TZ | 天猪 <<atian25@qq.com>>)
+
+**others**
+  * [[`0262ac2`](http://github.com/eggjs/egg-logger/commit/0262ac204826f1a582bd63273a43cfe86c723ad3)] - chore: fix typo (#40) (Jeff <<jeff.tian@outlook.com>>)
+
 2.2.1 / 2018-12-26
 ==================
 

@@ -4,8 +4,7 @@ const should = require('should');
 const assert = require('assert');
 const fs = require('fs');
 const path = require('path');
-const rimraf = require('rimraf');
-const sleep = require('ko-sleep');
+const { sleep, rimraf } = require('mz-modules');
 const coffee = require('coffee');
 const Loggers = require('../../../index').EggLoggers;
 
@@ -16,6 +15,10 @@ describe('test/egg/loggers.test.js', () => {
   const cLog = path.join(tmp, 'c.log');
   const dLog = path.join(tmp, 'd.log');
   const eLog = path.join(tmp, 'e.log');
+  const fLog = 'f.log';
+
+  before(() => rimraf(tmp));
+  after(() => rimraf(tmp));
 
   describe('application', () => {
     let loggers;
@@ -53,11 +56,11 @@ describe('test/egg/loggers.test.js', () => {
             file: eLog,
             concentrateError: 'ignore',
           },
+          fLogger: {
+            file: fLog,
+          },
         },
       });
-    });
-    after(() => {
-      rimraf.sync(tmp);
     });
 
     it('loggers can create multi logger instance', () => {
@@ -158,6 +161,15 @@ describe('test/egg/loggers.test.js', () => {
       content.should.not.containEql('\n');
     });
 
+    it('should fLogger log to f.log with relative config', function*() {
+      loggers.fLogger.info('fLogger info foo');
+
+      yield sleep(10);
+
+      const content = fs.readFileSync(path.join(tmp, 'f.log'), 'utf8');
+      content.should.containEql('fLogger info foo');
+    });
+
     it('reload all logger', done => {
       loggers.reload();
       setTimeout(done, 500);
@@ -183,9 +195,6 @@ describe('test/egg/loggers.test.js', () => {
           },
         },
       });
-    });
-    after(() => {
-      rimraf.sync(tmp);
     });
 
     it('loggers.logger alias to loggers.coreLogger', () => {
@@ -217,6 +226,17 @@ describe('test/egg/loggers.test.js', () => {
         .expect('stdout', /info foo/)
         .notExpect('stdout', /info foo after disable/)
         .end(done);
+    });
+
+    it('should not duplicate to console', done => {
+      const loggerFile = path.join(__dirname, '../../fixtures/egg_loggers_console_duplicate.js');
+      coffee.fork(loggerFile)
+        .end((err, res) => {
+          if (err) return done(err);
+          assert(res.stderr.match(/built-in error/g).length === 1);
+          assert(res.stderr.match(/custom error/g).length === 1);
+          done();
+        });
     });
   });
 });

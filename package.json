@@ -1,6 +1,6 @@
 {
   "name": "egg-logger",
-  "version": "2.2.1",
+  "version": "2.3.1",
   "description": "egg logger",
   "main": "index.js",
   "dependencies": {
@@ -17,15 +17,16 @@
     "autod": "^3.0.1",
     "beautify-benchmark": "^0.2.4",
     "benchmark": "^2.1.4",
-    "coffee": "^5.1.0",
-    "egg-bin": "^1.11.1",
-    "egg-ci": "^1.10.0",
-    "eslint": "^5.9.0",
+    "coffee": "^5.2.1",
+    "egg-bin": "^4.9.0",
+    "egg-ci": "^1.11.0",
+    "eslint": "^5.11.1",
     "eslint-config-egg": "^7.1.0",
     "heapdump": "^0.3.12",
     "ko-sleep": "^1.0.3",
     "koa": "^1.6.2",
     "mm": "^2.4.1",
+    "mz": "^2.7.0",
     "mz-modules": "^2.1.0",
     "rimraf": "^2.6.2",
     "should": "^13.2.3",
@@ -49,7 +50,7 @@
   },
   "typings": "index.d.ts",
   "engines": {
-    "node": ">= 4.0.0"
+    "node": ">=6.0.0"
   },
   "files": [
     "index.js",
