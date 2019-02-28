@@ -1,4 +1,13 @@
 
+2.3.2 / 2019-02-28
+==================
+
+**fixes**
+  * [[`f51216b`](http://github.com/eggjs/egg-logger/commit/f51216bd84d48f75e44ebe2e1208c308d1969dce)] - fix: crash when format a getter-only error stack (#50) (Khaidi Chu <<i@2333.moe>>)
+
+**others**
+  * [[`858a8b4`](http://github.com/eggjs/egg-logger/commit/858a8b46495fed21efb4215e36764b3030e573ee)] - chore: comments typo fix (#47) (Jeff <<jeff.tian@outlook.com>>)
+
 2.3.1 / 2019-01-03
 ==================
 
