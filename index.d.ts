@@ -19,7 +19,7 @@ export interface LoggerOptions {
 
 export interface EggLoggerOptions extends LoggerOptions {
   file: string;
-  formatter?: any;
+  formatter?: (meta?: object) => string;
   contextFormatter?: any;
   jsonFile?: string;
   outputJSON?: boolean;
