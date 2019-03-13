@@ -73,6 +73,43 @@ describe('test/lib/formatter.test.js', () => {
     content.should.containEql('nodejs.MySomeError: foo (eggjs.org)\n');
   });
 
+  it('should format error getter-only stack', function*() {
+    const logger = new Logger();
+    logger.set('file', transport);
+    const errError = new Error('error foo');
+    const stack = errError.stack;
+    Object.defineProperty(errError, 'stack', {
+      get: () => stack,
+    });
+    logger.error(errError);
+
+    yield sleep(10);
+
+    const content = fs.readFileSync(filepath, 'utf8');
+    content.should.containEql('nodejs.Error: error foo\n');
+    content.should.match(/pid: \d*\n/);
+    content.should.containEql(`hostname: ${os.hostname()}\n`);
+  });
+
+  it('should format error with empty getter / setter stack', function*() {
+    const logger = new Logger();
+    logger.set('file', transport);
+    const errError = new Error('error foo');
+    let stack = '';
+    Object.defineProperty(errError, 'stack', {
+      get: () => stack,
+      set: v => { stack = v; },
+    });
+    logger.error(errError);
+
+    yield sleep(10);
+
+    const content = fs.readFileSync(filepath, 'utf8');
+    content.should.containEql('nodejs.Error: error foo\nno_stack\n');
+    content.should.match(/pid: \d*\n/);
+    content.should.containEql(`hostname: ${os.hostname()}\n`);
+  });
+
   it('should format error with properties', function*() {
     const logger = new Logger();
     logger.set('file', transport);
