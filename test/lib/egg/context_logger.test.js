@@ -7,12 +7,14 @@ const rimraf = require('rimraf');
 const koa = require('koa');
 const request = require('supertest');
 const mm = require('mm');
+const assert = require('assert');
 
 const Logger = require('../../../index').EggLogger;
 const ContextLogger = require('../../../index').EggContextLogger;
 
 describe('test/lib/egg/context_logger.test.js', () => {
   const filepath = path.join(__dirname, '../../fixtures/tmp/a.log');
+  const filepathb = path.join(__dirname, '../../fixtures/tmp/b.log');
   let app;
 
   before(() => {
@@ -22,6 +24,7 @@ describe('test/lib/egg/context_logger.test.js', () => {
         this.starttime = Date.now();
       }
       this.clogger = new ContextLogger(this, this.app.logger);
+      this.ccLogger = new ContextLogger(this, this.app.contextLogger);
       yield next;
     });
     app.use(function*() {
@@ -35,6 +38,9 @@ describe('test/lib/egg/context_logger.test.js', () => {
       this.clogger.write('[foo] hi raw log here');
 
       yield new Promise(resolve => setTimeout(resolve, 10));
+      this.ccLogger.info('ctx');
+
+      yield new Promise(resolve => setTimeout(resolve, 10));
       this.body = 'done';
     });
     app.logger = new Logger({
@@ -42,6 +48,13 @@ describe('test/lib/egg/context_logger.test.js', () => {
       level: 'INFO',
       consoleLevel: 'NONE',
       flushInterval: 10,
+    });
+    app.contextLogger = new Logger({
+      file: filepathb,
+      level: 'INFO',
+      consoleLevel: 'INFO',
+      flushInterval: 1,
+      contextFormatter: meta => `message=${meta.message}&level=${meta.level}&path=${meta.ctx.path}`,
     });
     app.on('error', err => console.log(err));
     Object.defineProperty(app.request, 'ip', {
@@ -116,4 +129,16 @@ describe('test/lib/egg/context_logger.test.js', () => {
         done();
       });
   });
+
+  it.only('should format context logger', done => {
+    request(app.callback())
+      .get('/')
+      .expect('done', err => {
+        should.not.exists(err);
+        const content = fs.readFileSync(filepathb, 'utf8');
+        assert(content === 'message=ctx&level=INFO&path=/\n');
+        done();
+      });
+  });
+
 });

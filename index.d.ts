@@ -20,6 +20,7 @@ export interface LoggerOptions {
 export interface EggLoggerOptions extends LoggerOptions {
   file: string;
   formatter?: any;
+  contextFormatter?: any;
   jsonFile?: string;
   outputJSON?: boolean;
   buffer?: boolean;
@@ -161,6 +162,7 @@ export class EggLoggers extends Map<string, Logger> {
 export interface TransportOptions {
   level?: LoggerLevel;
   formatter?: any;
+  contextFormatter?: any;
   json?: boolean;
   encoding?: string;
   eol?: string;
