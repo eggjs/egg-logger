@@ -65,6 +65,7 @@ describe('test/lib/egg/context_logger.test.js', () => {
     rimraf.sync(path.dirname(filepath));
     mm.restore();
     app.logger.reload();
+    app.contextLogger.reload();
   });
 
   it('should write ctx log to log file', done => {
@@ -136,7 +137,7 @@ describe('test/lib/egg/context_logger.test.js', () => {
       .expect('done', err => {
         should.not.exists(err);
         const content = fs.readFileSync(filepathb, 'utf8');
-        assert(content === 'message=ctx&level=INFO&path=/\n');
+        assert(content.includes('message=ctx&level=INFO&path=/\n'));
         done();
       });
   });
