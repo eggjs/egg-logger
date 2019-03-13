@@ -130,7 +130,7 @@ describe('test/lib/egg/context_logger.test.js', () => {
       });
   });
 
-  it.only('should format context logger', done => {
+  it('should format context logger', done => {
     request(app.callback())
       .get('/')
       .expect('done', err => {
