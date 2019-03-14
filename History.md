@@ -1,4 +1,10 @@
 
+2.4.0 / 2019-03-14
+==================
+
+**features**
+  * [[`0cbbe47`](http://github.com/eggjs/egg-logger/commit/0cbbe47efb10897ac55a892bc670d3924a1ddfb5)] - feat: support contextFormatter (#51) (Haoliang Gao <<sakura9515@gmail.com>>)
+
 2.3.2 / 2019-02-28
 ==================
 
