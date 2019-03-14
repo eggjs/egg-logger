@@ -161,8 +161,8 @@ export class EggLoggers extends Map<string, Logger> {
 
 export interface TransportOptions {
   level?: LoggerLevel;
-  formatter?: any;
-  contextFormatter?: any;
+  formatter?: (meta?: object) => string;
+  contextFormatter?: (meta?: object) => string;
   json?: boolean;
   encoding?: string;
   eol?: string;
