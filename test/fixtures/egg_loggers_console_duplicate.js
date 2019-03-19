@@ -22,4 +22,5 @@ const loggers = new Loggers({
   },
 });
 loggers.logger.error('built-in error');
+loggers.aLogger.info('custom info');
 loggers.aLogger.error('custom error');

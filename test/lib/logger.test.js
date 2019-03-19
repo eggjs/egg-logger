@@ -158,11 +158,16 @@ describe('test/lib/logger.test.js', () => {
 
   it('should duplicate to specify logger', function* () {
     const file1 = path.join(tmp, 'a1.log');
+    const file11 = path.join(tmp, 'a11.log');
     const file2 = path.join(tmp, 'a2.log');
     const file3 = path.join(tmp, 'a3.log');
     const logger1 = new Logger();
     logger1.set('file', new FileTransport({
       file: file1,
+      level: levels.INFO,
+    }));
+    logger1.set('additional', new FileTransport({
+      file: file11,
       level: levels.INFO,
     }));
     const logger2 = new Logger();
@@ -176,7 +181,7 @@ describe('test/lib/logger.test.js', () => {
       level: levels.INFO,
     }));
     logger1.duplicate('warn', logger2);
-    logger1.duplicate('error', logger2);
+    logger1.duplicate('error', logger2, { excludes: [ 'additional' ] });
     // will ignore if special level had redirect
     logger1.duplicate('error', logger3);
 
@@ -195,8 +200,12 @@ describe('test/lib/logger.test.js', () => {
     const content1 = fs.readFileSync(file1, 'utf8');
     assert(content1 === 'info self\nwarn logger2\nerror logger2\n');
 
+    const content11 = fs.readFileSync(file11, 'utf8');
+    assert(content11 === 'info self\nwarn logger2\n');
+
     const content2 = fs.readFileSync(file2, 'utf8');
     assert(content2 === 'warn logger2\nerror logger2\n');
+
 
     const content3 = fs.readFileSync(file3, 'utf8');
     assert(content3 === '');

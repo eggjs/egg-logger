@@ -73,8 +73,10 @@ logger.info('info'); // output 'info' string
 
 Duplicate error log to other logger.
 
+Accept an `options.excludes` to special whether excludes some tranports.
+
 ```js
-logger.duplicate('error', errorLogger);
+logger.duplicate('error', errorLogger, { excludes: [ 'console' ]});
 logger.error(new Error('print to errorLogger')); // will additional call `errorLogger.error`
 ```
 
