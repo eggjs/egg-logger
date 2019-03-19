@@ -1,4 +1,10 @@
 
+2.4.1 / 2019-03-19
+==================
+
+**fixes**
+  * [[`d048015`](http://github.com/eggjs/egg-logger/commit/d048015f63dde2917cb51f8f30b87a320b2d892b)] - fix: duplicate should ignore some transports (#45) (TZ | 天猪 <<atian25@qq.com>>)
+
 2.4.0 / 2019-03-14
 ==================
 
