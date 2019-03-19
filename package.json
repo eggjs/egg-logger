@@ -1,6 +1,6 @@
 {
   "name": "egg-logger",
-  "version": "2.3.2",
+  "version": "2.4.0",
   "description": "egg logger",
   "main": "index.js",
   "dependencies": {
@@ -54,8 +54,8 @@
   },
   "files": [
     "index.js",
-    "index.d.ts",
-    "lib"
+    "lib",
+    "index.d.ts"
   ],
   "ci": {
     "version": "6, 8, 10",
