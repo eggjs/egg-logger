@@ -1,4 +1,15 @@
 
+1.8.0 / 2019-05-07
+==================
+
+**fixes**
+  * [[`bca447c`](http://github.com/eggjs/egg-logger/commit/bca447c76fd01af20c767f6233c656e3e758a073)] - fix: implicitly any type (#53) (吖猩 <<whx89768@alibaba-inc.com>>)
+  * [[`dc90baa`](http://github.com/eggjs/egg-logger/commit/dc90baacf75d9dfe600df0f7f2c87719f3dfc8e5)] - fix: buffer error flush by pick #30 (#57) (TZ | 天猪 <<atian25@qq.com>>)
+  * [[`683ddd1`](http://github.com/eggjs/egg-logger/commit/683ddd1f35a40009d7c4e9470de32aef3bf340bc)] - fix: buffer error flush (#56) (TZ | 天猪 <<atian25@qq.com>>)
+
+**others**
+  * [[`9e0510f`](http://github.com/eggjs/egg-logger/commit/9e0510fba9414bc30b6a17ab13e4b6eafe8d1df2)] -  feat: support contextFormatter, backport #51 (#52) (TZ | 天猪 <<atian25@qq.com>>)
+
 1.7.1 / 2018-07-09
 ==================
 
