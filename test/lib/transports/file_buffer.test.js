@@ -47,7 +47,7 @@ describe('test/transports/file_buffer.test.js', () => {
     (transport._timer === null).should.equal(true);
   });
 
-  it.only('should reload stream when get error', function* () {
+  it('should reload stream when get error', function* () {
     const logfile = path.join(tmp, 'a.log');
     const logger = new Logger();
     const transport = new FileBufferTransport({
