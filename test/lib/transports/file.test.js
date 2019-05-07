@@ -15,6 +15,9 @@ const levels = require('../../../index');
 describe('test/transports/file.test.js', () => {
 
   const tmp = path.join(__dirname, '../../fixtures/tmp');
+  beforeEach(() => {
+    rimraf.sync(tmp);
+  });
   afterEach(() => {
     rimraf.sync(tmp);
   });
