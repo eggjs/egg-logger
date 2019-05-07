@@ -14,6 +14,7 @@ describe('test/transports/file_buffer.test.js', () => {
 
   const tmp = path.join(__dirname, '../../fixtures/tmp');
   afterEach(() => {
+    mm.restore();
     rimraf.sync(tmp);
   });
 
@@ -64,6 +65,7 @@ describe('test/transports/file_buffer.test.js', () => {
       const cb = arguments[arguments.length - 1];
       cb(new Error('write error'));
     });
+
     mm(console, 'error', function() {
       const message = util.format.apply(util, arguments);
       const reg = new RegExp(`ERROR \\d+ \\[egg-logger] \\[${logfile.replace(/\//, '\\\/')}\] Error: write error`);
