@@ -9,7 +9,7 @@
     "debug": "^2.6.9",
     "depd": "^2.0.0",
     "iconv-lite": "^0.4.24",
-    "mkdirp": "^0.5.1",
+    "mkdirp": "^1.0.0",
     "utility": "^1.15.0"
   },
   "devDependencies": {
