@@ -25,6 +25,7 @@ export interface EggLoggerOptions extends LoggerOptions {
   outputJSON?: boolean;
   buffer?: boolean;
   eol?: string;
+  concentrateError?: 'duplicate' | 'redirect' | 'ignore';
 }
 
 export class Logger<T extends LoggerOptions = LoggerOptions> extends Map<string, Transport> {
