@@ -1,4 +1,11 @@
 
+2.4.2 / 2020-04-14
+==================
+
+**others**
+  * [[`6fbe6c3`](http://github.com/eggjs/egg-logger/commit/6fbe6c34b7456c683342a51e360f667128afe315)] - chore(typings): add concentrateError to EggLoggerOptions (#62) (scott <<congyuandong@gmail.com>>)
+  * [[`a1b6c85`](http://github.com/eggjs/egg-logger/commit/a1b6c85ad13f7fa39dc3fc72029c39604b05cd69)] - chore: update travis (#60) (TZ | 天猪 <<atian25@qq.com>>)
+
 2.4.1 / 2019-03-19
 ==================
 
