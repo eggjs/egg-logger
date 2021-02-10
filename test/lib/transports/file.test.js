@@ -262,13 +262,8 @@ describe('test/transports/file.test.js', () => {
       assert(message.match(reg));
     });
     logger.info('info foo');
-    yield sleep(1);
-    logger.info('info foo');
-    yield sleep(1);
-    logger.info('info foo');
-    yield sleep(1);
+    yield sleep(100);
     mm.restore();
-
     yield sleep(1);
     // should be flush again
     logger.info('info foo');
@@ -277,7 +272,7 @@ describe('test/transports/file.test.js', () => {
     yield sleep(1000);
     const content = fs.readFileSync(logfile, 'utf8');
     assert(content === 'info foo\ninfo foo\ninfo foo\n');
-    assert(errorCount === 3);
+    assert(errorCount === 1);
   });
 
 });
