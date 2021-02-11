@@ -62,4 +62,35 @@ describe('test/egg/console_logger.test.js', () => {
       .expect('stderr', /[\d -,:]+ ERROR \d+ error foo/)
       .end(done);
   });
+
+  it('should info by env on NODE_CONSOLE_LOGGRE_LEVEL = INFO', done => {
+    mm(process.env, 'NODE_CONSOLE_LOGGRE_LEVEL', 'INFO');
+    coffee.fork(consoleLoggerFile)
+      .notExpect('stdout', /DEBUG \d+ debug foo/)
+      .expect('stdout', /INFO \d+ info foo/)
+      .expect('stdout', /WARN \d+ warn foo/)
+      .expect('stderr', /ERROR \d+ error foo/)
+      .end(done);
+  });
+
+  it('should info by env on NODE_CONSOLE_LOGGRE_LEVEL = WARN', done => {
+    mm(process.env, 'NODE_CONSOLE_LOGGRE_LEVEL', 'WARN');
+    coffee.fork(consoleLoggerFile)
+      .notExpect('stdout', /DEBUG \d+ debug foo/)
+      .notExpect('stdout', /INFO \d+ info foo/)
+      .expect('stdout', /WARN \d+ warn foo/)
+      .expect('stderr', /ERROR \d+ error foo/)
+      .end(done);
+  });
+
+  it('should info by env on NODE_CONSOLE_LOGGRE_LEVEL = ERROR', done => {
+    mm(process.env, 'NODE_CONSOLE_LOGGRE_LEVEL', 'ERROR');
+    coffee.fork(consoleLoggerFile)
+      .notExpect('stdout', /DEBUG \d+ debug foo/)
+      .notExpect('stdout', /INFO \d+ info foo/)
+      .notExpect('stdout', /WARN \d+ warn foo/)
+      .expect('stderr', /ERROR \d+ error foo/)
+      .end(done);
+  });
+
 });

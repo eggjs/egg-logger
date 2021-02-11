@@ -117,6 +117,11 @@ logger.set('remote', new UrllibTransport({
 logger.info('info');
 ```
 
+## Console logger level
+
+set environment NODE_CONSOLE_LOGGRE_LEVEL = 'INFO' | 'WARN' | 'ERROR'
+
+
 ## License
 
 [MIT](LICENSE)
