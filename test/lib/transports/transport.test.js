@@ -22,12 +22,12 @@ describe('test/lib/transports/transport.test.js', () => {
   it('should always create new options', () => {
     const options = {};
     const transport = new Transport(options);
-    transport.options.should.not.equal(options);
+    assert(transport.options !== options);
   });
 
   it('Transport default params', () => {
     const transport = new Transport();
-    transport.options.should.eql({
+    assert.deepStrictEqual(transport.options, {
       level: levels.NONE,
       formatter: null,
       contextFormatter: null,
@@ -38,15 +38,17 @@ describe('test/lib/transports/transport.test.js', () => {
   });
 
   it('should overide Transport default params', () => {
+    const formatter = meta => meta;
     const transport = new Transport({
       level: 'ERROR',
-      formatter: meta => meta,
+      formatter,
       json: true,
       encoding: 'gbk',
     });
-    transport.options.should.eql({
+    assert(transport.options.formatter === formatter);
+    assert.deepStrictEqual(transport.options, {
       level: levels.ERROR,
-      formatter: meta => meta,
+      formatter,
       contextFormatter: null,
       json: true,
       encoding: 'gbk',
@@ -74,7 +76,7 @@ describe('test/lib/transports/transport.test.js', () => {
     const transport = new FileTransport({
       file: filepath,
     });
-    transport.options.should.eql({
+    assert.deepStrictEqual(transport.options, {
       file: filepath,
       level: levels.INFO,
       formatter: null,
@@ -86,17 +88,18 @@ describe('test/lib/transports/transport.test.js', () => {
   });
 
   it('should overide FileTransport default params', () => {
+    const formatter = meta => meta;
     const transport = new FileTransport({
       file: filepath,
       level: 'ERROR',
-      formatter: meta => meta,
+      formatter,
       json: true,
       encoding: 'gbk',
     });
-    transport.options.should.eql({
+    assert.deepStrictEqual(transport.options, {
       file: filepath,
       level: levels.ERROR,
-      formatter: meta => meta,
+      formatter,
       contextFormatter: null,
       json: true,
       encoding: 'gbk',
@@ -108,7 +111,7 @@ describe('test/lib/transports/transport.test.js', () => {
     const transport = new FileBufferTransport({
       file: filepath,
     });
-    transport.options.should.eql({
+    assert.deepStrictEqual(transport.options, {
       file: filepath,
       level: levels.INFO,
       flushInterval: 1000,
@@ -123,21 +126,22 @@ describe('test/lib/transports/transport.test.js', () => {
   });
 
   it('should overide FileBufferTransport default params', () => {
+    const formatter = meta => meta;
     const transport = new FileBufferTransport({
       file: filepath,
       flushInterval: 1,
       maxBufferLength: 10,
       level: 'ERROR',
-      formatter: meta => meta,
+      formatter,
       json: true,
       encoding: 'gbk',
     });
-    transport.options.should.eql({
+    assert.deepStrictEqual(transport.options, {
       file: filepath,
       flushInterval: 1,
       maxBufferLength: 10,
       level: levels.ERROR,
-      formatter: meta => meta,
+      formatter,
       contextFormatter: null,
       json: true,
       encoding: 'gbk',
@@ -147,21 +151,22 @@ describe('test/lib/transports/transport.test.js', () => {
   });
 
   it('should auto convert utf-8 to utf8', () => {
+    const formatter = meta => meta;
     const transport = new FileBufferTransport({
       file: filepath,
       flushInterval: 1,
       maxBufferLength: 10,
       level: 'ERROR',
-      formatter: meta => meta,
+      formatter,
       json: true,
       encoding: 'utf-8',
     });
-    transport.options.should.eql({
+    assert.deepStrictEqual(transport.options, {
       file: filepath,
       flushInterval: 1,
       maxBufferLength: 10,
       level: levels.ERROR,
-      formatter: meta => meta,
+      formatter,
       contextFormatter: null,
       json: true,
       encoding: 'utf8',
@@ -171,17 +176,17 @@ describe('test/lib/transports/transport.test.js', () => {
   });
 
   it('should throw error when file is null', () => {
-    (() => {
+    assert.throws(() => {
       new FileTransport();
-    }).should.throw('should pass options.file');
-    (() => {
+    }, /should pass options\.file/);
+    assert.throws(() => {
       new FileBufferTransport();
-    }).should.throw('should pass options.file');
+    }, /should pass options\.file/);
   });
 
   it('ConsoleTransport default params', () => {
     const transport = new ConsoleTransport();
-    transport.options.should.eql({
+    assert.deepStrictEqual(transport.options, {
       stderrLevel: levels.ERROR,
       level: levels.NONE,
       formatter: null,
@@ -193,18 +198,19 @@ describe('test/lib/transports/transport.test.js', () => {
   });
 
   it('should overide ConsoleTransport default params', () => {
+    const formatter = meta => meta;
     const transport = new ConsoleTransport({
       stderrLevel: 'WARN',
       level: 'ERROR',
-      formatter: meta => meta,
+      formatter,
       json: true,
       encoding: 'gbk',
       eol: '\r',
     });
-    transport.options.should.eql({
+    assert.deepStrictEqual(transport.options, {
       stderrLevel: levels.WARN,
       level: levels.ERROR,
-      formatter: meta => meta,
+      formatter,
       contextFormatter: null,
       json: true,
       encoding: 'gbk',
@@ -216,11 +222,11 @@ describe('test/lib/transports/transport.test.js', () => {
     mm(process.env, 'EGG_LOG', 'warn');
 
     let transport = new ConsoleTransport();
-    transport.options.level.should.eql(levels.WARN);
+    assert(transport.options.level === levels.WARN);
 
     transport = new ConsoleTransport({
       level: 'ERROR',
     });
-    transport.options.level.should.eql(levels.WARN);
+    assert(transport.options.level === levels.WARN);
   });
 });

@@ -253,6 +253,7 @@ describe('test/lib/formatter.test.js', () => {
   });
 
   it('should be red on error console log color', () => {
+    mm(process.env, 'FORCE_COLOR', 'true');
     mm(chalk, 'supportsColor', true);
     mm(chalk, 'enabled', true);
     const ret = utils.consoleFormatter({
@@ -266,6 +267,7 @@ describe('test/lib/formatter.test.js', () => {
   });
 
   it('should be yellow on warn console log color', () => {
+    mm(process.env, 'FORCE_COLOR', 'true');
     mm(chalk, 'supportsColor', true);
     mm(chalk, 'enabled', true);
     const ret = utils.consoleFormatter({
@@ -279,6 +281,7 @@ describe('test/lib/formatter.test.js', () => {
   });
 
   it('should show normal color', () => {
+    mm(process.env, 'FORCE_COLOR', 'true');
     mm(chalk, 'supportsColor', true);
     mm(chalk, 'enabled', true);
     const ret = utils.consoleFormatter({
