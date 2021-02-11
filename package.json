@@ -58,7 +58,8 @@
     "index.d.ts"
   ],
   "ci": {
-    "version": "6, 8, 10",
+    "version": "6, 8, 10, 12",
+    "type": "travis, github",
     "license": true
   },
   "license": "MIT"
