@@ -59,6 +59,9 @@
   "ci": {
     "version": "8, 10, 12, 14",
     "type": "github",
+    "os": {
+      "github": "linux, macos"
+    },
     "license": true
   },
   "license": "MIT"
