@@ -22,7 +22,6 @@
     "egg-ci": "^1.18.0",
     "eslint": "^5.11.1",
     "eslint-config-egg": "^7.1.0",
-    "heapdump": "^0.3.12",
     "ko-sleep": "^1.0.3",
     "koa": "^1.6.2",
     "mm": "^2.4.1",
