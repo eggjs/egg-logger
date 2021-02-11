@@ -1,20 +1,17 @@
 # egg-logger
 
 [![NPM version][npm-image]][npm-url]
-[![build status][travis-image]][travis-url]
+[![build status][github-action-image]][github-action-url]
 [![Test coverage][codecov-image]][codecov-url]
-[![David deps][david-image]][david-url]
 [![Known Vulnerabilities][snyk-image]][snyk-url]
 [![npm download][download-image]][download-url]
 
 [npm-image]: https://img.shields.io/npm/v/egg-logger.svg?style=flat-square
 [npm-url]: https://npmjs.org/package/egg-logger
-[travis-image]: https://img.shields.io/travis/eggjs/egg-logger.svg?style=flat-square
-[travis-url]: https://travis-ci.org/eggjs/egg-logger
+[github-action-image]: https://github.com/eggjs/egg-logger/workflows/Node.js%20CI/badge.svg
+[github-action-url]: https://github.com/eggjs/egg-logger/actions
 [codecov-image]: https://codecov.io/github/eggjs/egg-logger/coverage.svg?branch=master
 [codecov-url]: https://codecov.io/github/eggjs/egg-logger?branch=master
-[david-image]: https://img.shields.io/david/eggjs/egg-logger.svg?style=flat-square
-[david-url]: https://david-dm.org/eggjs/egg-logger
 [snyk-image]: https://snyk.io/test/npm/egg-logger/badge.svg?style=flat-square
 [snyk-url]: https://snyk.io/test/npm/egg-logger
 [download-image]: https://img.shields.io/npm/dm/egg-logger.svg?style=flat-square

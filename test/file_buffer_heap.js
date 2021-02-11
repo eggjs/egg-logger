@@ -1,6 +1,7 @@
 'use strict';
 
 const fs = require('fs');
+// need to install heapdump by yourself
 const heapdump = require('heapdump');
 const sleep = require('mz-modules/sleep');
 const Logger = require('../index').Logger;
