@@ -36,12 +36,12 @@ function bufferFormat(level, args, meta, options) {
     output = message;
   }
 
-  if (!output) return new Buffer.from('');
+  if (!output) return Buffer.from('');
 
   output += options.eol;
 
   // convert string to buffer when encoding is not utf8
-  return options.encoding === 'utf8' ? new Buffer.from(output) : iconv.encode(output, options.encoding);
+  return options.encoding === 'utf8' ? Buffer.from(output) : iconv.encode(output, options.encoding);
 }
 
 console.log(bufferFormat('info', [ 'this is %s, hi %j', 'bufferFormat', { foo: 'bar' }], null, { encoding: 'utf8', eol: '\n' }));
