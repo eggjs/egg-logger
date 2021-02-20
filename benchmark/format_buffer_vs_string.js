@@ -36,12 +36,12 @@ function bufferFormat(level, args, meta, options) {
     output = message;
   }
 
-  if (!output) return new Buffer('');
+  if (!output) return new Buffer.from('');
 
   output += options.eol;
 
   // convert string to buffer when encoding is not utf8
-  return options.encoding === 'utf8' ? new Buffer(output) : iconv.encode(output, options.encoding);
+  return options.encoding === 'utf8' ? new Buffer.from(output) : iconv.encode(output, options.encoding);
 }
 
 console.log(bufferFormat('info', [ 'this is %s, hi %j', 'bufferFormat', { foo: 'bar' }], null, { encoding: 'utf8', eol: '\n' }));
@@ -81,6 +81,36 @@ suite
   // process.exit(0);
   })
   .run({ async: false });
+
+// <Buffer 74 68 69 73 20 69 73 20 62 75 66 66 65 72 46 6f 72 6d 61 74 2c 20 68 69 20 7b 22 66 6f 6f 22 3a 22 62 61 72 22 7d 0a>
+// this is stringFormat, hi {"foo":"bar"}
+
+
+//   node version: v14.5.0, date: Sat Feb 20 2021 16:25:57 GMT+0800 (中国标准时间)
+//   Starting...
+//   6 tests completed.
+
+//   bufferFormat without arguments x  1,794,464 ops/sec ±0.60% (90 runs sampled)
+//   stringFormat without arguments x 24,545,502 ops/sec ±0.46% (95 runs sampled)
+//   bufferFormat with arguments    x    907,315 ops/sec ±3.34% (88 runs sampled)
+//   stringFormat with arguments    x  2,459,783 ops/sec ±1.12% (87 runs sampled)
+//   bufferFormat with json         x    575,931 ops/sec ±1.57% (93 runs sampled)
+//   stringFormat with json         x  1,020,377 ops/sec ±0.42% (92 runs sampled)
+
+// <Buffer 74 68 69 73 20 69 73 20 62 75 66 66 65 72 46 6f 72 6d 61 74 2c 20 68 69 20 7b 22 66 6f 6f 22 3a 22 62 61 72 22 7d 0a>
+// this is stringFormat, hi {"foo":"bar"}
+
+
+//   node version: v12.13.0, date: Sat Feb 20 2021 16:24:10 GMT+0800 (GMT+08:00)
+//   Starting...
+//   6 tests completed.
+
+//   bufferFormat without arguments x  2,068,376 ops/sec ±0.66% (87 runs sampled)
+//   stringFormat without arguments x 24,806,447 ops/sec ±0.63% (96 runs sampled)
+//   bufferFormat with arguments    x    981,317 ops/sec ±0.75% (89 runs sampled)
+//   stringFormat with arguments    x  2,306,392 ops/sec ±0.85% (90 runs sampled)
+//   bufferFormat with json         x    542,028 ops/sec ±0.69% (89 runs sampled)
+//   stringFormat with json         x    908,636 ops/sec ±0.48% (96 runs sampled)
 
 // <Buffer 74 68 69 73 20 69 73 20 62 75 66 66 65 72 46 6f 72 6d 61 74 2c 20 68 69 20 7b 22 66 6f 6f 22 3a 22 62 61 72 22 7d 0a>
 //   this is stringFormat, hi {"foo":"bar"}
