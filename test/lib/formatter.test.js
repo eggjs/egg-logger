@@ -133,8 +133,8 @@ describe('test/lib/formatter.test.js', () => {
       message: 'should be an integer',
     }];
     err.content = '123\n123';
-    err.buf = new Buffer(1000).fill(0);
-    err.shortBuf = new Buffer(30).fill(101);
+    err.buf = Buffer.alloc(1000).fill(0);
+    err.shortBuf = Buffer.alloc(30).fill(101);
     err.regex = /^hello!+$/;
     err.userId = 100;
     err.longText = new Array(20000).join('1');
