@@ -116,6 +116,12 @@ logger.set('remote', new UrllibTransport({
 logger.info('info');
 ```
 
+## console 默认打印级别设置
+
+设置环境变量 NODE_CONSOLE_LOGGRE_LEVEL = 'INFO' | 'WARN' | 'ERROR'
+
+
+
 ## License
 
 [MIT](LICENSE)

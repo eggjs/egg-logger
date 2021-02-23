@@ -1,4 +1,20 @@
 
+2.5.0 / 2021-02-11
+==================
+
+**features**
+  * [[`81e2328`](http://github.com/eggjs/egg-logger/commit/81e2328a76fc26a4f9a1df0915127ad9e17600ec)] - feat: support console logger default level on env (#67) (lx <<lix059@gmail.com>>)
+
+**others**
+  * [[`f987c06`](http://github.com/eggjs/egg-logger/commit/f987c0621b6b272ba9d56caa8af59b65c1251930)] - chore: github action (#63) (TZ | 天猪 <<atian25@qq.com>>)
+
+2.4.2 / 2020-04-14
+==================
+
+**others**
+  * [[`6fbe6c3`](http://github.com/eggjs/egg-logger/commit/6fbe6c34b7456c683342a51e360f667128afe315)] - chore(typings): add concentrateError to EggLoggerOptions (#62) (scott <<congyuandong@gmail.com>>)
+  * [[`a1b6c85`](http://github.com/eggjs/egg-logger/commit/a1b6c85ad13f7fa39dc3fc72029c39604b05cd69)] - chore: update travis (#60) (TZ | 天猪 <<atian25@qq.com>>)
+
 2.4.1 / 2019-03-19
 ==================
 

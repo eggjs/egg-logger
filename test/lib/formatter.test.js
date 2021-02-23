@@ -133,8 +133,8 @@ describe('test/lib/formatter.test.js', () => {
       message: 'should be an integer',
     }];
     err.content = '123\n123';
-    err.buf = new Buffer(1000).fill(0);
-    err.shortBuf = new Buffer(30).fill(101);
+    err.buf = Buffer.alloc(1000).fill(0);
+    err.shortBuf = Buffer.alloc(30).fill(101);
     err.regex = /^hello!+$/;
     err.userId = 100;
     err.longText = new Array(20000).join('1');
@@ -252,45 +252,51 @@ describe('test/lib/formatter.test.js', () => {
     // json.raw.should.equal(false);
   });
 
-  it('should be red on error console log color', () => {
-    mm(chalk, 'supportsColor', true);
-    mm(chalk, 'enabled', true);
-    const ret = utils.consoleFormatter({
-      date: '2016-02-26 16:35:40,511',
-      level: 'ERROR',
-      pid: '50864',
-      message: 'error',
+  // chalk color disable on github action env
+  if (!process.env.GITHUB_ACTION) {
+    it('should be red on error console log color', () => {
+      mm(process.env, 'FORCE_COLOR', 'true');
+      mm(chalk, 'supportsColor', true);
+      mm(chalk, 'enabled', true);
+      const ret = utils.consoleFormatter({
+        date: '2016-02-26 16:35:40,511',
+        level: 'ERROR',
+        pid: '50864',
+        message: 'error',
+      });
+      /* eslint-disable-next-line no-control-regex */
+      ret.should.match(/^\u001b\[31m/);
     });
-    /* eslint-disable-next-line no-control-regex */
-    ret.should.match(/^\u001b\[31m/);
-  });
 
-  it('should be yellow on warn console log color', () => {
-    mm(chalk, 'supportsColor', true);
-    mm(chalk, 'enabled', true);
-    const ret = utils.consoleFormatter({
-      date: '2016-02-26 16:35:40,511',
-      level: 'WARN',
-      pid: '50864',
-      message: 'warn',
+    it('should be yellow on warn console log color', () => {
+      mm(process.env, 'FORCE_COLOR', 'true');
+      mm(chalk, 'supportsColor', true);
+      mm(chalk, 'enabled', true);
+      const ret = utils.consoleFormatter({
+        date: '2016-02-26 16:35:40,511',
+        level: 'WARN',
+        pid: '50864',
+        message: 'warn',
+      });
+      /* eslint-disable-next-line no-control-regex */
+      ret.should.match(/^\u001b\[33m/);
     });
-    /* eslint-disable-next-line no-control-regex */
-    ret.should.match(/^\u001b\[33m/);
-  });
 
-  it('should show normal color', () => {
-    mm(chalk, 'supportsColor', true);
-    mm(chalk, 'enabled', true);
-    const ret = utils.consoleFormatter({
-      date: '2016-02-26 16:35:40,511',
-      level: 'INFO',
-      pid: '50864',
-      message: '[master] POST log (10ms)',
+    it('should show normal color', () => {
+      mm(process.env, 'FORCE_COLOR', 'true');
+      mm(chalk, 'supportsColor', true);
+      mm(chalk, 'enabled', true);
+      const ret = utils.consoleFormatter({
+        date: '2016-02-26 16:35:40,511',
+        level: 'INFO',
+        pid: '50864',
+        message: '[master] POST log (10ms)',
+      });
+      ret.should.containEql('\u001b[34m[master');
+      ret.should.containEql('(\u001b[32m10ms\u001b[39m)');
+      ret.should.containEql('\u001b[36mPOST \u001b[39m');
     });
-    ret.should.containEql('\u001b[34m[master');
-    ret.should.containEql('(\u001b[32m10ms\u001b[39m)');
-    ret.should.containEql('\u001b[36mPOST \u001b[39m');
-  });
+  }
 
   it('should set eol to \r\n', function*() {
     const logger = new Logger();
