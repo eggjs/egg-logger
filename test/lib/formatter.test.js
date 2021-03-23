@@ -187,9 +187,9 @@ describe('test/lib/formatter.test.js', () => {
       logger.set('file', transport);
       const err = new CustomError('foo', '00');
       logger.error(err);
-  
+
       yield sleep(10);
-  
+
       const content = fs.readFileSync(filepath, 'utf8');
       content.should.containEql('framework.CustomError: foo [https://eggjs.org/zh-cn/faq/customPlugin#00]\n');
     });
@@ -205,9 +205,9 @@ describe('test/lib/formatter.test.js', () => {
       logger.set('file', transport);
       const err = new CustomError('foo', '00');
       logger.error(err);
-  
+
       yield sleep(10);
-  
+
       const content = fs.readFileSync(filepath, 'utf8');
       content.should.match(/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3} framework.CustomError: foo \[https\:\/\/eggjs\.org\/zh-cn\/faq\/customPlugin\#00\]\n/);
       // content.should.containEql('framework.CustomError: foo [https://eggjs.org/zh-cn/faq/customPlugin#00]\n');
