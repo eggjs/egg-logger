@@ -11,6 +11,7 @@ const FileTransport = require('../../index').FileTransport;
 const Logger = require('../../index').Logger;
 const levels = require('../../index');
 const utils = require('../../lib/utils');
+const { FrameworkBaseError } = require('egg-errors');
 
 describe('test/lib/formatter.test.js', () => {
   const tmp = path.join(__dirname, '../fixtures/tmp');
@@ -172,6 +173,45 @@ describe('test/lib/formatter.test.js', () => {
 
     const content = fs.readFileSync(filepath, 'utf8');
     content.should.match(/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3} nodejs.Error: foo\n/);
+  });
+
+  describe('should format FrameworkError', () => {
+    class CustomError extends FrameworkBaseError {
+      get module() {
+        return 'customPlugin';
+      }
+    }
+
+    it('format work', function*() {
+      const logger = new Logger();
+      logger.set('file', transport);
+      const err = new CustomError('foo', '00');
+      logger.error(err);
+  
+      yield sleep(10);
+  
+      const content = fs.readFileSync(filepath, 'utf8');
+      content.should.containEql('framework.CustomError: foo [https://eggjs.org/zh-cn/faq/customPlugin#00]\n');
+    });
+
+    it('format work with options.formatter work', function*() {
+      const logger = new Logger();
+      const transport = new FileTransport({
+        file: filepath,
+        level: levels.INFO,
+        flushInterval: 10,
+        formatter: meta => `${meta.date} ${meta.message}`,
+      });
+      logger.set('file', transport);
+      const err = new CustomError('foo', '00');
+      logger.error(err);
+  
+      yield sleep(10);
+  
+      const content = fs.readFileSync(filepath, 'utf8');
+      content.should.match(/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3} framework.CustomError: foo \[https\:\/\/eggjs\.org\/zh-cn\/faq\/customPlugin\#00\]\n/);
+      // content.should.containEql('framework.CustomError: foo [https://eggjs.org/zh-cn/faq/customPlugin#00]\n');
+    });
   });
 
   it('should log with options.formatter', function*() {

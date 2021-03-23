@@ -8,6 +8,7 @@
     "circular-json-for-egg": "^1.0.0",
     "debug": "^2.6.9",
     "depd": "^2.0.0",
+    "egg-errors": "^2.2.0",
     "iconv-lite": "^0.4.24",
     "mkdirp": "^0.5.1",
     "utility": "^1.15.0"
