@@ -1,4 +1,14 @@
 
+2.6.0 / 2021-03-23
+==================
+
+**features**
+  * [[`d414828`](http://github.com/eggjs/egg-logger/commit/d414828d6e511c2be6be7586380ecb917281c238)] - feat: logger formatError should support FrameworkErrorFormater (#70) (mansonchor.github.com <<mansonchor@126.com>>)
+
+**others**
+  * [[`33e1e74`](http://github.com/eggjs/egg-logger/commit/33e1e743d932a1897a2588ba5d4c64f05ce9d437)] - refactor: new Buffer() API refactor (#69) (mansonchor.github.com <<mansonchor@126.com>>)
+  * [[`5303d31`](http://github.com/eggjs/egg-logger/commit/5303d31bc1512e85561e000836143bc7daae20d9)] - test: only run tests on github actions (#68) (fengmk2 <<fengmk2@gmail.com>>)
+
 2.5.0 / 2021-02-11
 ==================
 
