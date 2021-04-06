@@ -20,7 +20,6 @@
     "benchmark": "^2.1.4",
     "coffee": "^5.2.1",
     "egg-bin": "^4.9.0",
-    "egg-ci": "^1.18.0",
     "eslint": "^5.11.1",
     "eslint-config-egg": "^7.1.0",
     "ko-sleep": "^1.0.3",
@@ -50,7 +49,7 @@
   },
   "typings": "index.d.ts",
   "engines": {
-    "node": ">=6.0.0"
+    "node": ">=8.0.0"
   },
   "files": [
     "index.js",
@@ -58,12 +57,7 @@
     "index.d.ts"
   ],
   "ci": {
-    "version": "8, 10, 12, 14",
-    "type": "github",
-    "os": {
-      "github": "linux, macos"
-    },
-    "license": true
+    "version": "8, 10, 12, 14"
   },
   "license": "MIT"
 }

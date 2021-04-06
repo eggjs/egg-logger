@@ -191,7 +191,7 @@ describe('test/lib/formatter.test.js', () => {
       yield sleep(10);
 
       const content = fs.readFileSync(filepath, 'utf8');
-      content.should.containEql('framework.CustomError: foo [https://eggjs.org/zh-cn/faq/customPlugin#00]\n');
+      content.should.containEql('framework.CustomError: foo [https://eggjs.org/zh-cn/faq/customPlugin_00]\n');
     });
 
     it('format work with options.formatter work', function*() {
@@ -209,8 +209,7 @@ describe('test/lib/formatter.test.js', () => {
       yield sleep(10);
 
       const content = fs.readFileSync(filepath, 'utf8');
-      content.should.match(/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3} framework.CustomError: foo \[https\:\/\/eggjs\.org\/zh-cn\/faq\/customPlugin\#00\]\n/);
-      // content.should.containEql('framework.CustomError: foo [https://eggjs.org/zh-cn/faq/customPlugin#00]\n');
+      content.should.match(/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3} framework.CustomError: foo \[https\:\/\/eggjs\.org\/zh-cn\/faq\/customPlugin_00\]\n/);
     });
   });
 
