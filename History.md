@@ -1,4 +1,10 @@
 
+2.6.1 / 2021-04-07
+==================
+
+**fixes**
+  * [[`0d3d4e4`](http://github.com/eggjs/egg-logger/commit/0d3d4e461d802340ec989897694c9f9af07b4f3e)] - fix: use FrameworkBaseError.isFrameworkError to judge (#71) (mansonchor.github.com <<mansonchor1987@gmail.com>>)
+
 2.6.0 / 2021-03-23
 ==================
 
