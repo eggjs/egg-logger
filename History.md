@@ -1,4 +1,10 @@
 
+2.6.2 / 2021-08-02
+==================
+
+**fixes**
+  * [[`62d724f`](http://github.com/eggjs/egg-logger/commit/62d724fc2b4b2a22c2d554dbfc4c882b766ed630)] - fix: remove defineProperty to improve performance (#72) (Yiyu He <<dead_horse@qq.com>>)
+
 2.6.1 / 2021-04-07
 ==================
 
