@@ -20,6 +20,7 @@
     "benchmark": "^2.1.4",
     "coffee": "^5.2.1",
     "egg-bin": "^4.9.0",
+    "egg-ci": "^1.18.0",
     "eslint": "^5.11.1",
     "eslint-config-egg": "^7.1.0",
     "ko-sleep": "^1.0.3",
@@ -57,7 +58,8 @@
     "index.d.ts"
   ],
   "ci": {
-    "version": "8, 10, 12, 14"
+    "version": "8, 10, 12, 14",
+    "type": "github"
   },
   "license": "MIT"
 }
