@@ -66,7 +66,11 @@ describe('test/lib/egg/context_logger.test.js', () => {
       level: 'INFO',
       consoleLevel: 'INFO',
       flushInterval: 1,
-      contextFormatter: meta => JSON.stringify(meta),
+      contextFormatter: meta => {
+        const outputMeta = { ...meta };
+        outputMeta.ctx = undefined;
+        return JSON.stringify(outputMeta);
+      },
     });
     app.on('error', err => console.log(err));
     Object.defineProperty(app.request, 'ip', {
