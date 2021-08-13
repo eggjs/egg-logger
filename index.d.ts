@@ -21,6 +21,7 @@ export interface EggLoggerOptions extends LoggerOptions {
   file: string;
   formatter?: (meta?: object) => string;
   contextFormatter?: (meta?: object) => string;
+  consoleFormatter?: (meta?: object) => string;
   jsonFile?: string;
   outputJSON?: boolean;
   buffer?: boolean;
@@ -165,6 +166,7 @@ export interface TransportOptions {
   level?: LoggerLevel;
   formatter?: (meta?: object) => string;
   contextFormatter?: (meta?: object) => string;
+  consoleFormatter?: (meta?: object) => string;
   json?: boolean;
   encoding?: string;
   eol?: string;
