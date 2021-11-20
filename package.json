@@ -61,7 +61,7 @@
     "version": "8, 10, 12, 14, 16",
     "type": "github",
     "os": {
-      "github": "linux, macOS"
+      "github": "linux, macos"
     }
   },
   "license": "MIT"
