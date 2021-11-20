@@ -1,5 +1,6 @@
 'use strict';
 
+const { performance } = require('perf_hooks');
 const fs = require('fs');
 const path = require('path');
 const should = require('should');
@@ -23,6 +24,9 @@ describe('test/lib/egg/context_logger.test.js', () => {
     app.use(function*(next) {
       if (this.path === '/starttime') {
         this.starttime = Date.now();
+      }
+      if (this.path === '/performance_starttime') {
+        this.performanceStarttime = performance.now();
       }
       this.logger = new ContextLogger(this, this.app.logger);
       this.cLogger = new ContextLogger(this, this.app.cLogger);
@@ -131,8 +135,23 @@ describe('test/lib/egg/context_logger.test.js', () => {
       .expect('done', err => {
         should.not.exists(err);
         const body = fs.readFileSync(filepath, 'utf8');
-        const m = body.match(/\/\d*ms/g);
-        (parseInt(m[1].substring(1)) > parseInt(m[0].substring(1))).should.equal(true);
+        const m = body.match(/\/\d+ms/g);
+        console.log(m);
+        assert(parseInt(m[1].substring(1)) > parseInt(m[0].substring(1)) === true);
+        done();
+      });
+  });
+
+  it('can log multi ctx log work on performanceStartTime', done => {
+    request(app.callback())
+      .get('/performance_starttime')
+      .expect('done', err => {
+        should.not.exists(err);
+        const log = fs.readFileSync(filepath, 'utf8');
+        console.log(log);
+        const m = log.match(/\/[\d\.]+ms/g);
+        console.log(m);
+        assert(parseFloat(m[1].substring(1)) > parseFloat(m[0].substring(1)) === true);
         done();
       });
   });

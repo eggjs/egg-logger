@@ -50,7 +50,7 @@
   },
   "typings": "index.d.ts",
   "engines": {
-    "node": ">=8.0.0"
+    "node": ">=8.5.0"
   },
   "files": [
     "index.js",
@@ -58,7 +58,7 @@
     "index.d.ts"
   ],
   "ci": {
-    "version": "8, 10, 12, 14",
+    "version": "8, 10, 12, 14, 16",
     "type": "github"
   },
   "license": "MIT"
