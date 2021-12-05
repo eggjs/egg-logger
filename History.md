@@ -1,4 +1,10 @@
 
+2.7.0 / 2021-12-05
+==================
+
+**features**
+  * [[`f42cb95`](http://github.com/eggjs/egg-logger/commit/f42cb950ab7e00872c464cff87e7b2b77da5c391)] - feat: support performance timer for more precise milliseconds (#74) (fengmk2 <<fengmk2@gmail.com>>)
+
 2.6.2 / 2021-08-02
 ==================
 
