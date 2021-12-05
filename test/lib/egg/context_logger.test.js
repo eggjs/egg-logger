@@ -136,7 +136,6 @@ describe('test/lib/egg/context_logger.test.js', () => {
         should.not.exists(err);
         const body = fs.readFileSync(filepath, 'utf8');
         const m = body.match(/\/\d+ms/g);
-        console.log(m);
         assert(parseInt(m[1].substring(1)) > parseInt(m[0].substring(1)) === true);
         done();
       });
@@ -148,9 +147,7 @@ describe('test/lib/egg/context_logger.test.js', () => {
       .expect('done', err => {
         should.not.exists(err);
         const log = fs.readFileSync(filepath, 'utf8');
-        console.log(log);
         const m = log.match(/\/[\d\.]+ms/g);
-        console.log(m);
         assert(parseFloat(m[1].substring(1)) > parseFloat(m[0].substring(1)) === true);
         done();
       });
