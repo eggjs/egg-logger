@@ -13,7 +13,7 @@ const levels = require('../..');
 
 describe('test/lib/logger.test.js', () => {
   const tmp = path.join(__dirname, '../fixtures/tmp');
-  const filepath = path.join(tmp, 'a.log');
+  const filepath = path.join(tmp, 'logger.a.log');
 
   beforeEach(() => {
     rimraf.sync(path.dirname(filepath));

@@ -15,7 +15,7 @@ const { FrameworkBaseError } = require('egg-errors');
 
 describe('test/lib/formatter.test.js', () => {
   const tmp = path.join(__dirname, '../fixtures/tmp');
-  const filepath = path.join(tmp, 'a.log');
+  const filepath = path.join(tmp, 'formatter.a.log');
 
   let transport;
   before(() => {
