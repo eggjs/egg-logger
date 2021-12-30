@@ -138,8 +138,13 @@ export interface EggLoggersOptions {
   concentrateError?: 'duplicate' | 'redirect' | 'ignore';
 }
 
+export interface EggCustomLoggerOptions {
+  // custom logger name
+  [name: string]: EggLoggerOptions;
+}
+
 export class EggLoggers extends Map<string, Logger> {
-  constructor(options: EggLoggersOptions);
+  constructor(options: { logger: EggLoggersOptions, customLogger?: EggCustomLoggerOptions });
 
   /**
    * Disable console logger

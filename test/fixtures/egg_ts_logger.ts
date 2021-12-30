@@ -1,4 +1,5 @@
-import { levels, EggLogger, FileTransport } from '../../';
+import { levels, EggLogger, FileTransport, EggLoggers } from '../../';
+
 const options = JSON.parse(process.argv[2]);
 const logger = new EggLogger(options);
 logger.info('info foo');
@@ -18,4 +19,17 @@ logger.error('error foo');
 logger.info(`LoggerLevel ${Object.keys(levels).join(',')}`);
 logger.close();
 
-setTimeout(() => process.exit(0), 2000);
+const eggLoggersOptions = JSON.parse(process.argv[3]);
+const eggLoggers = new EggLoggers(eggLoggersOptions);
+
+for (const [name, logger] of eggLoggers.entries()) {
+  logger.info('info', name);
+  logger.warn('warn', name);
+  logger.error('error', name);
+}
+
+for (const logger of eggLoggers.values()) {
+  logger.close();
+}
+
+setTimeout(() => { process.exit(0) }, 2000);
