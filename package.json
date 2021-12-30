@@ -1,6 +1,6 @@
 {
   "name": "egg-logger",
-  "version": "2.7.0",
+  "version": "2.7.1",
   "description": "egg logger",
   "main": "index.js",
   "dependencies": {

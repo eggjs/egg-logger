@@ -1,4 +1,10 @@
 
+2.7.1 / 2021-12-30
+==================
+
+**fixes**
+  * [[`fe93575`](http://github.com/eggjs/egg-logger/commit/fe935752579ddbf60c6125999faa250ba36e3c35)] - fix: EggLoggers constructor typing (#75) (Lockonlin <<531244799@qq.com>>)
+
 2.7.0 / 2021-12-05
 ==================
 
