@@ -9,7 +9,7 @@ const EggErrorLogger = require('../../../index').EggErrorLogger;
 const levels = require('../../../index');
 const utils = require('../../../lib/utils');
 
-describe('test/egg/error_logger.test.js', () => {
+describe('test/lib/egg/error_logger.test.js', () => {
   const errorLoggerFile = path.join(__dirname, '../../fixtures/egg_error_logger.js');
   const filepath = path.join(__dirname, '../../fixtures/tmp/a.log');
 
@@ -29,6 +29,7 @@ describe('test/egg/error_logger.test.js', () => {
       consoleLevel: levels.ERROR,
       jsonFile: '',
       outputJSON: false,
+      outputJSONOnly: false,
       formatter: utils.defaultFormatter,
     });
   });

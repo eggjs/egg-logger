@@ -33,6 +33,24 @@ describe('test/egg/logger.test.js', () => {
       });
   });
 
+  it('should only create outputJson .json.log file', done => {
+    const file1 = path.join(__dirname, '../../fixtures/tmp/fileOnlyJson.log');
+    const options = {
+      file: file1,
+      outputJSON: true,
+      outputJSONOnly: true,
+      level: levels.ERROR,
+    };
+    coffee.fork(loggerFile, [ JSON.stringify(options) ])
+      .end(() => {
+        fs.readFileSync(file1.replace(/\.log$/, '.json.log'), 'utf8')
+          .should.match(/"message":"error foo"/);
+        fs.existsSync(file1)
+          .should.match(false);
+        done();
+      });
+  });
+
   it('should un-redirect specific level to logger', done => {
     const file1 = path.join(__dirname, '../../fixtures/tmp/file1.log');
     const file2 = path.join(__dirname, '../../fixtures/tmp/file2.log');
