@@ -1,4 +1,10 @@
 
+2.8.0 / 2022-03-22
+==================
+
+**features**
+  * [[`6f7dcbb`](http://github.com/eggjs/egg-logger/commit/6f7dcbb1ec92b0242c5adc43a41681c3848d4c62)] - feat: Only output logs in JSON file format is supported (#77) (duqingyu <<1065161421@qq.com>>)
+
 2.7.1 / 2021-12-30
 ==================
 

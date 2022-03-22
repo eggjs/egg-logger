@@ -1,6 +1,6 @@
 {
   "name": "egg-logger",
-  "version": "2.7.1",
+  "version": "2.8.0",
   "description": "egg logger",
   "main": "index.js",
   "dependencies": {
@@ -23,6 +23,7 @@
     "egg-ci": "^1.18.0",
     "eslint": "^5.11.1",
     "eslint-config-egg": "^7.1.0",
+    "git-contributor": "^1.0.10",
     "ko-sleep": "^1.0.3",
     "koa": "^1.6.2",
     "mm": "^2.4.1",
@@ -39,8 +40,9 @@
     "url": "https://github.com/eggjs/egg-logger.git"
   },
   "homepage": "https://github.com/eggjs/egg-logger",
-  "author": "fengmk2 <fengmk2@gmail.com> (https://fengmk2.com)",
+  "author": "fengmk2 <fengmk2@gmail.com> (https://github.com/fengmk2)",
   "scripts": {
+    "contributor": "git-contributor",
     "autod": "autod",
     "lint": "eslint .",
     "test": "npm run lint -- --fix && egg-bin pkgfiles && npm run test-local",

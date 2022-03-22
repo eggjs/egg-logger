@@ -122,3 +122,15 @@ logger.info('info');
 ## License
 
 [MIT](LICENSE)
+<!-- GITCONTRIBUTOR_START -->
+
+## Contributors
+
+|[<img src="https://avatars.githubusercontent.com/u/156269?v=4" width="100px;"/><br/><sub><b>fengmk2</b></sub>](https://github.com/fengmk2)<br/>|[<img src="https://avatars.githubusercontent.com/u/985607?v=4" width="100px;"/><br/><sub><b>dead-horse</b></sub>](https://github.com/dead-horse)<br/>|[<img src="https://avatars.githubusercontent.com/u/360661?v=4" width="100px;"/><br/><sub><b>popomore</b></sub>](https://github.com/popomore)<br/>|[<img src="https://avatars.githubusercontent.com/u/227713?v=4" width="100px;"/><br/><sub><b>atian25</b></sub>](https://github.com/atian25)<br/>|[<img src="https://avatars.githubusercontent.com/u/5856440?v=4" width="100px;"/><br/><sub><b>whxaxes</b></sub>](https://github.com/whxaxes)<br/>|[<img src="https://avatars.githubusercontent.com/u/3367820?v=4" width="100px;"/><br/><sub><b>Jeff-Tian</b></sub>](https://github.com/Jeff-Tian)<br/>|
+| :---: | :---: | :---: | :---: | :---: | :---: |
+|[<img src="https://avatars.githubusercontent.com/u/2160731?v=4" width="100px;"/><br/><sub><b>mansonchor</b></sub>](https://github.com/mansonchor)<br/>|[<img src="https://avatars.githubusercontent.com/u/19274678?v=4" width="100px;"/><br/><sub><b>andy-ms</b></sub>](https://github.com/andy-ms)<br/>|[<img src="https://avatars.githubusercontent.com/u/5886475?v=4" width="100px;"/><br/><sub><b>DavidCai1993</b></sub>](https://github.com/DavidCai1993)<br/>|[<img src="https://avatars.githubusercontent.com/u/1474688?v=4" width="100px;"/><br/><sub><b>luckydrq</b></sub>](https://github.com/luckydrq)<br/>|[<img src="https://avatars.githubusercontent.com/u/2842176?v=4" width="100px;"/><br/><sub><b>XadillaX</b></sub>](https://github.com/XadillaX)<br/>|[<img src="https://avatars.githubusercontent.com/u/8201516?v=4" width="100px;"/><br/><sub><b>linrf</b></sub>](https://github.com/linrf)<br/>|
+[<img src="https://avatars.githubusercontent.com/u/30541930?v=4" width="100px;"/><br/><sub><b>duqingyu</b></sub>](https://github.com/duqingyu)<br/>|[<img src="https://avatars.githubusercontent.com/u/7779883?v=4" width="100px;"/><br/><sub><b>lix059</b></sub>](https://github.com/lix059)<br/>|[<img src="https://avatars.githubusercontent.com/u/2675419?v=4" width="100px;"/><br/><sub><b>congyuandong</b></sub>](https://github.com/congyuandong)<br/>|[<img src="https://avatars.githubusercontent.com/u/1763067?v=4" width="100px;"/><br/><sub><b>waitingsong</b></sub>](https://github.com/waitingsong)<br/>
+
+This project follows the git-contributor [spec](https://github.com/xudafeng/git-contributor), auto updated at `Tue Mar 22 2022 23:31:56 GMT+0800`.
+
+<!-- GITCONTRIBUTOR_END -->
