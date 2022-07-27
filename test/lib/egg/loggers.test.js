@@ -63,7 +63,7 @@ describe('test/egg/loggers.test.js', () => {
           },
           gLogger: {
             file: gLog,
-            concentrateLoggerName: 'hLogger',
+            concentrateErrorLoggerName: 'hLogger',
           },
           hLogger: {
             file: hLog,
