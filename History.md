@@ -1,4 +1,10 @@
 
+2.9.0 / 2022-07-27
+==================
+
+**features**
+  * [[`493a595`](http://github.com/eggjs/egg-logger/commit/493a5952a4a7c5314a457099a9e9adfd1d1525ce)] - feat: support custom concentrateLoggerName options (#78) (mansonchor.github.com <<mansonchor1987@gmail.com>>)
+
 2.8.0 / 2022-03-22
 ==================
 
