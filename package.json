@@ -60,7 +60,7 @@
     "index.d.ts"
   ],
   "ci": {
-    "version": "8, 10, 12, 14, 16",
+    "version": "8, 10, 12, 14, 16, 18",
     "type": "github",
     "os": {
       "github": "linux, macos"

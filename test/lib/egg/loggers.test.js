@@ -16,6 +16,8 @@ describe('test/egg/loggers.test.js', () => {
   const dLog = path.join(tmp, 'd.log');
   const eLog = path.join(tmp, 'e.log');
   const fLog = 'f.log';
+  const gLog = path.join(tmp, 'g.log');
+  const hLog = path.join(tmp, 'h.log');
 
   before(() => rimraf(tmp));
   after(() => rimraf(tmp));
@@ -58,6 +60,14 @@ describe('test/egg/loggers.test.js', () => {
           },
           fLogger: {
             file: fLog,
+          },
+          gLogger: {
+            file: gLog,
+            concentrateErrorLoggerName: 'hLogger',
+          },
+          hLogger: {
+            file: hLog,
+            concentrateError: 'ignore',
           },
         },
       });
@@ -112,6 +122,18 @@ describe('test/egg/loggers.test.js', () => {
       assert(loggers.cLogger.options.concentrateError === 'duplicate');
       assert(loggers.dLogger.options.concentrateError === 'redirect');
       assert(loggers.eLogger.options.concentrateError === 'ignore');
+    });
+
+    it('gLogger error will duplicate to hLogger', function* () {
+      loggers.gLogger.error('this is gLogger error foo1');
+
+      yield sleep(10);
+
+      assert(fs.readFileSync(hLog, 'utf8').includes('this is gLogger error foo1'));
+      assert(fs.readFileSync(gLog, 'utf8').includes('this is gLogger error foo1'));
+
+      // should not duplicate to common-error.log
+      assert(!fs.readFileSync(path.join(tmp, 'common-error.log'), 'utf8').includes('this is gLogger error foo1'));
     });
 
     it('should app.logger log to appLogName', function*() {
