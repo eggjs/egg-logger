@@ -17,6 +17,7 @@ describe('test/transports/file.test.js', () => {
   const tmp = path.join(__dirname, '../../fixtures/tmp');
   afterEach(() => {
     rimraf.sync(tmp);
+    mm.restore();
   });
 
   it('should set level to levels.ERROR', function*() {
@@ -205,6 +206,7 @@ describe('test/transports/file.test.js', () => {
     mm(console, 'error', err => {
       msg = err;
     });
+    mm(process.env, 'NODE_ENV', 'production');
     const transport = new FileTransport({
       file: path.join(tmp, 'a.log'),
       level: 'ERROR',
