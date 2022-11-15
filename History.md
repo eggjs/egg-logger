@@ -1,4 +1,10 @@
 
+2.9.1 / 2022-11-15
+==================
+
+**fixes**
+  * [[`ec97edd`](http://github.com/eggjs/egg-logger/commit/ec97edd6d165f559f8c86bf1573cd183b156fd06)] - 🐛 FIX: Ignore error log after stream close on unittest env (#79) (fengmk2 <<fengmk2@gmail.com>>)
+
 2.9.0 / 2022-07-27
 ==================
 
