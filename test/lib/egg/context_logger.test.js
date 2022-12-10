@@ -19,36 +19,36 @@ describe('test/lib/egg/context_logger.test.js', () => {
 
   before(() => {
     app = new Koa();
-    app.use(async function(next) {
-      if (this.path === '/starttime') {
-        this.starttime = Date.now();
+    app.use(async (ctx, next) => {
+      if (ctx.path === '/starttime') {
+        ctx.starttime = Date.now();
       }
-      if (this.path === '/performance_starttime') {
-        this.performanceStarttime = performance.now();
+      if (ctx.path === '/performance_starttime') {
+        ctx.performanceStarttime = performance.now();
       }
-      this.logger = new ContextLogger(this, this.app.logger);
-      this.cLogger = new ContextLogger(this, this.app.cLogger);
-      this.ccLogger = new ContextLogger(this, this.app.ccLogger);
+      ctx.logger = new ContextLogger(ctx, app.logger);
+      ctx.cLogger = new ContextLogger(ctx, app.cLogger);
+      ctx.ccLogger = new ContextLogger(ctx, app.ccLogger);
       await next();
     });
-    app.use(async function() {
+    app.use(async ctx => {
       await new Promise(resolve => setTimeout(resolve, 10));
-      this.logger.info('info foo');
+      ctx.logger.info('info foo');
 
       await new Promise(resolve => setTimeout(resolve, 10));
-      this.logger.warn('warn foo');
+      ctx.logger.warn('warn foo');
 
       await new Promise(resolve => setTimeout(resolve, 10));
-      this.logger.write('[foo] hi raw log here');
+      ctx.logger.write('[foo] hi raw log here');
 
       await new Promise(resolve => setTimeout(resolve, 10));
-      this.cLogger.info('ctx');
+      ctx.cLogger.info('ctx');
 
       await new Promise(resolve => setTimeout(resolve, 10));
-      this.ccLogger.info('ctx');
+      ctx.ccLogger.info('ctx');
 
       await new Promise(resolve => setTimeout(resolve, 10));
-      this.body = 'done';
+      ctx.body = 'done';
     });
     app.logger = new Logger({
       file: filepath,
@@ -91,7 +91,7 @@ describe('test/lib/egg/context_logger.test.js', () => {
     request(app.callback())
       .get('/')
       .expect('done', err => {
-        assert(err);
+        assert(!err);
         assert.match(fs.readFileSync(filepath, 'utf8'),
           /\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3} INFO \d+ \[-\/127.0.0.1\/-\/0ms GET \/\] info foo\n/);
         done();
@@ -106,7 +106,7 @@ describe('test/lib/egg/context_logger.test.js', () => {
     request(app.callback())
       .get('/')
       .expect('done', err => {
-        assert(err);
+        assert(!err);
         assert.match(fs.readFileSync(filepath, 'utf8'),
           /123123\/127.0.0.1\/aabbccdd\/0ms GET \/\] info foo\n/);
         done();
@@ -117,7 +117,7 @@ describe('test/lib/egg/context_logger.test.js', () => {
     request(app.callback())
       .get('/starttime')
       .expect('done', err => {
-        assert(err);
+        assert(!err);
         assert.match(fs.readFileSync(filepath, 'utf8'),
           /\[-\/127.0.0.1\/-\/\d*ms GET \/starttime\] info foo\n/);
         done();
@@ -128,7 +128,7 @@ describe('test/lib/egg/context_logger.test.js', () => {
     request(app.callback())
       .get('/starttime')
       .expect('done', err => {
-        assert(err);
+        assert(!err);
         const body = fs.readFileSync(filepath, 'utf8');
         const m = body.match(/\/\d+ms/g);
         assert.strictEqual(parseInt(m[1].substring(1)) > parseInt(m[0].substring(1)), true);
@@ -140,7 +140,7 @@ describe('test/lib/egg/context_logger.test.js', () => {
     request(app.callback())
       .get('/performance_starttime')
       .expect('done', err => {
-        assert(err);
+        assert(!err);
         const log = fs.readFileSync(filepath, 'utf8');
         const m = log.match(/\/[\d\.]+ms/g);
         assert(parseFloat(m[1].substring(1)) > parseFloat(m[0].substring(1)) === true);
@@ -152,8 +152,7 @@ describe('test/lib/egg/context_logger.test.js', () => {
     request(app.callback())
       .get('/starttime')
       .expect('done', err => {
-        assert(err);
-        // eslint-disable-next-line no-useless-escape
+        assert(!err);
         assert.match(fs.readFileSync(filepath, 'utf8'), /\n\[foo\] hi raw log here\n/);
         done();
       });
@@ -163,7 +162,7 @@ describe('test/lib/egg/context_logger.test.js', () => {
     request(app.callback())
       .get('/')
       .expect('done', err => {
-        assert(err);
+        assert(!err);
         const content = fs.readFileSync(filepathc, 'utf8');
         assert(content.includes('message=ctx&level=INFO&path=/\n'));
         done();
@@ -174,7 +173,7 @@ describe('test/lib/egg/context_logger.test.js', () => {
     request(app.callback())
       .get('/')
       .expect('done', err => {
-        assert(err);
+        assert(!err);
         const content = fs.readFileSync(filepathcc, 'utf8');
         assert(content.includes('"message":"ctx"'));
         assert(!content.includes('"ctx":'));

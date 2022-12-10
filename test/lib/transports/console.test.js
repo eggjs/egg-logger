@@ -6,7 +6,7 @@ const mm = require('mm');
 const { rimraf } = require('../../utils');
 const levels = require('../../../index');
 
-describe('test/transports/console.test.js', () => {
+describe('test/lib/transports/console.test.js', () => {
   const logger = path.join(__dirname, '../../fixtures/console_transport.js');
   const tmp = path.join(__dirname, '../fixtures/tmp');
 

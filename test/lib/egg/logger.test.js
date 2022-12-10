@@ -8,7 +8,7 @@ const { rimraf } = require('../../utils');
 const levels = require('../../../index');
 const Logger = require('../../../index').EggLogger;
 
-describe('test/egg/logger.test.js', () => {
+describe('test/lib/egg/logger.test.js', () => {
   const loggerFile = path.join(__dirname, '../../fixtures/egg_logger.js');
   const filepath = path.join(__dirname, '../../fixtures/tmp/a.log');
 

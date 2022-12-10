@@ -7,7 +7,7 @@ const coffee = require('coffee');
 const Loggers = require('../../../index').EggLoggers;
 const { sleep, rimraf } = require('../../utils');
 
-describe('test/egg/loggers.test.js', () => {
+describe('test/lib/egg/loggers.test.js', () => {
   const tmp = path.join(__dirname, '../../fixtures/tmp');
   const aLog = path.join(tmp, 'a.log');
   const bLog = path.join(tmp, 'b.log');

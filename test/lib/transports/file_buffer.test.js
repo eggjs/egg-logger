@@ -9,7 +9,7 @@ const FileBufferTransport = require('../../../index').FileBufferTransport;
 const Logger = require('../../../index').Logger;
 const { sleep, rimraf } = require('../../utils');
 
-describe('test/transports/file_buffer.test.js', () => {
+describe('test/lib/transports/file_buffer.test.js', () => {
 
   const tmp = path.join(__dirname, '../../fixtures/tmp');
   afterEach(async () => {

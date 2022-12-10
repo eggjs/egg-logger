@@ -5,7 +5,7 @@ const coffee = require('coffee');
 const mm = require('mm');
 const { rimraf } = require('../../utils');
 
-describe('test/egg/console_logger.test.js', () => {
+describe('test/lib/egg/console_logger.test.js', () => {
   const consoleLoggerFile = path.join(__dirname, '../../fixtures/egg_console_logger.js');
   const tmp = path.join(__dirname, '../../fixtures/tmp');
 
