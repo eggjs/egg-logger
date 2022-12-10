@@ -10,14 +10,23 @@ const { sleep, rimraf } = require('../../utils');
 
 describe('test/lib/transports/file_buffer.test.js', () => {
   const tmp = path.join(__dirname, '../../fixtures/tmp_file_buffer');
-  afterEach(async () => {
+  let filepath;
+  beforeEach(() => {
+    filepath = path.join(tmp, `transports_file_buffer_${Date.now()}`, 'a.log');
+  });
+
+  afterEach(() => {
+    mm.restore();
+  });
+
+  after(async () => {
     await rimraf(tmp);
   });
 
   it('should write to file after flushInterval hit', async () => {
     const logger = new Logger();
     const transport = new FileBufferTransport({
-      file: path.join(tmp, 'a_1.log'),
+      file: filepath,
       level: 'INFO',
     });
     logger.set('file', transport);
@@ -26,18 +35,18 @@ describe('test/lib/transports/file_buffer.test.js', () => {
     // flush is 1000 by default
     await sleep(100);
     assert.strictEqual(transport._buf.length > 0, true);
-    let content = fs.readFileSync(path.join(tmp, 'a_1.log'), 'utf8');
+    let content = fs.readFileSync(filepath, 'utf8');
     assert.strictEqual(content, '');
 
     await sleep(1000);
-    content = fs.readFileSync(path.join(tmp, 'a_1.log'), 'utf8');
+    content = fs.readFileSync(filepath, 'utf8');
     assert.strictEqual(content, 'info foo\n');
     logger.close();
   });
 
   it('should close timer after logger close', () => {
     const transport = new FileBufferTransport({
-      file: path.join(tmp, 'a_transport.log'),
+      file: filepath,
       level: 'INFO',
     });
     transport.end();
@@ -45,7 +54,7 @@ describe('test/lib/transports/file_buffer.test.js', () => {
   });
 
   it('should reload stream when get error', async () => {
-    const logfile = path.join(tmp, 'a_file_buffer.log');
+    const logfile = filepath;
     const logger = new Logger();
     const transport = new FileBufferTransport({
       file: logfile,

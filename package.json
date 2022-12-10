@@ -15,7 +15,7 @@
     "debug": "^4.3.4",
     "depd": "^2.0.0",
     "egg-errors": "^2.3.1",
-    "iconv-lite": "^0.4.24",
+    "iconv-lite": "^0.6.3",
     "utility": "^1.17.0"
   },
   "devDependencies": {
