@@ -1,4 +1,13 @@
 
+3.0.0 / 2022-12-10
+==================
+
+**features**
+  * [[`0d4c55d`](http://github.com/eggjs/egg-logger/commit/0d4c55d37e1569950856832b56dbc187df677bf8)] - 📦 NEW: [BREAKING] support asyncLocalStorage to get ctx (#80) (fengmk2 <<fengmk2@gmail.com>>)
+
+**others**
+  * [[`5776bad`](http://github.com/eggjs/egg-logger/commit/5776bad40f57d04fb73dd852eb69b6b3947c8a8a)] - Create codeql.yml (fengmk2 <<fengmk2@gmail.com>>)
+
 2.9.1 / 2022-11-15
 ==================
 
