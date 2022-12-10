@@ -3,37 +3,37 @@
   "version": "2.9.1",
   "description": "egg logger",
   "main": "index.js",
+  "typings": "index.d.ts",
+  "files": [
+    "index.js",
+    "lib",
+    "index.d.ts"
+  ],
   "dependencies": {
     "chalk": "^2.4.1",
     "circular-json-for-egg": "^1.0.0",
-    "debug": "^2.6.9",
+    "debug": "^4.3.4",
     "depd": "^2.0.0",
-    "egg-errors": "^2.2.0",
+    "egg-errors": "^2.3.1",
     "iconv-lite": "^0.4.24",
     "mkdirp": "^0.5.1",
     "utility": "^1.15.0"
   },
   "devDependencies": {
-    "@types/node": "^10.3.4",
-    "autod": "^3.0.1",
+    "@types/node": "^14.18.34",
     "beautify-benchmark": "^0.2.4",
     "benchmark": "^2.1.4",
-    "coffee": "^5.2.1",
-    "egg-bin": "^4.9.0",
-    "egg-ci": "^1.18.0",
-    "eslint": "^5.11.1",
-    "eslint-config-egg": "^7.1.0",
+    "coffee": "^5.5.0",
+    "egg-bin": "^5.5.0",
+    "egg-ci": "^2.2.0",
+    "eslint": "^8.29.0",
+    "eslint-config-egg": "^12.1.0",
     "git-contributor": "^1.0.10",
-    "ko-sleep": "^1.0.3",
-    "koa": "^1.6.2",
-    "mm": "^2.4.1",
-    "mz": "^2.7.0",
-    "mz-modules": "^2.1.0",
-    "rimraf": "^2.6.2",
-    "should": "^13.2.3",
-    "supertest": "^3.3.0",
-    "ts-node": "^7.0.1",
-    "typescript": "^2.8.3"
+    "koa": "^2.14.1",
+    "mm": "^3.2.1",
+    "supertest": "^6.3.3",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.9.4"
   },
   "repository": {
     "type": "git",
@@ -43,28 +43,18 @@
   "author": "fengmk2 <fengmk2@gmail.com> (https://github.com/fengmk2)",
   "scripts": {
     "contributor": "git-contributor",
-    "autod": "autod",
     "lint": "eslint .",
-    "test": "npm run lint -- --fix && egg-bin pkgfiles && npm run test-local",
+    "test": "npm run lint -- --fix && npm run test-local",
     "test-local": "egg-bin test",
     "cov": "egg-bin cov",
-    "ci": "npm run lint && egg-bin pkgfiles --check && npm run cov"
+    "ci": "npm run lint && npm run cov"
   },
-  "typings": "index.d.ts",
   "engines": {
-    "node": ">=8.5.0"
+    "node": ">=14.17.0"
   },
-  "files": [
-    "index.js",
-    "lib",
-    "index.d.ts"
-  ],
   "ci": {
-    "version": "8, 10, 12, 14, 16, 18",
-    "type": "github",
-    "os": {
-      "github": "linux"
-    }
+    "version": "14, 16, 18",
+    "os": "linux"
   },
   "license": "MIT"
 }

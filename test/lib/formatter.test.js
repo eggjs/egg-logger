@@ -1,18 +1,18 @@
 'use strict';
 
-require('should');
+const assert = require('assert');
 const fs = require('fs');
 const path = require('path');
 const os = require('os');
-const rimraf = require('rimraf');
-const sleep = require('ko-sleep');
+const { rimraf } = require('../utils');
 const mm = require('mm');
 const chalk = require('chalk');
+const { FrameworkBaseError } = require('egg-errors');
 const FileTransport = require('../../index').FileTransport;
 const Logger = require('../../index').Logger;
 const levels = require('../../index');
 const utils = require('../../lib/utils');
-const { FrameworkBaseError } = require('egg-errors');
+const { sleep } = require('../utils');
 
 describe('test/lib/formatter.test.js', () => {
   const tmp = path.join(__dirname, '../fixtures/tmp');
@@ -26,23 +26,23 @@ describe('test/lib/formatter.test.js', () => {
     });
   });
 
-  afterEach(() => {
+  afterEach(async () => {
     mm.restore();
-    rimraf.sync(path.dirname(filepath));
+    await rimraf(path.dirname(filepath));
     transport.reload();
   });
 
-  it('should use util.format handle arguments', function*() {
+  it('should use util.format handle arguments', async () => {
     const logger = new Logger();
     logger.set('file', transport);
     logger.info('%s %s %j', 1, 'a', { a: 1 });
 
-    yield sleep(10);
+    await sleep(10);
 
-    fs.readFileSync(filepath, 'utf8').should.eql('1 a {"a":1}\n');
+    assert.strictEqual(fs.readFileSync(filepath, 'utf8'), '1 a {"a":1}\n');
   });
 
-  it('should format error', function*() {
+  it('should format error', async () => {
     const logger = new Logger();
     logger.set('file', transport);
     const errError = new Error('error foo');
@@ -51,16 +51,16 @@ describe('test/lib/formatter.test.js', () => {
     const errWarn = new Error('warn foo');
     logger.warn(errWarn);
 
-    yield sleep(10);
+    await sleep(10);
 
     const content = fs.readFileSync(filepath, 'utf8');
-    content.should.containEql('nodejs.Error: error foo\n');
-    content.should.containEql('nodejs.Error: warn foo\n');
-    content.should.match(/pid: \d*\n/);
-    content.should.containEql(`hostname: ${os.hostname()}\n`);
+    assert(content.includes('nodejs.Error: error foo\n'));
+    assert(content.includes('nodejs.Error: warn foo\n'));
+    assert.match(content, /pid: \d*\n/);
+    assert(content.includes(`hostname: ${os.hostname()}\n`));
   });
 
-  it('should format error with code and host properties', function*() {
+  it('should format error with code and host properties', async () => {
     const logger = new Logger();
     logger.set('file', transport);
     const err = new Error('foo');
@@ -69,13 +69,13 @@ describe('test/lib/formatter.test.js', () => {
     err.stack = null;
     logger.error(err);
 
-    yield sleep(10);
+    await sleep(10);
 
     const content = fs.readFileSync(filepath, 'utf8');
-    content.should.containEql('nodejs.MySomeError: foo (eggjs.org)\n');
+    assert(content.includes('nodejs.MySomeError: foo (eggjs.org)\n'));
   });
 
-  it('should format error getter-only stack', function*() {
+  it('should format error getter-only stack', async () => {
     const logger = new Logger();
     logger.set('file', transport);
     const errError = new Error('error foo');
@@ -85,15 +85,15 @@ describe('test/lib/formatter.test.js', () => {
     });
     logger.error(errError);
 
-    yield sleep(10);
+    await sleep(10);
 
     const content = fs.readFileSync(filepath, 'utf8');
-    content.should.containEql('nodejs.Error: error foo\n');
-    content.should.match(/pid: \d*\n/);
-    content.should.containEql(`hostname: ${os.hostname()}\n`);
+    assert(content.includes('nodejs.Error: error foo\n'));
+    assert.match(content, /pid: \d*\n/);
+    assert(content.includes(`hostname: ${os.hostname()}\n`));
   });
 
-  it('should format error with empty getter / setter stack', function*() {
+  it('should format error with empty getter / setter stack', async () => {
     const logger = new Logger();
     logger.set('file', transport);
     const errError = new Error('error foo');
@@ -104,15 +104,15 @@ describe('test/lib/formatter.test.js', () => {
     });
     logger.error(errError);
 
-    yield sleep(10);
+    await sleep(10);
 
     const content = fs.readFileSync(filepath, 'utf8');
-    content.should.containEql('nodejs.Error: error foo\nno_stack\n');
-    content.should.match(/pid: \d*\n/);
-    content.should.containEql(`hostname: ${os.hostname()}\n`);
+    assert(content.includes('nodejs.Error: error foo\nno_stack\n'));
+    assert.match(content, /pid: \d*\n/);
+    assert(content.includes(`hostname: ${os.hostname()}\n`));
   });
 
-  it('should format error with properties', function*() {
+  it('should format error with properties', async () => {
     const logger = new Logger();
     logger.set('file', transport);
     const err = new Error('foo');
@@ -143,22 +143,22 @@ describe('test/lib/formatter.test.js', () => {
     err.isTrue = true;
     logger.error(err);
 
-    yield sleep(10);
+    await sleep(10);
 
     const content = fs.readFileSync(filepath, 'utf8');
-    content.should.containEql('nodejs.MySomeError: foo (eggjs.org)\n');
-    content.should.containEql('addition: {"userId":12345,"message":"mock error\\n\\n","sub":{"foo":{}}}');
-    content.should.containEql('content: "123\\n123"');
-    content.should.containEql('buf: "<Buffer 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ...(1000) >"');
-    content.should.containEql('shortBuf: "<Buffer 65 65 65 65 65 65 65 65 65 65 65 65 65 65 65 65 65 65 65 65 65 65 65 65 65 65 65 65 65 65>"');
-    content.should.containEql('regex: "/^hello!+$/"');
-    content.should.containEql('userId: 100');
-    content.should.containEql('errors: [{"code":"missing_field","field":"name","message":"required"},{"code":"invalid","field":"age","message":"should be an integer"}]');
-    content.should.containEql('...(19999)');
-    content.should.containEql('isTrue: true');
+    assert(content.includes('nodejs.MySomeError: foo (eggjs.org)\n'));
+    assert(content.includes('addition: {"userId":12345,"message":"mock error\\n\\n","sub":{"foo":{}}}'));
+    assert(content.includes('content: "123\\n123"'));
+    assert(content.includes('buf: "<Buffer 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ...(1000) >"'));
+    assert(content.includes('shortBuf: "<Buffer 65 65 65 65 65 65 65 65 65 65 65 65 65 65 65 65 65 65 65 65 65 65 65 65 65 65 65 65 65 65>"'));
+    assert(content.includes('regex: "/^hello!+$/"'));
+    assert(content.includes('userId: 100'));
+    assert(content.includes('errors: [{"code":"missing_field","field":"name","message":"required"},{"code":"invalid","field":"age","message":"should be an integer"}]'));
+    assert(content.includes('...(19999)'));
+    assert(content.includes('isTrue: true'));
   });
 
-  it('should format error with options.formatter', function*() {
+  it('should format error with options.formatter', async () => {
     const logger = new Logger();
     const transport = new FileTransport({
       file: filepath,
@@ -170,10 +170,10 @@ describe('test/lib/formatter.test.js', () => {
     const err = new Error('foo');
     logger.error(err);
 
-    yield sleep(10);
+    await sleep(10);
 
     const content = fs.readFileSync(filepath, 'utf8');
-    content.should.match(/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3} nodejs.Error: foo\n/);
+    assert.match(content, /\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3} nodejs.Error: foo\n/);
   });
 
   describe('should format FrameworkError', () => {
@@ -183,19 +183,19 @@ describe('test/lib/formatter.test.js', () => {
       }
     }
 
-    it('format work', function*() {
+    it('format work', async () => {
       const logger = new Logger();
       logger.set('file', transport);
       const err = new CustomError('foo', '00');
       logger.error(err);
 
-      yield sleep(10);
+      await sleep(10);
 
       const content = fs.readFileSync(filepath, 'utf8');
-      content.should.containEql('framework.CustomError: foo [ https://eggjs.org/zh-cn/faq/customPlugin_00 ]\n');
+      assert(content.includes('framework.CustomError: foo [ https://eggjs.org/zh-cn/faq/customPlugin_00 ]\n'));
     });
 
-    it('format work with options.formatter work', function*() {
+    it('format work with options.formatter work', async () => {
       const logger = new Logger();
       const transport = new FileTransport({
         file: filepath,
@@ -207,14 +207,14 @@ describe('test/lib/formatter.test.js', () => {
       const err = new CustomError('foo', '00');
       logger.error(err);
 
-      yield sleep(10);
+      await sleep(10);
 
       const content = fs.readFileSync(filepath, 'utf8');
-      content.should.match(/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3} framework.CustomError: foo \[ https\:\/\/eggjs\.org\/zh-cn\/faq\/customPlugin_00 \]\n/);
+      assert.match(content, /\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3} framework.CustomError: foo \[ https\:\/\/eggjs\.org\/zh-cn\/faq\/customPlugin_00 \]\n/);
     });
   });
 
-  it('should log with options.formatter', function*() {
+  it('should log with options.formatter', async () => {
     const logger = new Logger();
     const transport = new FileTransport({
       file: filepath,
@@ -225,18 +225,18 @@ describe('test/lib/formatter.test.js', () => {
     logger.set('file', transport);
     logger.info('foo');
 
-    yield sleep(10);
+    await sleep(10);
 
     const content = fs.readFileSync(filepath, 'utf8');
-    content.should.containEql('level: INFO\n');
-    content.should.containEql('message: foo\n');
-    content.should.match(/date: \d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3}\n/);
-    content.should.match(/pid: \d*\n/);
-    content.should.containEql(`hostname: ${os.hostname()}\n`);
-    // content.should.containEql('raw: false\n');
+    assert(content.includes('level: INFO\n'));
+    assert(content.includes('message: foo\n'));
+    assert.match(content, /date: \d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3}\n/);
+    assert.match(content, /pid: \d*\n/);
+    assert(content.includes(`hostname: ${os.hostname()}\n`));
+    // assert(content.includes(('raw: false\n'));
   });
 
-  it('should support meta.formatter', function*() {
+  it('should support meta.formatter', async () => {
     const logger = new Logger();
     const transport = new FileTransport({
       file: filepath,
@@ -246,13 +246,13 @@ describe('test/lib/formatter.test.js', () => {
     logger.set('file', transport);
     logger.log('INFO', [ 'foo' ], { formatter: meta => `${meta.pid} ${meta.message}` });
 
-    yield sleep(10);
+    await sleep(10);
 
     const content = fs.readFileSync(filepath, 'utf8');
-    content.should.match(/^\d* foo\n$/);
+    assert.match(content, /^\d* foo\n$/);
   });
 
-  it('should set raw=true to make log become top priority', function*() {
+  it('should set raw=true to make log become top priority', async () => {
     const logger = new Logger();
     const transport = new FileTransport({
       file: filepath,
@@ -263,13 +263,13 @@ describe('test/lib/formatter.test.js', () => {
     logger.set('file', transport);
     logger.log('INFO', [ 'foo' ], { raw: true });
 
-    yield sleep(10);
+    await sleep(10);
 
     const content = fs.readFileSync(filepath, 'utf8');
-    content.should.eql('foo\n');
+    assert.strictEqual(content, 'foo\n');
   });
 
-  it('should log save to JSON file', function*() {
+  it('should log save to JSON file', async () => {
     const logger = new Logger();
     const transport = new FileTransport({
       file: filepath,
@@ -280,16 +280,15 @@ describe('test/lib/formatter.test.js', () => {
     logger.set('file', transport);
     logger.log('INFO', [ 'foo' ]);
 
-    yield sleep(10);
+    await sleep(10);
 
     const content = fs.readFileSync(filepath, 'utf8');
     const json = JSON.parse(content);
-    json.level.should.eql('INFO');
-    json.message.should.eql('foo');
-    json.date.should.match(/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3}/);
-    String(json.pid).should.match(/\d*/);
-    json.hostname.should.eql(os.hostname());
-    // json.raw.should.equal(false);
+    assert.strictEqual(json.level, 'INFO');
+    assert.strictEqual(json.message, 'foo');
+    assert.match(json.date, /\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3}/);
+    assert.match(String(json.pid), /\d*/);
+    assert.strictEqual(json.hostname, os.hostname());
   });
 
   // chalk color disable on github action env
@@ -305,7 +304,7 @@ describe('test/lib/formatter.test.js', () => {
         message: 'error',
       });
       /* eslint-disable-next-line no-control-regex */
-      ret.should.match(/^\u001b\[31m/);
+      assert.match(ret, /^\u001b\[31m/);
     });
 
     it('should be yellow on warn console log color', () => {
@@ -319,7 +318,7 @@ describe('test/lib/formatter.test.js', () => {
         message: 'warn',
       });
       /* eslint-disable-next-line no-control-regex */
-      ret.should.match(/^\u001b\[33m/);
+      assert.match(ret, /^\u001b\[33m/);
     });
 
     it('should show normal color', () => {
@@ -332,13 +331,13 @@ describe('test/lib/formatter.test.js', () => {
         pid: '50864',
         message: '[master] POST log (10ms)',
       });
-      ret.should.containEql('\u001b[34m[master');
-      ret.should.containEql('(\u001b[32m10ms\u001b[39m)');
-      ret.should.containEql('\u001b[36mPOST \u001b[39m');
+      assert(ret.includes('\u001b[34m[master'));
+      assert(ret.includes('(\u001b[32m10ms\u001b[39m)'));
+      assert(ret.includes('\u001b[36mPOST \u001b[39m'));
     });
   }
 
-  it('should set eol to \r\n', function*() {
+  it('should set eol to \r\n', async () => {
     const logger = new Logger();
     const transport = new FileTransport({
       file: filepath,
@@ -349,13 +348,13 @@ describe('test/lib/formatter.test.js', () => {
     logger.info('a');
     logger.write('b');
 
-    yield sleep(10);
+    await sleep(10);
 
     const content = fs.readFileSync(filepath, 'utf8');
-    content.should.equal('a\r\nb\r\n');
+    assert.strictEqual(content, 'a\r\nb\r\n');
   });
 
-  it('should set eol to empty string', function*() {
+  it('should set eol to empty string', async () => {
     const logger = new Logger();
     const transport = new FileTransport({
       file: filepath,
@@ -366,9 +365,9 @@ describe('test/lib/formatter.test.js', () => {
     logger.info('a');
     logger.write('b');
 
-    yield sleep(10);
+    await sleep(10);
 
     const content = fs.readFileSync(filepath, 'utf8');
-    content.should.equal('ab');
+    assert.strictEqual(content, 'ab');
   });
 });

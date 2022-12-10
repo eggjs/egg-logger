@@ -2,7 +2,6 @@
 
 const os = require('os');
 const path = require('path');
-const rimraf = require('rimraf');
 const mm = require('mm');
 const assert = require('assert');
 const Transport = require('../../../index').Transport;
@@ -10,13 +9,14 @@ const FileTransport = require('../../../index').FileTransport;
 const FileBufferTransport = require('../../../index').FileBufferTransport;
 const ConsoleTransport = require('../../../index').ConsoleTransport;
 const levels = require('../../../index');
+const { rimraf } = require('../../utils');
 
 describe('test/lib/transports/transport.test.js', () => {
   const filepath = path.join(__dirname, '../../fixtures/tmp/a.log');
 
-  afterEach(() => {
+  afterEach(async () => {
     mm.restore();
-    rimraf.sync(path.dirname(filepath));
+    await rimraf(path.dirname(filepath));
   });
 
   it('should always create new options', () => {

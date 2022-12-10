@@ -2,22 +2,21 @@
 
 const fs = require('fs');
 const path = require('path');
-const rimraf = require('rimraf');
-const sleep = require('ko-sleep');
 const mm = require('mm');
 const util = require('util');
 const assert = require('assert');
 const FileBufferTransport = require('../../../index').FileBufferTransport;
 const Logger = require('../../../index').Logger;
+const { sleep, rimraf } = require('../../utils');
 
 describe('test/transports/file_buffer.test.js', () => {
 
   const tmp = path.join(__dirname, '../../fixtures/tmp');
-  afterEach(() => {
-    rimraf.sync(tmp);
+  afterEach(async () => {
+    await rimraf(tmp);
   });
 
-  it('should write to file after flushInterval hit', function*() {
+  it('should write to file after flushInterval hit', async () => {
     const logger = new Logger();
     const transport = new FileBufferTransport({
       file: path.join(tmp, 'a.log'),
@@ -27,14 +26,14 @@ describe('test/transports/file_buffer.test.js', () => {
     logger.info('info foo');
 
     // flush is 1000 by default
-    yield sleep(100);
-    transport._buf.length.should.not.eql(0);
+    await sleep(100);
+    assert.strictEqual(transport._buf.length > 0, true);
     let content = fs.readFileSync(path.join(tmp, 'a.log'), 'utf8');
-    content.should.eql('');
+    assert.strictEqual(content, '');
 
-    yield sleep(1000);
+    await sleep(1000);
     content = fs.readFileSync(path.join(tmp, 'a.log'), 'utf8');
-    content.should.eql('info foo\n');
+    assert.strictEqual(content, 'info foo\n');
   });
 
   it('should close timer after logger close', () => {
@@ -43,10 +42,10 @@ describe('test/transports/file_buffer.test.js', () => {
       level: 'INFO',
     });
     transport.end();
-    (transport._timer === null).should.equal(true);
+    assert.strictEqual(transport._timer, null);
   });
 
-  it('should reload stream when get error', function* () {
+  it('should reload stream when get error', async () => {
     const logfile = path.join(tmp, 'a.log');
     const logger = new Logger();
     const transport = new FileBufferTransport({
@@ -57,7 +56,7 @@ describe('test/transports/file_buffer.test.js', () => {
 
     // write and wait flush
     logger.info('info foo');
-    yield sleep(1500);
+    await sleep(1500);
 
     // write error
     mm(fs, 'write', function() {
@@ -71,13 +70,13 @@ describe('test/transports/file_buffer.test.js', () => {
     });
     logger.info('info foo');
     logger.info('info foo');
-    yield sleep(1500);
+    await sleep(1500);
     mm.restore();
 
     // should be flush again
     logger.info('info foo');
     logger.info('info foo');
-    yield sleep(1500);
+    await sleep(1500);
 
     const content = fs.readFileSync(logfile, 'utf8');
     assert(content === 'info foo\ninfo foo\ninfo foo\n');

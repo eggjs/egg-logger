@@ -1,17 +1,17 @@
 'use strict';
 
 const path = require('path');
-const rimraf = require('rimraf');
 const coffee = require('coffee');
 const mm = require('mm');
+const { rimraf } = require('../../utils');
 const levels = require('../../../index');
 
 describe('test/transports/console.test.js', () => {
   const logger = path.join(__dirname, '../../fixtures/console_transport.js');
   const tmp = path.join(__dirname, '../fixtures/tmp');
 
-  afterEach(() => {
-    rimraf.sync(tmp);
+  afterEach(async () => {
+    await rimraf(tmp);
     mm.restore();
   });
 

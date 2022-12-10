@@ -1,12 +1,11 @@
 'use strict';
 
-const should = require('should');
 const assert = require('assert');
 const fs = require('fs');
 const path = require('path');
-const { sleep, rimraf } = require('mz-modules');
 const coffee = require('coffee');
 const Loggers = require('../../../index').EggLoggers;
+const { sleep, rimraf } = require('../../utils');
 
 describe('test/egg/loggers.test.js', () => {
   const tmp = path.join(__dirname, '../../fixtures/tmp');
@@ -74,14 +73,14 @@ describe('test/egg/loggers.test.js', () => {
     });
 
     it('loggers can create multi logger instance', () => {
-      should.exists(loggers.logger);
-      should.exists(loggers.coreLogger);
-      should.exists(loggers.errorLogger);
-      should.exists(loggers.aLogger);
-      should.exists(loggers.bLogger);
+      assert(loggers.logger);
+      assert(loggers.coreLogger);
+      assert(loggers.errorLogger);
+      assert(loggers.aLogger);
+      assert(loggers.bLogger);
     });
 
-    it('all logger.error will duplicate to errorLogger', function* () {
+    it('all logger.error will duplicate to errorLogger', async () => {
       loggers.logger.error('this is logger error foo1');
       loggers.coreLogger.error('this is coreLogger error foo1');
       loggers.aLogger.error('this is aLogger error foo1');
@@ -92,7 +91,7 @@ describe('test/egg/loggers.test.js', () => {
       loggers.aLogger.info('this is aLogger info foo1');
       loggers.dLogger.info('this is dLogger info foo1');
 
-      yield sleep(10);
+      await sleep(10);
 
       const content = fs.readFileSync(path.join(tmp, 'common-error.log'), 'utf8');
       assert(content.includes('this is logger error foo1'));
@@ -124,10 +123,10 @@ describe('test/egg/loggers.test.js', () => {
       assert(loggers.eLogger.options.concentrateError === 'ignore');
     });
 
-    it('gLogger error will duplicate to hLogger', function* () {
+    it('gLogger error will duplicate to hLogger', async () => {
       loggers.gLogger.error('this is gLogger error foo1');
 
-      yield sleep(10);
+      await sleep(10);
 
       assert(fs.readFileSync(hLog, 'utf8').includes('this is gLogger error foo1'));
       assert(fs.readFileSync(gLog, 'utf8').includes('this is gLogger error foo1'));
@@ -136,68 +135,68 @@ describe('test/egg/loggers.test.js', () => {
       assert(!fs.readFileSync(path.join(tmp, 'common-error.log'), 'utf8').includes('this is gLogger error foo1'));
     });
 
-    it('should app.logger log to appLogName', function*() {
+    it('should app.logger log to appLogName', async () => {
       loggers.logger.info('logger info foo');
 
-      yield sleep(10);
+      await sleep(10);
 
       const content = fs.readFileSync(path.join(tmp, 'app-web.log'), 'utf8');
-      content.should.containEql('logger info foo');
+      assert(content.includes('logger info foo'));
     });
 
-    it('should app.coreLogger warn log to coreLogName', function*() {
+    it('should app.coreLogger warn log to coreLogName', async () => {
       loggers.coreLogger.warn('coreLogger warn foo');
 
-      yield sleep(10);
+      await sleep(10);
 
       const content = fs.readFileSync(path.join(tmp, 'egg-web.log'), 'utf8');
-      content.should.containEql('coreLogger warn foo');
+      assert(content.includes('coreLogger warn foo'));
     });
 
-    it('should support coreLogger level=WARN', function*() {
+    it('should support coreLogger level=WARN', async () => {
       loggers.coreLogger.info('coreLogger info foo');
 
-      yield sleep(10);
+      await sleep(10);
 
       const content = fs.readFileSync(path.join(tmp, 'egg-web.log'), 'utf8');
-      content.should.not.containEql('coreLogger info foo');
+      assert(!content.includes('coreLogger info foo'));
     });
 
-    it('should aLogger log to a.log', function*() {
+    it('should aLogger log to a.log', async () => {
       loggers.aLogger.info('aLogger info foo');
 
-      yield sleep(10);
+      await sleep(10);
 
       const content = fs.readFileSync(path.join(tmp, 'a.log'), 'utf8');
-      content.should.containEql('aLogger info foo');
+      assert(content.includes('aLogger info foo'));
     });
 
-    it('should bLogger log to b.log', function*() {
+    it('should bLogger log to b.log', async () => {
       loggers.bLogger.info('bLogger info foo');
 
-      yield sleep(10);
+      await sleep(10);
 
       const content = fs.readFileSync(path.join(tmp, 'b.log'), 'utf8');
-      content.should.containEql('bLogger info foo');
+      assert(content.includes('bLogger info foo'));
     });
 
-    it('cLogger dont contains eol', function*() {
+    it('cLogger dont contains eol', async () => {
       loggers.cLogger.info('cLogger info foo');
       loggers.cLogger.info('cLogger info bar');
 
-      yield sleep(10);
+      await sleep(10);
 
       const content = fs.readFileSync(path.join(tmp, 'c.log'), 'utf8');
-      content.should.not.containEql('\n');
+      assert(!content.includes('\n'));
     });
 
-    it('should fLogger log to f.log with relative config', function*() {
+    it('should fLogger log to f.log with relative config', async () => {
       loggers.fLogger.info('fLogger info foo');
 
-      yield sleep(10);
+      await sleep(10);
 
       const content = fs.readFileSync(path.join(tmp, 'f.log'), 'utf8');
-      content.should.containEql('fLogger info foo');
+      assert(content.includes('fLogger info foo'));
     });
 
     it('reload all logger', done => {
@@ -228,24 +227,24 @@ describe('test/egg/loggers.test.js', () => {
     });
 
     it('loggers.logger alias to loggers.coreLogger', () => {
-      loggers.logger.options.file.should.equal(loggers.coreLogger.options.file);
+      assert.strictEqual(loggers.logger.options.file, loggers.coreLogger.options.file);
     });
 
-    it('should agent.coreLogger log to agentLogName', function*() {
+    it('should agent.coreLogger log to agentLogName', async () => {
       loggers.logger.info('logger info foo');
 
-      yield sleep(10);
+      await sleep(10);
 
       const content = fs.readFileSync(path.join(tmp, 'egg-agent.log'), 'utf8');
-      content.should.containEql('logger info foo');
-      content.should.match(/foo\r$/);
+      assert(content.includes('logger info foo'));
+      assert.match(content, /foo\r$/);
     });
 
-    it('should support coreLogger level=WARN', function*() {
+    it('should support coreLogger level=WARN', async () => {
       loggers.coreLogger.info('coreLogger info foo');
-      yield sleep(10);
+      await sleep(10);
       const content = fs.readFileSync(path.join(tmp, 'egg-agent.log'), 'utf8');
-      content.should.not.containEql('coreLogger info foo');
+      assert(!content.includes('coreLogger info foo'));
     });
   });
 

@@ -3,13 +3,11 @@
 const { performance } = require('perf_hooks');
 const fs = require('fs');
 const path = require('path');
-const should = require('should');
-const rimraf = require('rimraf');
-const koa = require('koa');
+const Koa = require('koa');
 const request = require('supertest');
 const mm = require('mm');
 const assert = require('assert');
-
+const { rimraf } = require('../../utils');
 const Logger = require('../../../index').EggLogger;
 const ContextLogger = require('../../../index').EggContextLogger;
 
@@ -20,8 +18,8 @@ describe('test/lib/egg/context_logger.test.js', () => {
   let app;
 
   before(() => {
-    app = koa();
-    app.use(function*(next) {
+    app = new Koa();
+    app.use(async function(next) {
       if (this.path === '/starttime') {
         this.starttime = Date.now();
       }
@@ -31,25 +29,25 @@ describe('test/lib/egg/context_logger.test.js', () => {
       this.logger = new ContextLogger(this, this.app.logger);
       this.cLogger = new ContextLogger(this, this.app.cLogger);
       this.ccLogger = new ContextLogger(this, this.app.ccLogger);
-      yield next;
+      await next();
     });
-    app.use(function*() {
-      yield new Promise(resolve => setTimeout(resolve, 10));
+    app.use(async function() {
+      await new Promise(resolve => setTimeout(resolve, 10));
       this.logger.info('info foo');
 
-      yield new Promise(resolve => setTimeout(resolve, 10));
+      await new Promise(resolve => setTimeout(resolve, 10));
       this.logger.warn('warn foo');
 
-      yield new Promise(resolve => setTimeout(resolve, 10));
+      await new Promise(resolve => setTimeout(resolve, 10));
       this.logger.write('[foo] hi raw log here');
 
-      yield new Promise(resolve => setTimeout(resolve, 10));
+      await new Promise(resolve => setTimeout(resolve, 10));
       this.cLogger.info('ctx');
 
-      yield new Promise(resolve => setTimeout(resolve, 10));
+      await new Promise(resolve => setTimeout(resolve, 10));
       this.ccLogger.info('ctx');
 
-      yield new Promise(resolve => setTimeout(resolve, 10));
+      await new Promise(resolve => setTimeout(resolve, 10));
       this.body = 'done';
     });
     app.logger = new Logger({
@@ -81,8 +79,8 @@ describe('test/lib/egg/context_logger.test.js', () => {
       value: '127.0.0.1',
     });
   });
-  afterEach(() => {
-    rimraf.sync(path.dirname(filepath));
+  afterEach(async () => {
+    await rimraf(path.dirname(filepath));
     mm.restore();
     app.logger.reload();
     app.cLogger.reload();
@@ -93,10 +91,9 @@ describe('test/lib/egg/context_logger.test.js', () => {
     request(app.callback())
       .get('/')
       .expect('done', err => {
-        should.not.exists(err);
-        fs.readFileSync(filepath, 'utf8')
-        // eslint-disable-next-line no-useless-escape
-          .should.match(/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3} INFO \d+ \[-\/127.0.0.1\/-\/0ms GET \/\] info foo\n/);
+        assert(err);
+        assert.match(fs.readFileSync(filepath, 'utf8'),
+          /\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3} INFO \d+ \[-\/127.0.0.1\/-\/0ms GET \/\] info foo\n/);
         done();
       });
   });
@@ -109,10 +106,9 @@ describe('test/lib/egg/context_logger.test.js', () => {
     request(app.callback())
       .get('/')
       .expect('done', err => {
-        should.not.exists(err);
-        fs.readFileSync(filepath, 'utf8')
-        // eslint-disable-next-line no-useless-escape
-          .should.match(/123123\/127.0.0.1\/aabbccdd\/0ms GET \/\] info foo\n/);
+        assert(err);
+        assert.match(fs.readFileSync(filepath, 'utf8'),
+          /123123\/127.0.0.1\/aabbccdd\/0ms GET \/\] info foo\n/);
         done();
       });
   });
@@ -121,10 +117,9 @@ describe('test/lib/egg/context_logger.test.js', () => {
     request(app.callback())
       .get('/starttime')
       .expect('done', err => {
-        should.not.exists(err);
-        fs.readFileSync(filepath, 'utf8')
-        // eslint-disable-next-line no-useless-escape
-          .should.match(/\[-\/127.0.0.1\/-\/\d*ms GET \/starttime\] info foo\n/);
+        assert(err);
+        assert.match(fs.readFileSync(filepath, 'utf8'),
+          /\[-\/127.0.0.1\/-\/\d*ms GET \/starttime\] info foo\n/);
         done();
       });
   });
@@ -133,10 +128,10 @@ describe('test/lib/egg/context_logger.test.js', () => {
     request(app.callback())
       .get('/starttime')
       .expect('done', err => {
-        should.not.exists(err);
+        assert(err);
         const body = fs.readFileSync(filepath, 'utf8');
         const m = body.match(/\/\d+ms/g);
-        assert(parseInt(m[1].substring(1)) > parseInt(m[0].substring(1)) === true);
+        assert.strictEqual(parseInt(m[1].substring(1)) > parseInt(m[0].substring(1)), true);
         done();
       });
   });
@@ -145,7 +140,7 @@ describe('test/lib/egg/context_logger.test.js', () => {
     request(app.callback())
       .get('/performance_starttime')
       .expect('done', err => {
-        should.not.exists(err);
+        assert(err);
         const log = fs.readFileSync(filepath, 'utf8');
         const m = log.match(/\/[\d\.]+ms/g);
         assert(parseFloat(m[1].substring(1)) > parseFloat(m[0].substring(1)) === true);
@@ -157,9 +152,9 @@ describe('test/lib/egg/context_logger.test.js', () => {
     request(app.callback())
       .get('/starttime')
       .expect('done', err => {
-        should.not.exists(err);
+        assert(err);
         // eslint-disable-next-line no-useless-escape
-        fs.readFileSync(filepath, 'utf8').should.match(/\n\[foo\] hi raw log here\n/);
+        assert.match(fs.readFileSync(filepath, 'utf8'), /\n\[foo\] hi raw log here\n/);
         done();
       });
   });
@@ -168,7 +163,7 @@ describe('test/lib/egg/context_logger.test.js', () => {
     request(app.callback())
       .get('/')
       .expect('done', err => {
-        should.not.exists(err);
+        assert(err);
         const content = fs.readFileSync(filepathc, 'utf8');
         assert(content.includes('message=ctx&level=INFO&path=/\n'));
         done();
@@ -179,7 +174,7 @@ describe('test/lib/egg/context_logger.test.js', () => {
     request(app.callback())
       .get('/')
       .expect('done', err => {
-        should.not.exists(err);
+        assert(err);
         const content = fs.readFileSync(filepathcc, 'utf8');
         assert(content.includes('"message":"ctx"'));
         assert(!content.includes('"ctx":'));

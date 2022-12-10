@@ -117,8 +117,6 @@ logger.info('info');
 
 设置环境变量 NODE_CONSOLE_LOGGRE_LEVEL = 'INFO' | 'WARN' | 'ERROR'
 
-
-
 ## License
 
 [MIT](LICENSE)

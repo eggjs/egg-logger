@@ -1,8 +1,10 @@
 'use strict';
+
 const fs = require('fs');
+const assert = require('assert');
 const path = require('path');
 const coffee = require('coffee');
-const rimraf = require('rimraf');
+const { rimraf } = require('../utils');
 const levels = require('../../').levels;
 
 describe('test/lib/ts.test.js', () => {
@@ -18,8 +20,8 @@ describe('test/lib/ts.test.js', () => {
   const coreLogPath = path.join(tmpFolder, coreLogName);
   const errorLogPath = path.join(tmpFolder, errorLogName);
 
-  afterEach(() => {
-    rimraf.sync(path.dirname(filepath));
+  afterEach(async () => {
+    await rimraf(path.dirname(filepath));
   });
 
   it('should work with ts without error', done => {
@@ -57,32 +59,32 @@ describe('test/lib/ts.test.js', () => {
       .expect('code', 0)
       .end(() => {
         let content = fs.readFileSync(filepath, 'utf8');
-        content.should.match(/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3} INFO \d+ info foo\n/);
-        content.should.match(/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3} WARN \d+ warn foo\n/);
-        content.should.match(/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3} ERROR \d+ error foo\n/);
-        content.should.match(/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3} INFO \d+ LoggerLevel ALL,DEBUG,INFO,WARN,ERROR,NONE/);
+        assert.match(content, /\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3} INFO \d+ info foo\n/);
+        assert.match(content, /\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3} WARN \d+ warn foo\n/);
+        assert.match(content, /\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3} ERROR \d+ error foo\n/);
+        assert.match(content, /\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3} INFO \d+ LoggerLevel ALL,DEBUG,INFO,WARN,ERROR,NONE/);
 
         content = fs.readFileSync(customPath, 'utf8');
-        content.should.match(/info foo\n/);
-        content.should.match(/warn foo\n/);
-        content.should.match(/error foo\n/);
-        content.should.match(/LoggerLevel ALL,DEBUG,INFO,WARN,ERROR,NONE/);
+        assert.match(content, /info foo\n/);
+        assert.match(content, /warn foo\n/);
+        assert.match(content, /error foo\n/);
+        assert.match(content, /LoggerLevel ALL,DEBUG,INFO,WARN,ERROR,NONE/);
 
         content = fs.readFileSync(appLogPath, 'utf8');
-        content.should.match(/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3} INFO \d+ info logger\n/);
-        content.should.match(/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3} WARN \d+ warn logger\n/);
-        content.should.match(/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3} ERROR \d+ error logger\n/);
+        assert.match(content, /\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3} INFO \d+ info logger\n/);
+        assert.match(content, /\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3} WARN \d+ warn logger\n/);
+        assert.match(content, /\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3} ERROR \d+ error logger\n/);
 
         content = fs.readFileSync(coreLogPath, 'utf8');
-        content.should.match(/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3} INFO \d+ info coreLogger\n/);
-        content.should.match(/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3} WARN \d+ warn coreLogger\n/);
-        content.should.match(/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3} ERROR \d+ error coreLogger\n/);
+        assert.match(content, /\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3} INFO \d+ info coreLogger\n/);
+        assert.match(content, /\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3} WARN \d+ warn coreLogger\n/);
+        assert.match(content, /\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3} ERROR \d+ error coreLogger\n/);
 
         content = fs.readFileSync(errorLogPath, 'utf8');
-        content.should.match(/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3} ERROR \d+ error errorLogger\n/);
-        content.should.match(/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3} ERROR \d+ error logger\n/);
-        content.should.match(/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3} ERROR \d+ error coreLogger\n/);
-        content.should.match(/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3} ERROR \d+ error aLogger\n/);
+        assert.match(content, /\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3} ERROR \d+ error errorLogger\n/);
+        assert.match(content, /\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3} ERROR \d+ error logger\n/);
+        assert.match(content, /\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3} ERROR \d+ error coreLogger\n/);
+        assert.match(content, /\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3} ERROR \d+ error aLogger\n/);
         done();
       });
   });
