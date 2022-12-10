@@ -1,3 +1,5 @@
+import { AsyncLocalStorage } from 'async_hooks';
+
 interface ILoggerLevel {
   ALL: number;
   DEBUG: number;
@@ -26,6 +28,7 @@ export interface EggLoggerOptions extends LoggerOptions {
   buffer?: boolean;
   eol?: string;
   concentrateError?: 'duplicate' | 'redirect' | 'ignore';
+  localStorage?: AsyncLocalStorage<any>;
 }
 
 export class Logger<T extends LoggerOptions = LoggerOptions> extends Map<string, Transport> {
