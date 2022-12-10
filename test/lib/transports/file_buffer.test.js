@@ -46,7 +46,7 @@ describe('test/lib/transports/file_buffer.test.js', () => {
   });
 
   it('should reload stream when get error', async () => {
-    const logfile = path.join(tmp, 'a.log');
+    const logfile = path.join(tmp, 'a_file_buffer.log');
     const logger = new Logger();
     const transport = new FileBufferTransport({
       file: logfile,
@@ -59,12 +59,12 @@ describe('test/lib/transports/file_buffer.test.js', () => {
     await sleep(1500);
 
     // write error
-    mm(fs, 'write', function() {
-      const cb = arguments[arguments.length - 1];
+    mm(fs, 'write', (...args) => {
+      const cb = args[args.length - 1];
       cb(new Error('write error'));
     });
-    mm(console, 'error', function() {
-      const message = util.format.apply(util, arguments);
+    mm(console, 'error', (...args) => {
+      const message = util.format.apply(util, args);
       const reg = new RegExp(`ERROR \\d+ \\[egg-logger] \\[${logfile.replace(/\//, '\\\/')}\] Error: write error`);
       assert(message.match(reg));
     });
