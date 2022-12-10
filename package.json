@@ -53,7 +53,7 @@
   },
   "ci": {
     "version": "14, 16, 18",
-    "os": "linux, macos, windows"
+    "os": "linux, macos"
   },
   "license": "MIT"
 }
