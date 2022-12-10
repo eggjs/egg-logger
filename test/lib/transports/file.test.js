@@ -206,13 +206,13 @@ describe('test/lib/transports/file.test.js', () => {
     });
     mm(process.env, 'NODE_ENV', 'production');
     const transport = new FileTransport({
-      file: path.join(tmp, 'a.log'),
+      file: path.join(tmp, 'a_file_production.log'),
       level: 'ERROR',
       encoding: 'gbk',
     });
     transport.end();
     transport.log('info', 'foo');
-    assert.match(msg, /test\/fixtures\/tmp\/a.log log stream had been closed/);
+    assert.match(msg, /test\/fixtures\/tmp\/a_file_production\.log log stream had been closed/);
   });
 
   it('should enable/disable transport', async () => {
