@@ -3,27 +3,27 @@
 const fs = require('fs');
 const path = require('path');
 const assert = require('assert');
-const rimraf = require('rimraf');
-const sleep = require('ko-sleep');
 const iconv = require('iconv-lite');
 const FileTransport = require('../..').FileTransport;
 const FileBufferTransport = require('../..').FileBufferTransport;
 const Logger = require('../..').Logger;
 const levels = require('../..');
+const { sleep, rimraf } = require('../utils');
 
 describe('test/lib/logger.test.js', () => {
-  const tmp = path.join(__dirname, '../fixtures/tmp');
-  const filepath = path.join(tmp, 'logger.a.log');
+  const tmp = path.join(__dirname, '../fixtures/tmp_logger');
+  let filepath;
 
-  beforeEach(() => {
-    rimraf.sync(path.dirname(filepath));
+  beforeEach(async () => {
+    filepath = path.join(tmp, `logger-${Date.now()}`, 'a.log');
+    await rimraf(tmp);
   });
 
-  afterEach(() => {
-    rimraf.sync(path.dirname(filepath));
+  afterEach(async () => {
+    await rimraf(tmp);
   });
 
-  it('should not print log after transport was disabled', function*() {
+  it('should not print log after transport was disabled', async () => {
     const logger = new Logger();
     logger.set('file', new FileTransport({
       file: filepath,
@@ -35,15 +35,16 @@ describe('test/lib/logger.test.js', () => {
     logger.enable('file');
     logger.info('enable foo');
 
-    yield sleep(10);
+    await sleep(10);
 
     const content = fs.readFileSync(filepath, 'utf8');
-    content.should.containEql('info foo');
-    content.should.not.containEql('disable foo');
-    content.should.containEql('enable foo');
+    assert(content.includes('info foo'));
+    assert(!content.includes('disable foo'));
+    assert(content.includes('enable foo'));
+    logger.close();
   });
 
-  it('should work with gbk encoding', function*() {
+  it('should work with gbk encoding', async () => {
     const logger = new Logger();
     logger.set('file', new FileTransport({
       file: filepath,
@@ -51,12 +52,13 @@ describe('test/lib/logger.test.js', () => {
       encoding: 'gbk',
     }));
     logger.info('info foo 中文');
-    yield sleep(10);
+    await sleep(10);
     const content = fs.readFileSync(filepath);
-    iconv.decode(content, 'gbk').should.equal('info foo 中文\n');
+    assert.strictEqual(iconv.decode(content, 'gbk'), 'info foo 中文\n');
+    logger.close();
   });
 
-  it('should flush after buffer length > maxBufferLength on FileBufferTransport', function*() {
+  it('should flush after buffer length > maxBufferLength on FileBufferTransport', async () => {
     const logger = new Logger();
     logger.set('file', new FileBufferTransport({
       file: filepath,
@@ -67,13 +69,13 @@ describe('test/lib/logger.test.js', () => {
     logger.info('info foo2');
     logger.info('info foo3');
     logger.info('info foo4');
-    yield sleep(10);
+    await sleep(10);
     const content = fs.readFileSync(filepath, 'utf8');
-    content.should.equal('info foo1\ninfo foo2\ninfo foo3\n');
+    assert.strictEqual(content, 'info foo1\ninfo foo2\ninfo foo3\n');
     logger.close();
   });
 
-  it('should flush gbk log after buffer length > maxBufferLength on FileBufferTransport', function*() {
+  it('should flush gbk log after buffer length > maxBufferLength on FileBufferTransport', async () => {
     const logger = new Logger();
     logger.set('file', new FileBufferTransport({
       file: filepath,
@@ -85,13 +87,13 @@ describe('test/lib/logger.test.js', () => {
     logger.info('info foo2');
     logger.info('info foo3');
     logger.info('info foo4');
-    yield sleep(10);
+    await sleep(10);
     const content = fs.readFileSync(filepath);
-    iconv.decode(content, 'gbk').should.equal('info foo1 中文\ninfo foo2\ninfo foo3\n');
+    assert.strictEqual(iconv.decode(content, 'gbk'), 'info foo1 中文\ninfo foo2\ninfo foo3\n');
     logger.close();
   });
 
-  it('should enable/disable ignore not exists transport', function*() {
+  it('should enable/disable ignore not exists transport', async () => {
     const logger = new Logger();
     logger.set('file', new FileTransport({
       file: filepath,
@@ -103,15 +105,16 @@ describe('test/lib/logger.test.js', () => {
     logger.enable('file1');
     logger.info('enable foo');
 
-    yield sleep(10);
+    await sleep(10);
 
     const content = fs.readFileSync(filepath, 'utf8');
-    content.should.containEql('info foo');
-    content.should.containEql('disable foo');
-    content.should.containEql('enable foo');
+    assert(content.includes('info foo'));
+    assert(content.includes('disable foo'));
+    assert(content.includes('enable foo'));
+    logger.close();
   });
 
-  it('should redirect to specify logger', function*() {
+  it('should redirect to specify logger', async () => {
     const file1 = path.join(tmp, 'a1.log');
     const file2 = path.join(tmp, 'a2.log');
     const file3 = path.join(tmp, 'a3.log');
@@ -144,7 +147,7 @@ describe('test/lib/logger.test.js', () => {
     // write to both
     logger1.error('error logger2');
 
-    yield sleep(10);
+    await sleep(10);
 
     const content1 = fs.readFileSync(file1, 'utf8');
     assert(content1 === 'info self\n');
@@ -154,9 +157,12 @@ describe('test/lib/logger.test.js', () => {
 
     const content3 = fs.readFileSync(file3, 'utf8');
     assert(content3 === '');
+    logger1.close();
+    logger2.close();
+    logger3.close();
   });
 
-  it('should duplicate to specify logger', function* () {
+  it('should duplicate to specify logger', async () => {
     const file1 = path.join(tmp, 'a1.log');
     const file11 = path.join(tmp, 'a11.log');
     const file2 = path.join(tmp, 'a2.log');
@@ -195,7 +201,7 @@ describe('test/lib/logger.test.js', () => {
     // write to both
     logger1.error('error logger2');
 
-    yield sleep(10);
+    await sleep(10);
 
     const content1 = fs.readFileSync(file1, 'utf8');
     assert(content1 === 'info self\nwarn logger2\nerror logger2\n');
@@ -209,6 +215,9 @@ describe('test/lib/logger.test.js', () => {
 
     const content3 = fs.readFileSync(file3, 'utf8');
     assert(content3 === '');
+    logger1.close();
+    logger2.close();
+    logger3.close();
   });
 
   it('should end all transports', () => {
@@ -219,10 +228,10 @@ describe('test/lib/logger.test.js', () => {
     });
     logger.set('file', transport);
     logger.end();
-    (transport._stream === null).should.equal(true);
+    assert.strictEqual(transport._stream, null);
   });
 
-  it.skip('should reload all transports', function*() {
+  it.skip('should reload all transports', async () => {
     const logger = new Logger();
     logger.set('file', new FileTransport({
       file: filepath,
@@ -234,13 +243,14 @@ describe('test/lib/logger.test.js', () => {
     logger.reload();
     logger.info('info foo2');
 
-    yield sleep(10);
+    await sleep(10);
 
     const content = fs.readFileSync(filepath, 'utf8');
-    content.should.eql('info foo1\ninfo foo2\n');
+    assert.strictEqual(content, 'info foo1\ninfo foo2\n');
+    logger.close();
   });
 
-  it('should write raw string and ignore level', function*() {
+  it('should write raw string and ignore level', async () => {
     const logger = new Logger();
     logger.set('file', new FileTransport({
       file: filepath,
@@ -250,13 +260,14 @@ describe('test/lib/logger.test.js', () => {
     logger.warn('warn');
     logger.write('none');
 
-    yield sleep(10);
+    await sleep(10);
 
     const content = fs.readFileSync(filepath, 'utf8');
-    content.should.eql('none\n');
+    assert.strictEqual(content, 'none\n');
+    logger.close();
   });
 
-  it('should write ignore formatter', function*() {
+  it('should write ignore formatter', async () => {
     const logger = new Logger();
     logger.set('file', new FileTransport({
       file: filepath,
@@ -266,13 +277,14 @@ describe('test/lib/logger.test.js', () => {
     logger.info('info');
     logger.write('write');
 
-    yield sleep(10);
+    await sleep(10);
 
     const content = fs.readFileSync(filepath, 'utf8');
-    content.should.match(/^\d* info\nwrite\n$/);
+    assert.match(content, /^\d* info\nwrite\n$/);
+    logger.close();
   });
 
-  it('should write default support util.format', function*() {
+  it('should write default support util.format', async () => {
     const logger = new Logger();
     logger.set('file', new FileTransport({
       file: filepath,
@@ -281,13 +293,14 @@ describe('test/lib/logger.test.js', () => {
     }));
     logger.write('write %j', { foo: 'bar' });
 
-    yield sleep(10);
+    await sleep(10);
 
     const content = fs.readFileSync(filepath, 'utf8');
-    content.should.match(/^write {"foo":"bar"}\n$/);
+    assert.match(content, /^write {"foo":"bar"}\n$/);
+    logger.close();
   });
 
-  it('should log into multi transports', function*() {
+  it('should log into multi transports', async () => {
     const file1 = path.join(tmp, 'a1.log');
     const file2 = path.join(tmp, 'a2.log');
     const file3 = path.join(tmp, 'a3.log');
@@ -303,19 +316,20 @@ describe('test/lib/logger.test.js', () => {
     }));
     logger.info('foo1');
 
-    yield sleep(100);
+    await sleep(100);
 
-    fs.readFileSync(file1, 'utf8').should.eql('foo1\n');
-    fs.readFileSync(file2, 'utf8').should.eql('foo1\n');
-    fs.readFileSync(file3, 'utf8').should.eql('foo1\n');
+    assert.strictEqual(fs.readFileSync(file1, 'utf8'), 'foo1\n');
+    assert.strictEqual(fs.readFileSync(file2, 'utf8'), 'foo1\n');
+    assert.strictEqual(fs.readFileSync(file3, 'utf8'), 'foo1\n');
 
     logger.get('file3').disable();
     logger.info('foo2');
 
-    yield sleep(100);
+    await sleep(100);
 
-    fs.readFileSync(file1, 'utf8').should.eql('foo1\nfoo2\n');
-    fs.readFileSync(file2, 'utf8').should.eql('foo1\nfoo2\n');
-    fs.readFileSync(file3, 'utf8').should.eql('foo1\n');
+    assert.strictEqual(fs.readFileSync(file1, 'utf8'), 'foo1\nfoo2\n');
+    assert.strictEqual(fs.readFileSync(file2, 'utf8'), 'foo1\nfoo2\n');
+    assert.strictEqual(fs.readFileSync(file3, 'utf8'), 'foo1\n');
+    logger.close();
   });
 });

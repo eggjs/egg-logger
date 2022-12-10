@@ -9,16 +9,15 @@ const mm = require('mm');
 const assert = require('assert');
 const { rimraf } = require('../../utils');
 const Logger = require('../../../index').EggLogger;
-const ContextLogger = require('../../../index').EggContextLogger;
 
-describe('test/lib/egg/context_logger.test.js', () => {
+describe('test/lib/egg/logger_with_localStorage.test.js', () => {
   const filepath = path.join(__dirname, '../../fixtures/tmp/a.log');
   const filepathc = path.join(__dirname, '../../fixtures/tmp/b.log');
   const filepathcc = path.join(__dirname, '../../fixtures/tmp/c.log');
   let app;
 
   before(() => {
-    app = new Koa();
+    app = new Koa({ asyncLocalStorage: true });
     app.use(async (ctx, next) => {
       if (ctx.path === '/starttime') {
         ctx.starttime = Date.now();
@@ -26,9 +25,9 @@ describe('test/lib/egg/context_logger.test.js', () => {
       if (ctx.path === '/performance_starttime') {
         ctx.performanceStarttime = performance.now();
       }
-      ctx.logger = new ContextLogger(ctx, app.logger);
-      ctx.cLogger = new ContextLogger(ctx, app.cLogger);
-      ctx.ccLogger = new ContextLogger(ctx, app.ccLogger);
+      ctx.logger = app.logger;
+      ctx.cLogger = app.cLogger;
+      ctx.ccLogger = app.ccLogger;
       await next();
     });
     app.use(async ctx => {
@@ -55,6 +54,7 @@ describe('test/lib/egg/context_logger.test.js', () => {
       level: 'INFO',
       consoleLevel: 'NONE',
       flushInterval: 10,
+      localStorage: app.ctxStorage,
     });
     app.cLogger = new Logger({
       file: filepathc,
@@ -62,6 +62,7 @@ describe('test/lib/egg/context_logger.test.js', () => {
       consoleLevel: 'INFO',
       flushInterval: 1,
       contextFormatter: meta => `message=${meta.message}&level=${meta.level}&path=${meta.ctx.path}`,
+      localStorage: app.ctxStorage,
     });
     app.ccLogger = new Logger({
       file: filepathcc,
@@ -73,6 +74,7 @@ describe('test/lib/egg/context_logger.test.js', () => {
         outputMeta.ctx = undefined;
         return JSON.stringify(outputMeta);
       },
+      localStorage: app.ctxStorage,
     });
     app.on('error', err => console.log(err));
     Object.defineProperty(app.request, 'ip', {

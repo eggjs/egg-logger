@@ -1,20 +1,19 @@
 'use strict';
 
-require('should');
 const fs = require('fs');
 const path = require('path');
 const coffee = require('coffee');
-const rimraf = require('rimraf');
 const assert = require('assert');
+const { rimraf } = require('../../utils');
 const levels = require('../../../index');
 const Logger = require('../../../index').EggLogger;
 
-describe('test/egg/logger.test.js', () => {
+describe('test/lib/egg/logger.test.js', () => {
   const loggerFile = path.join(__dirname, '../../fixtures/egg_logger.js');
   const filepath = path.join(__dirname, '../../fixtures/tmp/a.log');
 
-  afterEach(() => {
-    rimraf.sync(path.dirname(filepath));
+  afterEach(async () => {
+    await rimraf(path.dirname(filepath));
   });
 
   it('should create outputJson .json.log file', done => {
@@ -25,10 +24,10 @@ describe('test/egg/logger.test.js', () => {
     };
     coffee.fork(loggerFile, [ JSON.stringify(options) ])
       .end(() => {
-        fs.readFileSync(filepath, 'utf8')
-          .should.match(/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3} ERROR \d+ error foo\n/);
-        fs.readFileSync(filepath.replace(/\.log$/, '.json.log'), 'utf8')
-          .should.match(/"message":"error foo"/);
+        assert.match(fs.readFileSync(filepath, 'utf8'),
+          /\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3} ERROR \d+ error foo\n/);
+        assert.match(fs.readFileSync(filepath.replace(/\.log$/, '.json.log'), 'utf8'),
+          /"message":"error foo"/);
         done();
       });
   });
@@ -43,10 +42,9 @@ describe('test/egg/logger.test.js', () => {
     };
     coffee.fork(loggerFile, [ JSON.stringify(options) ])
       .end(() => {
-        fs.readFileSync(file1.replace(/\.log$/, '.json.log'), 'utf8')
-          .should.match(/"message":"error foo"/);
-        fs.existsSync(file1)
-          .should.match(false);
+        assert.match(fs.readFileSync(file1.replace(/\.log$/, '.json.log'), 'utf8'),
+          /"message":"error foo"/);
+        assert.strictEqual(fs.existsSync(file1), false);
         done();
       });
   });
@@ -72,10 +70,10 @@ describe('test/egg/logger.test.js', () => {
     setTimeout(() => {
       const content1 = fs.readFileSync(file1, 'utf8');
       const content2 = fs.readFileSync(file2, 'utf8');
-      content1.should.not.match(/foo/);
-      content1.should.match(/bar/);
-      content2.should.match(/foo/);
-      content2.should.not.match(/bar/);
+      assert.doesNotMatch(content1, /foo/);
+      assert.match(content1, /bar/);
+      assert.match(content2, /foo/);
+      assert.doesNotMatch(content2, /bar/);
       done();
     }, 100);
   });
@@ -89,8 +87,8 @@ describe('test/egg/logger.test.js', () => {
       };
       coffee.fork(loggerFile, [ JSON.stringify(options) ])
         .end(() => {
-          fs.readFileSync(filepath, 'utf8')
-            .should.match(/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3} ERROR \d+ error foo\n/);
+          assert.match(fs.readFileSync(filepath, 'utf8'),
+            /\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3} ERROR \d+ error foo\n/);
           done();
         });
     });
@@ -103,10 +101,10 @@ describe('test/egg/logger.test.js', () => {
       coffee.fork(loggerFile, [ JSON.stringify(options) ])
         .end(function() {
           const content = fs.readFileSync(filepath, 'utf8');
-          content.should.not.match(/DEBUG \d+ debug foo/);
-          content.should.not.match(/INFO \d+ info foo/);
-          content.should.not.match(/WARN \d+ warn foo/);
-          content.should.match(/ERROR \d+ error foo/);
+          assert.doesNotMatch(content, /DEBUG \d+ debug foo/);
+          assert.doesNotMatch(content, /INFO \d+ info foo/);
+          assert.doesNotMatch(content, /WARN \d+ warn foo/);
+          assert.match(content, /ERROR \d+ error foo/);
           done();
         });
     });
@@ -118,10 +116,10 @@ describe('test/egg/logger.test.js', () => {
       coffee.fork(loggerFile, [ JSON.stringify(options) ])
         .end(function() {
           const content = fs.readFileSync(filepath, 'utf8');
-          content.should.not.match(/DEBUG \d+ debug foo/);
-          content.should.match(/INFO \d+ info foo/);
-          content.should.match(/WARN \d+ warn foo/);
-          content.should.match(/ERROR \d+ error foo/);
+          assert.doesNotMatch(content, /DEBUG \d+ debug foo/);
+          assert.match(content, /INFO \d+ info foo/);
+          assert.match(content, /WARN \d+ warn foo/);
+          assert.match(content, /ERROR \d+ error foo/);
           done();
         });
     });
@@ -134,10 +132,10 @@ describe('test/egg/logger.test.js', () => {
       coffee.fork(loggerFile, [ JSON.stringify(options) ])
         .end(function() {
           const content = fs.readFileSync(filepath, 'utf8');
-          content.should.match(/DEBUG \d+ debug foo/);
-          content.should.match(/INFO \d+ info foo/);
-          content.should.match(/WARN \d+ warn foo/);
-          content.should.match(/ERROR \d+ error foo/);
+          assert.match(content, /DEBUG \d+ debug foo/);
+          assert.match(content, /INFO \d+ info foo/);
+          assert.match(content, /WARN \d+ warn foo/);
+          assert.match(content, /ERROR \d+ error foo/);
           done();
         });
     });
@@ -150,10 +148,10 @@ describe('test/egg/logger.test.js', () => {
       coffee.fork(loggerFile, [ JSON.stringify(options) ])
         .end(function() {
           const content = fs.readFileSync(filepath, 'utf8');
-          content.should.not.match(/DEBUG \d+ debug foo/);
-          content.should.match(/INFO \d+ info foo/);
-          content.should.match(/WARN \d+ warn foo/);
-          content.should.match(/ERROR \d+ error foo/);
+          assert.doesNotMatch(content, /DEBUG \d+ debug foo/);
+          assert.match(content, /INFO \d+ info foo/);
+          assert.match(content, /WARN \d+ warn foo/);
+          assert.match(content, /ERROR \d+ error foo/);
           done();
         });
     });
@@ -166,10 +164,10 @@ describe('test/egg/logger.test.js', () => {
       coffee.fork(loggerFile, [ JSON.stringify(options) ])
         .end(function() {
           const content = fs.readFileSync(filepath, 'utf8');
-          content.should.not.match(/DEBUG \d+ debug foo/);
-          content.should.not.match(/INFO \d+ info foo/);
-          content.should.match(/WARN \d+ warn foo/);
-          content.should.match(/ERROR \d+ error foo/);
+          assert.doesNotMatch(content, /DEBUG \d+ debug foo/);
+          assert.doesNotMatch(content, /INFO \d+ info foo/);
+          assert.match(content, /WARN \d+ warn foo/);
+          assert.match(content, /ERROR \d+ error foo/);
           done();
         });
     });
@@ -182,10 +180,10 @@ describe('test/egg/logger.test.js', () => {
       coffee.fork(loggerFile, [ JSON.stringify(options) ])
         .end(function() {
           const content = fs.readFileSync(filepath, 'utf8');
-          content.should.not.match(/DEBUG \d+ debug foo/);
-          content.should.not.match(/INFO \d+ info foo/);
-          content.should.not.match(/WARN \d+ warn foo/);
-          content.should.match(/ERROR \d+ error foo/);
+          assert.doesNotMatch(content, /DEBUG \d+ debug foo/);
+          assert.doesNotMatch(content, /INFO \d+ info foo/);
+          assert.doesNotMatch(content, /WARN \d+ warn foo/);
+          assert.match(content, /ERROR \d+ error foo/);
           done();
         });
     });
@@ -198,11 +196,11 @@ describe('test/egg/logger.test.js', () => {
       coffee.fork(loggerFile, [ JSON.stringify(options) ])
         .end(function() {
           const content = fs.readFileSync(filepath, 'utf8');
-          content.should.not.match(/DEBUG \d+ debug foo/);
-          content.should.not.match(/INFO \d+ info foo/);
-          content.should.not.match(/WARN \d+ warn foo/);
-          content.should.not.match(/ERROR \d+ error foo/);
-          content.should.not.match(/write foo/);
+          assert.doesNotMatch(content, /DEBUG \d+ debug foo/);
+          assert.doesNotMatch(content, /INFO \d+ info foo/);
+          assert.doesNotMatch(content, /WARN \d+ warn foo/);
+          assert.doesNotMatch(content, /ERROR \d+ error foo/);
+          assert.doesNotMatch(content, /write foo/);
           done();
         });
     });
@@ -215,10 +213,10 @@ describe('test/egg/logger.test.js', () => {
       coffee.fork(loggerFile, [ JSON.stringify(options) ])
         .end(function() {
           const content = fs.readFileSync(filepath, 'utf8');
-          content.should.not.match(/DEBUG \d+ debug foo/);
-          content.should.not.match(/INFO \d+ info foo/);
-          content.should.not.match(/WARN \d+ warn foo/);
-          content.should.not.match(/ERROR \d+ error foo/);
+          assert.doesNotMatch(content, /DEBUG \d+ debug foo/);
+          assert.doesNotMatch(content, /INFO \d+ info foo/);
+          assert.doesNotMatch(content, /WARN \d+ warn foo/);
+          assert.doesNotMatch(content, /ERROR \d+ error foo/);
           done();
         });
     });
@@ -342,14 +340,14 @@ describe('test/egg/logger.test.js', () => {
     });
   });
 
-  it('should set level and consoleLevel', function* () {
+  it('should set level and consoleLevel', async () => {
     const loggerFile = path.join(__dirname, '../../fixtures/egg_logger_dynamically.js');
     const jsonFile = filepath.replace(/\.log$/, '.json.log');
     const options = {
       file: filepath,
       jsonFile,
     };
-    yield coffee.fork(loggerFile, [ JSON.stringify(options) ])
+    await coffee.fork(loggerFile, [ JSON.stringify(options) ])
       .debug()
       .expect('stdout', /INFO \d+ info foo/)
       .expect('stdout', /WARN \d+ warn foo/)

@@ -3,7 +3,7 @@
 const fs = require('fs');
 // need to install heapdump by yourself
 const heapdump = require('heapdump');
-const sleep = require('mz-modules/sleep');
+const { sleep } = require('./utils');
 const Logger = require('../index').Logger;
 const FileBufferTransport = require('../index').FileBufferTransport;
 
