@@ -1,4 +1,13 @@
 
+3.0.1 / 2022-12-10
+==================
+
+**fixes**
+  * [[`1bd4715`](http://github.com/eggjs/egg-logger/commit/1bd4715d617874373f3d750f4de7e0d8fb3b2653)] - 🐛 FIX: Add localStorage options to EggLoggers (#81) (fengmk2 <<fengmk2@gmail.com>>)
+
+**others**
+  * [[`804ff20`](http://github.com/eggjs/egg-logger/commit/804ff2024f92c6f4da2182a4afec4b506da2f805)] - 📖 DOC: Update contributors (fengmk2 <<fengmk2@gmail.com>>)
+
 3.0.0 / 2022-12-10
 ==================
 
