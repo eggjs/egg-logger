@@ -4,11 +4,11 @@ const assert = require('assert');
 const fs = require('fs');
 const path = require('path');
 const coffee = require('coffee');
-const Loggers = require('../../../index').EggLoggers;
+const Loggers = require('../../..').EggLoggers;
 const { sleep, rimraf } = require('../../utils');
 
 describe('test/lib/egg/loggers.test.js', () => {
-  const tmp = path.join(__dirname, '../../fixtures/tmp');
+  const tmp = path.join(__dirname, '../../fixtures/tmp_egg_loggers');
   const aLog = path.join(tmp, 'a.log');
   const bLog = path.join(tmp, 'b.log');
   const cLog = path.join(tmp, 'c.log');

@@ -139,6 +139,7 @@ export interface EggLoggersOptions {
   eol?: string;
   // whether write error logger to common-error.log, `duplicate` / `redirect` / `ignore`, default to `duplicate`
   concentrateError?: 'duplicate' | 'redirect' | 'ignore';
+  localStorage?: AsyncLocalStorage<any>;
 }
 
 export interface EggCustomLoggerOptions {
