@@ -2,6 +2,7 @@ node_modules
 coverage
 .logs
 tmp
+tmp_file_*
 *.log
 .nyc_output
 .idea

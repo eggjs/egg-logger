@@ -15,21 +15,23 @@ const utils = require('../../lib/utils');
 const { sleep } = require('../utils');
 
 describe('test/lib/formatter.test.js', () => {
-  const tmp = path.join(__dirname, '../fixtures/tmp');
-  const filepath = path.join(tmp, 'formatter.a.log');
-
+  const tmp = path.join(__dirname, '../fixtures/tmp_formatter');
   let transport;
-  before(() => {
+  let filepath;
+  beforeEach(() => {
+    filepath = path.join(tmp, `transport-${Date.now()}`, 'a.log');
     transport = new FileTransport({
       file: filepath,
       level: levels.INFO,
     });
   });
 
-  afterEach(async () => {
+  afterEach(() => {
     mm.restore();
-    await rimraf(path.dirname(filepath));
-    transport.reload();
+  });
+
+  after(async () => {
+    await rimraf(tmp);
   });
 
   it('should use util.format handle arguments', async () => {
@@ -40,6 +42,7 @@ describe('test/lib/formatter.test.js', () => {
     await sleep(10);
 
     assert.strictEqual(fs.readFileSync(filepath, 'utf8'), '1 a {"a":1}\n');
+    logger.close();
   });
 
   it('should format error', async () => {
@@ -58,6 +61,7 @@ describe('test/lib/formatter.test.js', () => {
     assert(content.includes('nodejs.Error: warn foo\n'));
     assert.match(content, /pid: \d*\n/);
     assert(content.includes(`hostname: ${os.hostname()}\n`));
+    logger.close();
   });
 
   it('should format error with code and host properties', async () => {
@@ -73,6 +77,7 @@ describe('test/lib/formatter.test.js', () => {
 
     const content = fs.readFileSync(filepath, 'utf8');
     assert(content.includes('nodejs.MySomeError: foo (eggjs.org)\n'));
+    logger.close();
   });
 
   it('should format error getter-only stack', async () => {
@@ -91,6 +96,7 @@ describe('test/lib/formatter.test.js', () => {
     assert(content.includes('nodejs.Error: error foo\n'));
     assert.match(content, /pid: \d*\n/);
     assert(content.includes(`hostname: ${os.hostname()}\n`));
+    logger.close();
   });
 
   it('should format error with empty getter / setter stack', async () => {
@@ -110,6 +116,7 @@ describe('test/lib/formatter.test.js', () => {
     assert(content.includes('nodejs.Error: error foo\nno_stack\n'));
     assert.match(content, /pid: \d*\n/);
     assert(content.includes(`hostname: ${os.hostname()}\n`));
+    logger.close();
   });
 
   it('should format error with properties', async () => {
@@ -156,6 +163,7 @@ describe('test/lib/formatter.test.js', () => {
     assert(content.includes('errors: [{"code":"missing_field","field":"name","message":"required"},{"code":"invalid","field":"age","message":"should be an integer"}]'));
     assert(content.includes('...(19999)'));
     assert(content.includes('isTrue: true'));
+    logger.close();
   });
 
   it('should format error with options.formatter', async () => {
@@ -174,6 +182,7 @@ describe('test/lib/formatter.test.js', () => {
 
     const content = fs.readFileSync(filepath, 'utf8');
     assert.match(content, /\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3} nodejs.Error: foo\n/);
+    logger.close();
   });
 
   describe('should format FrameworkError', () => {
@@ -193,6 +202,7 @@ describe('test/lib/formatter.test.js', () => {
 
       const content = fs.readFileSync(filepath, 'utf8');
       assert(content.includes('framework.CustomError: foo [ https://eggjs.org/zh-cn/faq/customPlugin_00 ]\n'));
+      logger.close();
     });
 
     it('format work with options.formatter work', async () => {
@@ -211,6 +221,7 @@ describe('test/lib/formatter.test.js', () => {
 
       const content = fs.readFileSync(filepath, 'utf8');
       assert.match(content, /\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3} framework.CustomError: foo \[ https\:\/\/eggjs\.org\/zh-cn\/faq\/customPlugin_00 \]\n/);
+      logger.close();
     });
   });
 
@@ -233,7 +244,7 @@ describe('test/lib/formatter.test.js', () => {
     assert.match(content, /date: \d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3}\n/);
     assert.match(content, /pid: \d*\n/);
     assert(content.includes(`hostname: ${os.hostname()}\n`));
-    // assert(content.includes(('raw: false\n'));
+    logger.close();
   });
 
   it('should support meta.formatter', async () => {
@@ -250,6 +261,7 @@ describe('test/lib/formatter.test.js', () => {
 
     const content = fs.readFileSync(filepath, 'utf8');
     assert.match(content, /^\d* foo\n$/);
+    logger.close();
   });
 
   it('should set raw=true to make log become top priority', async () => {
@@ -267,6 +279,7 @@ describe('test/lib/formatter.test.js', () => {
 
     const content = fs.readFileSync(filepath, 'utf8');
     assert.strictEqual(content, 'foo\n');
+    logger.close();
   });
 
   it('should log save to JSON file', async () => {
@@ -289,6 +302,7 @@ describe('test/lib/formatter.test.js', () => {
     assert.match(json.date, /\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3}/);
     assert.match(String(json.pid), /\d*/);
     assert.strictEqual(json.hostname, os.hostname());
+    logger.close();
   });
 
   // chalk color disable on github action env
@@ -352,6 +366,7 @@ describe('test/lib/formatter.test.js', () => {
 
     const content = fs.readFileSync(filepath, 'utf8');
     assert.strictEqual(content, 'a\r\nb\r\n');
+    logger.close();
   });
 
   it('should set eol to empty string', async () => {
@@ -369,5 +384,6 @@ describe('test/lib/formatter.test.js', () => {
 
     const content = fs.readFileSync(filepath, 'utf8');
     assert.strictEqual(content, 'ab');
+    logger.close();
   });
 });

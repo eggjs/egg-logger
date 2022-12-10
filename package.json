@@ -16,8 +16,7 @@
     "depd": "^2.0.0",
     "egg-errors": "^2.3.1",
     "iconv-lite": "^0.4.24",
-    "mkdirp": "^0.5.1",
-    "utility": "^1.15.0"
+    "utility": "^1.17.0"
   },
   "devDependencies": {
     "@types/node": "^14.18.34",
@@ -54,7 +53,7 @@
   },
   "ci": {
     "version": "14, 16, 18",
-    "os": "linux"
+    "os": "linux, macos, windows"
   },
   "license": "MIT"
 }

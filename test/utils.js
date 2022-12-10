@@ -7,5 +7,9 @@ exports.sleep = ms => {
 };
 
 exports.rimraf = async file => {
-  await rm(file, { force: true, recursive: true });
+  try {
+    await rm(file, { force: true, recursive: true });
+  } catch (_) {
+    // ignore error
+  }
 };

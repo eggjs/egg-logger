@@ -4,19 +4,28 @@ const os = require('os');
 const path = require('path');
 const mm = require('mm');
 const assert = require('assert');
-const Transport = require('../../../index').Transport;
-const FileTransport = require('../../../index').FileTransport;
-const FileBufferTransport = require('../../../index').FileBufferTransport;
-const ConsoleTransport = require('../../../index').ConsoleTransport;
-const levels = require('../../../index');
+const {
+  levels,
+  Transport,
+  FileTransport,
+  FileBufferTransport,
+  ConsoleTransport,
+} = require('../../..');
 const { rimraf } = require('../../utils');
 
 describe('test/lib/transports/transport.test.js', () => {
-  const filepath = path.join(__dirname, '../../fixtures/tmp/a.log');
+  const tmp = path.join(__dirname, '../../fixtures/tmp_file_buffer');
+  let filepath;
+  beforeEach(() => {
+    filepath = path.join(tmp, `transport-${Date.now()}`, 'a.log');
+  });
 
-  afterEach(async () => {
+  afterEach(() => {
     mm.restore();
-    await rimraf(path.dirname(filepath));
+  });
+
+  after(async () => {
+    await rimraf(tmp);
   });
 
   it('should always create new options', () => {

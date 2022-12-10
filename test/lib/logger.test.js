@@ -11,15 +11,16 @@ const levels = require('../..');
 const { sleep, rimraf } = require('../utils');
 
 describe('test/lib/logger.test.js', () => {
-  const tmp = path.join(__dirname, '../fixtures/tmp');
-  const filepath = path.join(tmp, 'logger.a.log');
+  const tmp = path.join(__dirname, '../fixtures/tmp_logger');
+  let filepath;
 
   beforeEach(async () => {
-    await rimraf(path.dirname(filepath));
+    filepath = path.join(tmp, `logger-${Date.now()}`, 'a.log');
+    await rimraf(tmp);
   });
 
   afterEach(async () => {
-    await rimraf(path.dirname(filepath));
+    await rimraf(tmp);
   });
 
   it('should not print log after transport was disabled', async () => {
@@ -40,6 +41,7 @@ describe('test/lib/logger.test.js', () => {
     assert(content.includes('info foo'));
     assert(!content.includes('disable foo'));
     assert(content.includes('enable foo'));
+    logger.close();
   });
 
   it('should work with gbk encoding', async () => {
@@ -53,6 +55,7 @@ describe('test/lib/logger.test.js', () => {
     await sleep(10);
     const content = fs.readFileSync(filepath);
     assert.strictEqual(iconv.decode(content, 'gbk'), 'info foo 中文\n');
+    logger.close();
   });
 
   it('should flush after buffer length > maxBufferLength on FileBufferTransport', async () => {
@@ -108,6 +111,7 @@ describe('test/lib/logger.test.js', () => {
     assert(content.includes('info foo'));
     assert(content.includes('disable foo'));
     assert(content.includes('enable foo'));
+    logger.close();
   });
 
   it('should redirect to specify logger', async () => {
@@ -153,6 +157,9 @@ describe('test/lib/logger.test.js', () => {
 
     const content3 = fs.readFileSync(file3, 'utf8');
     assert(content3 === '');
+    logger1.close();
+    logger2.close();
+    logger3.close();
   });
 
   it('should duplicate to specify logger', async () => {
@@ -208,6 +215,9 @@ describe('test/lib/logger.test.js', () => {
 
     const content3 = fs.readFileSync(file3, 'utf8');
     assert(content3 === '');
+    logger1.close();
+    logger2.close();
+    logger3.close();
   });
 
   it('should end all transports', () => {
@@ -237,6 +247,7 @@ describe('test/lib/logger.test.js', () => {
 
     const content = fs.readFileSync(filepath, 'utf8');
     assert.strictEqual(content, 'info foo1\ninfo foo2\n');
+    logger.close();
   });
 
   it('should write raw string and ignore level', async () => {
@@ -253,6 +264,7 @@ describe('test/lib/logger.test.js', () => {
 
     const content = fs.readFileSync(filepath, 'utf8');
     assert.strictEqual(content, 'none\n');
+    logger.close();
   });
 
   it('should write ignore formatter', async () => {
@@ -269,6 +281,7 @@ describe('test/lib/logger.test.js', () => {
 
     const content = fs.readFileSync(filepath, 'utf8');
     assert.match(content, /^\d* info\nwrite\n$/);
+    logger.close();
   });
 
   it('should write default support util.format', async () => {
@@ -284,6 +297,7 @@ describe('test/lib/logger.test.js', () => {
 
     const content = fs.readFileSync(filepath, 'utf8');
     assert.match(content, /^write {"foo":"bar"}\n$/);
+    logger.close();
   });
 
   it('should log into multi transports', async () => {
@@ -316,5 +330,6 @@ describe('test/lib/logger.test.js', () => {
     assert.strictEqual(fs.readFileSync(file1, 'utf8'), 'foo1\nfoo2\n');
     assert.strictEqual(fs.readFileSync(file2, 'utf8'), 'foo1\nfoo2\n');
     assert.strictEqual(fs.readFileSync(file3, 'utf8'), 'foo1\n');
+    logger.close();
   });
 });

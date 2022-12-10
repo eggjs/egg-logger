@@ -12,16 +12,24 @@ const levels = require('../../../index');
 const { sleep, rimraf } = require('../../utils');
 
 describe('test/lib/transports/file.test.js', () => {
-  const tmp = path.join(__dirname, '../../fixtures/tmp');
-  afterEach(async () => {
-    await rimraf(tmp);
+  const tmp = path.join(__dirname, '../../fixtures/tmp_transports_file');
+  let filepath;
+  beforeEach(() => {
+    filepath = path.join(tmp, `transports_file_${Date.now()}`, 'a.log');
+  });
+
+  afterEach(() => {
     mm.restore();
+  });
+
+  after(async () => {
+    await rimraf(tmp);
   });
 
   it('should set level to levels.ERROR', async () => {
     const logger = new Logger();
     logger.set('file', new FileTransport({
-      file: path.join(tmp, 'a.log'),
+      file: filepath,
       level: levels.ERROR,
     }));
     logger.debug('debug', 'debug foo');
@@ -31,17 +39,18 @@ describe('test/lib/transports/file.test.js', () => {
 
     await sleep(10);
 
-    const content = fs.readFileSync(path.join(tmp, 'a.log'), 'utf8');
+    const content = fs.readFileSync(filepath, 'utf8');
     assert.doesNotMatch(content, /debug foo\n/);
     assert.doesNotMatch(content, /info foo\n/);
     assert.doesNotMatch(content, /warn foo\n/);
     assert.match(content, /error foo\n/);
+    logger.close();
   });
 
   it('should level = info by default', async () => {
     const logger = new Logger();
     logger.set('file', new FileTransport({
-      file: path.join(tmp, 'a.log'),
+      file: filepath,
     }));
     logger.debug('debug foo');
     logger.info('info foo');
@@ -50,17 +59,18 @@ describe('test/lib/transports/file.test.js', () => {
 
     await sleep(10);
 
-    const content = fs.readFileSync(path.join(tmp, 'a.log'), 'utf8');
+    const content = fs.readFileSync(filepath, 'utf8');
     assert.doesNotMatch(content, /debug foo\n/);
     assert.match(content, /info foo\n/);
     assert.match(content, /warn foo\n/);
     assert.match(content, /error foo\n/);
+    logger.close();
   });
 
   it('should log all when level = debug', async () => {
     const logger = new Logger();
     logger.set('file', new FileTransport({
-      file: path.join(tmp, 'a.log'),
+      file: filepath,
       level: 'debug',
     }));
     logger.debug('debug foo');
@@ -70,17 +80,18 @@ describe('test/lib/transports/file.test.js', () => {
 
     await sleep(10);
 
-    const content = fs.readFileSync(path.join(tmp, 'a.log'), 'utf8');
+    const content = fs.readFileSync(filepath, 'utf8');
     assert.match(content, /debug foo\n/);
     assert.match(content, /info foo\n/);
     assert.match(content, /warn foo\n/);
     assert.match(content, /error foo\n/);
+    logger.close();
   });
 
   it('should log info, warn and error when level = info', async () => {
     const logger = new Logger();
     logger.set('file', new FileTransport({
-      file: path.join(tmp, 'a.log'),
+      file: filepath,
       level: 'info',
     }));
     logger.debug('debug foo');
@@ -90,17 +101,18 @@ describe('test/lib/transports/file.test.js', () => {
 
     await sleep(10);
 
-    const content = fs.readFileSync(path.join(tmp, 'a.log'), 'utf8');
+    const content = fs.readFileSync(filepath, 'utf8');
     assert.doesNotMatch(content, /debug foo\n/);
     assert.match(content, /info foo\n/);
     assert.match(content, /warn foo\n/);
     assert.match(content, /error foo\n/);
+    logger.close();
   });
 
   it('should log warn and error when level = warn', async () => {
     const logger = new Logger();
     logger.set('file', new FileTransport({
-      file: path.join(tmp, 'a.log'),
+      file: filepath,
       level: 'warn',
     }));
     logger.debug('debug foo');
@@ -110,17 +122,18 @@ describe('test/lib/transports/file.test.js', () => {
 
     await sleep(10);
 
-    const content = fs.readFileSync(path.join(tmp, 'a.log'), 'utf8');
+    const content = fs.readFileSync(filepath, 'utf8');
     assert.doesNotMatch(content, /debug foo\n/);
     assert.doesNotMatch(content, /info foo\n/);
     assert.match(content, /warn foo\n/);
     assert.match(content, /error foo\n/);
+    logger.close();
   });
 
   it('should log error only when level = error', async () => {
     const logger = new Logger();
     logger.set('file', new FileTransport({
-      file: path.join(tmp, 'a.log'),
+      file: filepath,
       level: 'error',
     }));
     logger.debug('debug foo');
@@ -131,19 +144,20 @@ describe('test/lib/transports/file.test.js', () => {
 
     await sleep(10);
 
-    const content = fs.readFileSync(path.join(tmp, 'a.log'), 'utf8');
+    const content = fs.readFileSync(filepath, 'utf8');
     assert.doesNotMatch(content, /debug foo\n/);
     assert.doesNotMatch(content, /info foo\n/);
     assert.doesNotMatch(content, /warn foo\n/);
     assert.match(content, /error foo\n/);
     assert.match(content, /nodejs\.Error: error stack/);
     assert.match(content, /at Context.<anonymous>/);
+    logger.close();
   });
 
   it('should log nothing when level = none', async () => {
     const logger = new Logger();
     logger.set('file', new FileTransport({
-      file: path.join(tmp, 'a.log'),
+      file: filepath,
       level: 'none',
     }));
     logger.debug('debug foo');
@@ -153,14 +167,15 @@ describe('test/lib/transports/file.test.js', () => {
 
     await sleep(10);
 
-    const content = fs.readFileSync(path.join(tmp, 'a.log'), 'utf8');
+    const content = fs.readFileSync(filepath, 'utf8');
     assert.strictEqual(content, '');
+    logger.close();
   });
 
   it('should support level = NONE', async () => {
     const logger = new Logger();
     logger.set('file', new FileTransport({
-      file: path.join(tmp, 'a.log'),
+      file: filepath,
       level: 'NONE',
     }));
     logger.debug('debug foo');
@@ -170,14 +185,15 @@ describe('test/lib/transports/file.test.js', () => {
 
     await sleep(10);
 
-    const content = fs.readFileSync(path.join(tmp, 'a.log'), 'utf8');
+    const content = fs.readFileSync(filepath, 'utf8');
     assert.strictEqual(content, '');
+    logger.close();
   });
 
   it('should set encoding to gbk', async () => {
     const logger = new Logger();
     logger.set('file', new FileTransport({
-      file: path.join(tmp, 'a.log'),
+      file: filepath,
       level: 'ERROR',
       encoding: 'gbk',
     }));
@@ -185,13 +201,14 @@ describe('test/lib/transports/file.test.js', () => {
 
     await sleep(10);
 
-    const content = fs.readFileSync(path.join(tmp, 'a.log'));
+    const content = fs.readFileSync(filepath);
     assert.strictEqual(iconv.decode(content, 'gbk'), '中文\n');
+    logger.close();
   });
 
   it('should support close twice', () => {
     const transport = new FileTransport({
-      file: path.join(tmp, 'a.log'),
+      file: filepath,
       level: 'ERROR',
       encoding: 'gbk',
     });
@@ -206,19 +223,19 @@ describe('test/lib/transports/file.test.js', () => {
     });
     mm(process.env, 'NODE_ENV', 'production');
     const transport = new FileTransport({
-      file: path.join(tmp, 'a_file_production.log'),
+      file: filepath,
       level: 'ERROR',
       encoding: 'gbk',
     });
     transport.end();
     transport.log('info', 'foo');
-    assert.match(msg, /test\/fixtures\/tmp\/a_file_production\.log log stream had been closed/);
+    assert.match(msg, /\.log log stream had been closed/);
   });
 
   it('should enable/disable transport', async () => {
     const logger = new Logger();
     const transport = new FileTransport({
-      file: path.join(tmp, 'a.log'),
+      file: filepath,
       level: levels.INFO,
     });
     logger.set('file', transport);
@@ -232,12 +249,13 @@ describe('test/lib/transports/file.test.js', () => {
 
     await sleep(10);
 
-    const content = fs.readFileSync(path.join(tmp, 'a.log'), 'utf8');
+    const content = fs.readFileSync(filepath, 'utf8');
     assert.strictEqual(content, 'foo1\nfoo3\n');
+    logger.close();
   });
 
   it('should reload stream when get error', async () => {
-    const logfile = path.join(tmp, 'a.log');
+    const logfile = filepath;
     const logger = new Logger();
     const transport = new FileTransport({
       file: logfile,
@@ -273,6 +291,7 @@ describe('test/lib/transports/file.test.js', () => {
     const content = fs.readFileSync(logfile, 'utf8');
     assert(content === 'info foo\ninfo foo\ninfo foo\n');
     assert(errorCount === 1);
+    logger.close();
   });
 
 });
