@@ -1,5 +1,3 @@
-'use strict';
-
 const assert = require('assert');
 const fs = require('fs');
 const path = require('path');
@@ -74,6 +72,96 @@ describe('test/lib/egg/loggers_with_localStorage.test.js', () => {
       await sleep(10);
       const content = fs.readFileSync(path.join(tmp, 'a.log'), 'utf8');
       assert.match(content, / INFO \d+ \[-\/127.0.0.1\/trace-\d+\/\d+ms GET \/foo] aLogger info foo/);
+    });
+  });
+
+  describe('support options.contextFormatter', () => {
+    let loggers;
+    before(async () => {
+      await rimraf(tmp);
+      loggers = new Loggers({
+        logger: {
+          type: 'application',
+          dir: tmp,
+          appLogName: 'app-web.log',
+          coreLogName: 'egg-web.log',
+          agentLogName: 'egg-agent.log',
+          errorLogName: 'common-error.log',
+          buffer: false,
+          localStorage,
+          contextFormatter(meta) {
+            return `${meta.level} ${meta.paddingMessage} ${meta.message}`;
+          },
+        },
+      });
+    });
+
+    it('should contains paddingMessage', async () => {
+      loggers.logger.info('logger info foo with paddingMessage');
+      await sleep(10);
+      const content = fs.readFileSync(path.join(tmp, 'app-web.log'), 'utf8');
+      assert.match(content, /INFO \[-\/127.0.0.1\/trace-\d+\/\d+ms GET \/foo] logger info foo with paddingMessage/);
+    });
+  });
+
+  describe('support options.contextFormatter + options.paddingMessageFormatter', () => {
+    let loggers;
+    before(async () => {
+      await rimraf(tmp);
+      loggers = new Loggers({
+        logger: {
+          type: 'application',
+          dir: tmp,
+          appLogName: 'app-web.log',
+          coreLogName: 'egg-web.log',
+          agentLogName: 'egg-agent.log',
+          errorLogName: 'common-error.log',
+          buffer: false,
+          localStorage,
+          paddingMessageFormatter(ctx) {
+            return `[${ctx.tracer.traceId}]`;
+          },
+          contextFormatter(meta) {
+            return `${meta.level} ${meta.paddingMessage} ${meta.message}`;
+          },
+        },
+      });
+    });
+
+    it('should contains paddingMessage', async () => {
+      loggers.logger.info('logger info foo with custom paddingMessage');
+      await sleep(10);
+      const content = fs.readFileSync(path.join(tmp, 'app-web.log'), 'utf8');
+      assert.match(content, /INFO \[trace-\d+] logger info foo with custom paddingMessage/);
+    });
+  });
+
+  describe('support options.paddingMessageFormatter', () => {
+    let loggers;
+    before(async () => {
+      await rimraf(tmp);
+      loggers = new Loggers({
+        logger: {
+          type: 'application',
+          dir: tmp,
+          appLogName: 'app-web.log',
+          coreLogName: 'egg-web.log',
+          agentLogName: 'egg-agent.log',
+          errorLogName: 'common-error.log',
+          buffer: false,
+          localStorage,
+          paddingMessageFormatter(ctx) {
+            return `[${ctx.tracer.traceId}]`;
+          },
+        },
+      });
+    });
+
+    it('should contains paddingMessage', async () => {
+      loggers.logger.info('logger info foo with custom paddingMessage');
+      await sleep(10);
+      const content = fs.readFileSync(path.join(tmp, 'app-web.log'), 'utf8');
+      assert.match(content, / INFO \d+ \[trace-\d+] logger info foo with custom paddingMessage/);
     });
   });
 });
