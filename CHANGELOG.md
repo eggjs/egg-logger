@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.1.1](https://github.com/eggjs/egg-logger/compare/v3.1.0...v3.1.1) (2023-01-13)
+
+
+### Bug Fixes
+
+* use util.debuglog instead of debug module ([#84](https://github.com/eggjs/egg-logger/issues/84)) ([3a5124e](https://github.com/eggjs/egg-logger/commit/3a5124e917b340501127236540273d9839305ce2))
+
 ## [3.1.0](https://github.com/eggjs/egg-logger/compare/v3.0.1...v3.1.0) (2023-01-12)
 
 
