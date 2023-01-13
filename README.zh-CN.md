@@ -1,15 +1,13 @@
 # egg-logger
 
 [![NPM version][npm-image]][npm-url]
-[![build status][github-action-image]][github-action-url]
+[![CI](https://github.com/eggjs/egg-logger/actions/workflows/nodejs.yml/badge.svg)](https://github.com/eggjs/egg-logger/actions/workflows/nodejs.yml)
 [![Test coverage][codecov-image]][codecov-url]
 [![Known Vulnerabilities][snyk-image]][snyk-url]
 [![npm download][download-image]][download-url]
 
 [npm-image]: https://img.shields.io/npm/v/egg-logger.svg?style=flat-square
 [npm-url]: https://npmjs.org/package/egg-logger
-[github-action-image]: https://github.com/eggjs/egg-logger/workflows/Node.js%20CI/badge.svg
-[github-action-url]: https://github.com/eggjs/egg-logger/actions
 [codecov-image]: https://codecov.io/github/eggjs/egg-logger/coverage.svg?branch=master
 [codecov-url]: https://codecov.io/github/eggjs/egg-logger?branch=master
 [snyk-image]: https://snyk.io/test/npm/egg-logger/badge.svg?style=flat-square
