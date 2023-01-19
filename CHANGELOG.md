@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.2.0](https://github.com/eggjs/egg-logger/compare/v3.1.1...v3.2.0) (2023-01-19)
+
+
+### Features
+
+* export logger.options type ([#85](https://github.com/eggjs/egg-logger/issues/85)) ([65f3bff](https://github.com/eggjs/egg-logger/commit/65f3bff495a53d8b5551afe4c19c0f2ee57e1bcd))
+
 ## [3.1.1](https://github.com/eggjs/egg-logger/compare/v3.1.0...v3.1.1) (2023-01-13)
 
 
