@@ -32,8 +32,10 @@ export interface EggLoggerOptions extends LoggerOptions {
   localStorage?: AsyncLocalStorage<any>;
 }
 
-export class Logger<T extends LoggerOptions = LoggerOptions> extends Map<string, Transport> {
+export class Logger<T extends LoggerOptions = EggLoggerOptions> extends Map<string, Transport> {
   constructor(options: T);
+
+  options: T;
 
   /**
    * disable a transport
