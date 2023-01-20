@@ -118,7 +118,8 @@ export class EggCustomLogger extends Logger {}
 
 export class EggContextLogger {
   constructor(ctx: any, logger: Logger);
-  readonly paddingMessage: string;
+  ctx: any;
+  get paddingMessage(): string;
   write(msg: string): void;
   error(msg: any, ...args: any[]): void;
   warn(msg: any, ...args: any[]): void;
