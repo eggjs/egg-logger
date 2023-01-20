@@ -12,6 +12,19 @@ interface ILoggerLevel {
 export const levels: ILoggerLevel;
 export type LoggerLevel = keyof ILoggerLevel;
 
+export type LoggerMeta = {
+  level: LoggerLevel;
+  date: string;
+  pid: number;
+  hostname: string;
+  message: string;
+  paddingMessage?: string;
+  ctx?: any;
+  raw: boolean;
+  formatter?: Function;
+  [key: string]: any;
+};
+
 export interface LoggerOptions {
   level?: LoggerLevel;
   encoding?: string;
@@ -21,8 +34,8 @@ export interface LoggerOptions {
 
 export interface EggLoggerOptions extends LoggerOptions {
   file: string;
-  formatter?: (meta?: object) => string;
-  contextFormatter?: (meta?: object) => string;
+  formatter?: (meta?: LoggerMeta) => string;
+  contextFormatter?: (meta?: LoggerMeta) => string;
   paddingMessageFormatter?: (ctx: object) => string;
   jsonFile?: string;
   outputJSON?: boolean;
@@ -54,9 +67,9 @@ export class Logger<T extends LoggerOptions = EggLoggerOptions> extends Map<stri
    * It's proxy to {@link Transport}'s log method.'
    * @param {String} level - log level
    * @param {Array} args - log arguments
-   * @param {Object} meta - log meta
+   * @param {LoggerMeta} [meta] - log meta
    */
-  log(level: LoggerLevel, args: any[], meta: object): void;
+  log(level: LoggerLevel, args: any[], meta?: LoggerMeta): void;
 
   /**
    * write raw log to all transports
@@ -176,8 +189,8 @@ export class EggLoggers extends Map<string, Logger> {
 
 export interface TransportOptions {
   level?: LoggerLevel;
-  formatter?: (meta?: object) => string;
-  contextFormatter?: (meta?: object) => string;
+  formatter?: (meta?: LoggerMeta) => string;
+  contextFormatter?: (meta?: LoggerMeta) => string;
   paddingMessageFormatter?: (ctx: object) => string;
   json?: boolean;
   encoding?: string;
@@ -203,7 +216,7 @@ export class Transport<T extends TransportOptions = TransportOptions> {
   level: LoggerLevel;
   enable(): void;
   shouldLog(level: LoggerLevel): boolean;
-  log(level: LoggerLevel, args: any[], meta: object): void;
+  log(level: LoggerLevel, args: any[], meta?: LoggerMeta): void;
   reload(): void;
   close(): void;
   end(): void;
