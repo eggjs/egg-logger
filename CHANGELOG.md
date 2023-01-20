@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.2.1](https://github.com/eggjs/egg-logger/compare/v3.2.0...v3.2.1) (2023-01-20)
+
+
+### Bug Fixes
+
+* ctx logger paddingMessage should be a getter ([#86](https://github.com/eggjs/egg-logger/issues/86)) ([5417064](https://github.com/eggjs/egg-logger/commit/5417064b0b313f3f6b1c016072aad5bb9bc17d95))
+
 ## [3.2.0](https://github.com/eggjs/egg-logger/compare/v3.1.1...v3.2.0) (2023-01-19)
 
 
