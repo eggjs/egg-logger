@@ -305,6 +305,25 @@ describe('test/lib/formatter.test.js', () => {
     logger.close();
   });
 
+  it('should format Date with ISO format', async () => {
+    const logger = new Logger();
+    const transport = new FileTransport({
+      file: filepath,
+      level: levels.INFO,
+      flushInterval: 10,
+      json: true,
+      dateISOFormat: true,
+    });
+    logger.set('file', transport);
+    logger.info('foo');
+
+    await sleep(10);
+    const content = fs.readFileSync(filepath, 'utf8');
+    const json = JSON.parse(content);
+    assert.match(json.date, /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z/);
+    logger.close();
+  });
+
   // chalk color disable on github action env
   if (!process.env.GITHUB_ACTION) {
     it('should be red on error console log color', () => {

@@ -32,6 +32,23 @@ describe('test/lib/egg/logger.test.js', () => {
       });
   });
 
+  it('should format date with ISO format', done => {
+    const options = {
+      file: filepath,
+      outputJSON: true,
+      dateISOFormat: true,
+      level: levels.ERROR,
+    };
+    coffee.fork(loggerFile, [ JSON.stringify(options) ])
+      .end(() => {
+        assert.match(fs.readFileSync(filepath, 'utf8'),
+          /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z ERROR \d+ error foo\n/);
+        assert.match(fs.readFileSync(filepath.replace(/\.log$/, '.json.log'), 'utf8'),
+          /"date":"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z"/);
+        done();
+      });
+  });
+
   it('should only create outputJson .json.log file', done => {
     const file1 = path.join(__dirname, '../../fixtures/tmp/fileOnlyJson.log');
     const options = {

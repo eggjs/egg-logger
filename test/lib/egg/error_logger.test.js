@@ -30,6 +30,7 @@ describe('test/lib/egg/error_logger.test.js', () => {
       jsonFile: '',
       outputJSON: false,
       outputJSONOnly: false,
+      dateISOFormat: false,
       formatter: utils.defaultFormatter,
     });
   });
