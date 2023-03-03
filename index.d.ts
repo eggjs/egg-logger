@@ -40,6 +40,7 @@ export interface EggLoggerOptions extends LoggerOptions {
   jsonFile?: string;
   outputJSON?: boolean;
   buffer?: boolean;
+  dateISOFormat?: boolean;
   eol?: string;
   concentrateError?: 'duplicate' | 'redirect' | 'ignore';
   localStorage?: AsyncLocalStorage<any>;
@@ -148,6 +149,7 @@ export interface EggLoggersOptions {
   level?: LoggerLevel;
   consoleLevel?: LoggerLevel;
   outputJSON?: boolean;
+  dateISOFormat?: boolean,
   buffer?: boolean;
   appLogName: string;
   coreLogName: string;
@@ -193,6 +195,7 @@ export interface TransportOptions {
   contextFormatter?: (meta?: LoggerMeta) => string;
   paddingMessageFormatter?: (ctx: object) => string;
   json?: boolean;
+  dateISOFormat?: boolean;
   encoding?: string;
   eol?: string;
 }
