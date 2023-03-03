@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.3.0](https://github.com/eggjs/egg-logger/compare/v3.2.1...v3.3.0) (2023-03-03)
+
+
+### Features
+
+* add dateISOFormat option ([#88](https://github.com/eggjs/egg-logger/issues/88)) ([14919d8](https://github.com/eggjs/egg-logger/commit/14919d8b878063d04ae13af118c10f0a9234c3e3))
+
 ## [3.2.1](https://github.com/eggjs/egg-logger/compare/v3.2.0...v3.2.1) (2023-01-20)
 
 
