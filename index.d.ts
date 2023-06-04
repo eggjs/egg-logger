@@ -127,7 +127,9 @@ export class EggLogger extends Logger<EggLoggerOptions> {
 }
 
 export class EggErrorLogger extends Logger {}
-export class EggConsoleLogger extends Logger {}
+export class EggConsoleLogger<T = LoggerOptions> extends Logger {
+  constructor(options?: T);
+}
 export class EggCustomLogger extends Logger {}
 
 export class EggContextLogger {
