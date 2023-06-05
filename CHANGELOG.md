@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.3.1](https://github.com/eggjs/egg-logger/compare/v3.3.0...v3.3.1) (2023-06-05)
+
+
+### Bug Fixes
+
+* allow EggConsoleLogger init without options ([#90](https://github.com/eggjs/egg-logger/issues/90)) ([e4ff375](https://github.com/eggjs/egg-logger/commit/e4ff375caa0e1b761f494b48f37b7dd0aaed9f66))
+
 ## [3.3.0](https://github.com/eggjs/egg-logger/compare/v3.2.1...v3.3.0) (2023-03-03)
 
 
