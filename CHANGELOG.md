@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.4.0](https://github.com/eggjs/egg-logger/compare/v3.3.1...v3.4.0) (2023-09-05)
+
+
+### Features
+
+* print err.cause if exists ([#91](https://github.com/eggjs/egg-logger/issues/91)) ([a054bca](https://github.com/eggjs/egg-logger/commit/a054bca78a44dc856405ee91c2a8dba481aef2b1))
+
 ## [3.3.1](https://github.com/eggjs/egg-logger/compare/v3.3.0...v3.3.1) (2023-06-05)
 
 
