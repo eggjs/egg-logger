@@ -1,7 +1,11 @@
 const assert = require('assert');
 const { formatError } = require('../../lib/utils');
 
+const NODE_MAJOR_VERSION = Number(process.version.split('.')[0].substring(1));
+
 describe('test/lib/utils.test.js', () => {
+  if (NODE_MAJOR_VERSION < 16) return;
+
   describe('formatError', () => {
     it('should format with no cause', () => {
       const rootError = new Error('root error');
