@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.4.1](https://github.com/eggjs/egg-logger/compare/v3.4.0...v3.4.1) (2023-10-16)
+
+
+### Bug Fixes
+
+* should use paddingMessageFormatter on ConsoleTransport options ([#92](https://github.com/eggjs/egg-logger/issues/92)) ([32ec755](https://github.com/eggjs/egg-logger/commit/32ec755f71f8c4ee366d3eb22cc529184d73becc))
+
 ## [3.4.0](https://github.com/eggjs/egg-logger/compare/v3.3.1...v3.4.0) (2023-09-05)
 
 
