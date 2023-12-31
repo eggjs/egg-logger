@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.4.2](https://github.com/eggjs/egg-logger/compare/v3.4.1...v3.4.2) (2023-12-31)
+
+
+### Bug Fixes
+
+* should add paddingMessage on ConsoleLogger ([#93](https://github.com/eggjs/egg-logger/issues/93)) ([eb73f50](https://github.com/eggjs/egg-logger/commit/eb73f5065b6b319541a4e7bd0f7df0003caf4b6b))
+
 ## [3.4.1](https://github.com/eggjs/egg-logger/compare/v3.4.0...v3.4.1) (2023-10-16)
 
 
