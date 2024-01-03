@@ -294,4 +294,12 @@ describe('test/lib/transports/file.test.js', () => {
     logger.close();
   });
 
+  it('get fileTransport file', () => {
+    const transport = new FileTransport({
+      file: filepath,
+      level: levels.INFO,
+    });
+    assert.equal(transport.file, filepath);
+  });
+
 });
