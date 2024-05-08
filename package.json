@@ -15,14 +15,14 @@
     "depd": "^2.0.0",
     "egg-errors": "^2.3.1",
     "iconv-lite": "^0.6.3",
-    "utility": "^1.17.0"
+    "utility": "^2.1.0"
   },
   "devDependencies": {
     "@types/node": "^20.2.5",
     "beautify-benchmark": "^0.2.4",
     "benchmark": "^2.1.4",
     "coffee": "^5.5.0",
-    "egg-bin": "^5.5.0",
+    "egg-bin": "6",
     "eslint": "^8.29.0",
     "eslint-config-egg": "^12.1.0",
     "git-contributor": "^2.0.0",
@@ -31,7 +31,7 @@
     "supertest": "^6.3.3",
     "ts-node": "^10.9.1",
     "tsd": "^0.28.1",
-    "typescript": "^4.9.4"
+    "typescript": "5"
   },
   "repository": {
     "type": "git",
@@ -44,8 +44,8 @@
     "tsd": "tsd",
     "lint": "eslint .",
     "test": "npm run lint -- --fix && npm run test-local",
-    "test-local": "egg-bin test --full-trace",
-    "cov": "egg-bin cov --full-trace",
+    "test-local": "egg-bin test",
+    "cov": "egg-bin cov",
     "ci": "npm run lint && npm run cov"
   },
   "engines": {
