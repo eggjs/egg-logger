@@ -1,6 +1,6 @@
 {
   "name": "egg-logger",
-  "version": "3.4.2",
+  "version": "3.5.0",
   "description": "egg logger",
   "main": "index.js",
   "types": "index.d.ts",

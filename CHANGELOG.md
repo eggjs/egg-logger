@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.5.0](https://github.com/eggjs/egg-logger/compare/v3.4.2...v3.5.0) (2024-05-08)
+
+
+### Features
+
+* use utility@2 ([#94](https://github.com/eggjs/egg-logger/issues/94)) ([0a66a0d](https://github.com/eggjs/egg-logger/commit/0a66a0d8090dff2dde244ff2aea0bd7985f801c8))
+
 ## [3.4.2](https://github.com/eggjs/egg-logger/compare/v3.4.1...v3.4.2) (2023-12-31)
 
 
