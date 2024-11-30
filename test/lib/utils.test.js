@@ -145,5 +145,42 @@ describe('test/lib/utils.test.js', () => {
       assert(msg.match(/pid: /));
       assert(msg.match(/hostname: /));
     });
+
+    it('should format AggregateError', () => {
+      // eslint-disable-next-line no-undef
+      const rootError = new AggregateError([
+        new Error('error 1'),
+        new TypeError('error 2', { cause: new Error('error 2 cause error') }),
+      ]);
+      // nodejs.AggregateError: no_message
+      //     at Context.<anonymous> (/github.com/eggjs/egg-logger/test/lib/utils.test.js:151:25)
+      //     at process.processImmediate (node:internal/timers:491:21)
+      //
+      // [error-0]:
+      //
+      // nodejs.Error: error 1
+      //     at Context.<anonymous> (/github.com/eggjs/egg-logger/test/lib/utils.test.js:152:9)
+      //     at process.processImmediate (node:internal/timers:491:21)
+      //
+      // [error-1]:
+      //
+      // nodejs.TypeError: error 2
+      //     at Context.<anonymous> (/github.com/eggjs/egg-logger/test/lib/utils.test.js:153:9)
+      //     at process.processImmediate (node:internal/timers:491:21)
+      //
+      // pid: 71661
+      // hostname: xxxx
+
+      const msg = formatError(rootError);
+      // console.log(msg);
+      assert(msg.match(/nodejs.AggregateError: no_message/));
+      assert(msg.match(/\[error-0]:/));
+      assert(msg.match(/nodejs.Error: error 1/));
+      assert(msg.match(/\[error-1]:/));
+      assert(msg.match(/nodejs.TypeError: error 2/));
+      assert(msg.match(/nodejs.Error: error 2 cause error/));
+      assert(msg.match(/pid: /));
+      assert(msg.match(/hostname: /));
+    });
   });
 });
