@@ -6,3 +6,4 @@ tmp_file_*
 *.log
 .nyc_output
 .idea
+package-lock.json
