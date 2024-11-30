@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.6.0](https://github.com/eggjs/egg-logger/compare/v3.5.0...v3.6.0) (2024-11-30)
+
+
+### Features
+
+* print AggregateError errors stack ([#98](https://github.com/eggjs/egg-logger/issues/98)) ([03c38bd](https://github.com/eggjs/egg-logger/commit/03c38bd887f0059595846f99e8974ac451a0a524))
+
 ## [3.5.0](https://github.com/eggjs/egg-logger/compare/v3.4.2...v3.5.0) (2024-05-08)
 
 
