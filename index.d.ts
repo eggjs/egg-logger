@@ -226,7 +226,9 @@ export class Transport<T extends TransportOptions = TransportOptions> {
   close(): void;
   end(): void;
 }
-export class FileTransport extends Transport<FileTransportOptions> {}
+export class FileTransport extends Transport<FileTransportOptions> {
+  file: string;
+}
 export class FileBufferTransport extends Transport<FileBufferTransportOptions> {
   flush(): void;
 }
