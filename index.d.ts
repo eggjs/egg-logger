@@ -221,7 +221,7 @@ export class Transport<T extends TransportOptions = TransportOptions> {
   level: LoggerLevel;
   enable(): void;
   shouldLog(level: LoggerLevel): boolean;
-  log(level: LoggerLevel, args: any[], meta?: LoggerMeta): void;
+  log(level: LoggerLevel, args: any[], meta?: LoggerMeta): string;
   reload(): void;
   close(): void;
   end(): void;
