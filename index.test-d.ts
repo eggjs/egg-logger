@@ -1,6 +1,9 @@
 import { expectType } from 'tsd';
 import { AsyncLocalStorage } from 'async_hooks';
-import { EggLoggerOptions, Logger, EggContextLogger, EggConsoleLogger } from '.';
+import {
+  EggLoggerOptions, Logger, EggContextLogger, EggConsoleLogger,
+  Transport, LoggerLevel,
+} from '.';
 
 const options = {
   formatter(meta: any) {
@@ -36,3 +39,8 @@ const consoleLogger = new EggConsoleLogger();
 expectType<number>(consoleLogger.size);
 expectType<number>(new EggConsoleLogger({}).size);
 expectType<number>(new EggConsoleLogger({ encoding: 'utf8' }).size);
+
+const transport = {} as Transport;
+expectType<Transport>(transport);
+expectType<string>(transport.level);
+expectType<string>(transport.log('ALL', []));
